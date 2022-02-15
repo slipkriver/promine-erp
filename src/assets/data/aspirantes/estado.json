@@ -1,0 +1,18 @@
+[
+    {
+      "asp_id": "1",
+      "asp_nombre": "APROBADO"
+    },
+    {
+      "asp_id": "2",
+      "asp_nombre": "DENEGADO"
+    },
+    {
+      "asp_id": "3",
+      "asp_nombre": "EN PROCESO"
+    },
+    {
+      "asp_id": "4",
+      "asp_nombre": "PENDIENTE"
+    }
+  ]
