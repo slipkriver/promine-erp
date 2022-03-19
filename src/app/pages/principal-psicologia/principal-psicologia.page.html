@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Departamento de Psicología</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar class="searchbar-header"
+  placeholder="Buscar empleado" 
+  inputmode="text" 
+  (ionChange)="onSearchChange($event)" 
+  [debounce]="250"
+  mode="ios"
+  color="light"
+  animated>
+  
+</ion-searchbar>
+  <ion-col>
+    <ion-button expand="full" [routerLink]="['/inicio/tab-aspirante/aspirante-psicologia']" routerLinkActive="router-link-active" color="success">Nuevo
+    </ion-button>
+  </ion-col>
+</ion-content>

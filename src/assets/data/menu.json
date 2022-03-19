@@ -20,13 +20,5 @@
         "ruta": "/tab-inicio",
         "name": "nomina",
         "activo": false
-    },
-    {
-        "nombre": "Ayuda",
-        "icono": "information-circle",
-        "ruta": "/inicio-reporte",
-        "name": "ayuda",
-        "activo": false
     }
-
 ]

@@ -17,14 +17,6 @@
         "descripcion": "Reportes generales"
     },
     {
-        "nombre": "Salir",
-        "icono": "exit",
-        "ruta": "page-inicio",
-        "activo": false,
-        "padre": "inicio",
-        "descripcion": "Cerrar sesion"
-    },
-    {
         "nombre": "General",
         "icono": "star",
         "ruta": "aspirante-home",
@@ -35,7 +27,7 @@
     {
         "nombre": "TTHH",
         "icono": "person-add",
-        "ruta": "aspirante-new",
+        "ruta": "principal-th",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Solicitud de ingreso"
@@ -43,7 +35,7 @@
     {
         "nombre": "Psicologia",
         "icono": "document-attach",
-        "ruta": "aspirante-psicologia",
+        "ruta": "principal-psicologia",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Departamento de Psicologia"
@@ -51,7 +43,7 @@
     {
         "nombre": "Medicina",
         "icono": "medkit",
-        "ruta": "aspirante-medico",
+        "ruta": "principal-medicina",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Historia Clínica"
@@ -59,7 +51,7 @@
     {
         "nombre": "Trabajador Social",
         "icono": "calendar-clear",
-        "ruta": "aspirante-social",
+        "ruta": "principal-social",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Departamento de Trabajo Social"
@@ -67,7 +59,7 @@
     {
         "nombre": "Seguridad Ocupacional",
         "icono": "calendar-clear",
-        "ruta": "aspirante-seguridad",
+        "ruta": "principal-seguridad",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Seguimiento de aspirantes"

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Departamento de Talento Humano</ion-title>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-fab vertical="top" horizontal="end" slot="fixed" style="margin: 20px 30px 0px 0px;">
+  <ion-fab-button>
+    <ion-icon size="large" name="person-circle-outline"></ion-icon>
+  </ion-fab-button>
+
+  <ion-fab-list side="bottom" >
+
+    <ion-button fill="outline" [routerLink]="['/inicio/tab-aspirante/aspirante-new']" routerLinkActive="router-link-active">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Nuevo
+    </ion-button>
+    
+  </ion-fab-list>
+
+</ion-fab>
+<ion-content>
+
+  <ion-searchbar class="searchbar-header"
+  placeholder="Buscar empleado" 
+  inputmode="text" 
+  (ionChange)="onSearchChange($event)" 
+  [debounce]="250"
+  mode="ios"
+  color="light"
+  animated>
+  
+</ion-searchbar>
+
+  <ion-col>
+    <ion-button expand="full" [routerLink]="['/inicio/tab-aspirante/aspirante-new']" routerLinkActive="router-link-active" color="success">Nuevo
+    </ion-button>
+  </ion-col>
+</ion-content>

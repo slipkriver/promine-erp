@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -12,7 +14,9 @@ export class InicioPage implements OnInit {
   submenu: any[] = []
 
   constructor(
-    private servicioData: DataService
+    private servicioData: DataService,
+    private authSvc: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -56,6 +60,16 @@ export class InicioPage implements OnInit {
 
   cambiarTab(event) {
     //console.log(event)
+  }
+//   onLogout() {
+
+//  this.authSvc.logout();
+//   }
+
+  async onLogout( ) {
+    
+      await this.authSvc.logout();
+      this.router.navigateByUrl('/login');
   }
 
 }
