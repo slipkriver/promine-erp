@@ -26,6 +26,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
+@font-face {
+  font-family: "Futura-bold";
+  src: url(/assets/fonts/futura-bold.ttf);
+  font-weight: 200;
+  font-style: normal;
+}
+
 .submenu {
     border-radius: 10px;
     border: 2px solid #3e56dd !important;

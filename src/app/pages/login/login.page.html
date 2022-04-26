@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary" style="height: 3.5rem !important;">
-    <ion-title class="ion-text-center">SISTEMA DE CONTRATACIÓN PROMINE</ion-title>
+    <ion-title class="ion-text-center">
+      <ion-label style="font-family: futura-bold;"><strong> SISTEMA PARA CONTRATACION DE ASPIRANTES </strong></ion-label>  </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -38,15 +39,19 @@
             <ion-row style="height: 30%; ">
               <ion-col style="margin-top: 0% !important;">
                 <img src="../../../assets/icon/logo-promine.svg" alt="" />
-                <ion-label color="primary" style="">
-                  <h1><strong>Iniciar Sesión</strong></h1>
+                <ion-label style="font-family: futura-bold; color: #071F3B;">
+                  <h1><strong>PROMINE</strong></h1>
+                </ion-label>
+
+                <ion-label color="" style="font-family: futura-medium; color: #071F3B;">
+                  <h3>PROCESADORA DE MINERALES DEL ECUADOR</h3>
                 </ion-label>
               </ion-col>
             </ion-row>
 
-            <ion-row style="height: 70%;">
-              <ion-col size="12" style="height: 100%; margin: 1.5rem 0px 1.5rem 0px; ">
-                <ion-label> Escriba su correo y contraseña </ion-label>
+            <ion-row style="height: 0%;">
+              <ion-col size="12" style="height: 10%; margin: 2.5rem 0px .5rem 0px; ">
+                <ion-label class="ion-text text-small"  style="color: #071F3B;">  Ingrese su correo y contraseña </ion-label>
 
                 <ion-item class="rounded">
                   <ion-label position="floating">Correo electrónico</ion-label>
@@ -61,16 +66,11 @@
                   </ion-input>
                 </ion-item>
 
-                <div style="margin-bottom: 0%; bottom: 10%;">
+                <div style="margin-bottom: 5%; bottom: 10%;">
                   <ion-button [disabled]="formulario.invalid" shape="round" expand="block" type="submit" (click)="onLogin(email, password)"
-                    style="margin: 2rem !important;">
+                    style="margin: 5rem !important;">
                     INGRESAR > 
                   </ion-button>
-
-                  <div class="ion-text-center ion-margin-top">
-                    <!-- <a routerLink="/resetear-pass">  Olvido su contraseña?  </a> -->
-                    <a routerLink="/register">Quiere registrarse? </a>
-                  </div>
 
                   
                 </div>
