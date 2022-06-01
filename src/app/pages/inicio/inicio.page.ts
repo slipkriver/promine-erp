@@ -15,7 +15,7 @@ export class InicioPage implements OnInit {
 
   constructor(
     private servicioData: DataService,
-    private authSvc: AuthService,
+    private authService: AuthService, 
     private router: Router
   ) { }
 
@@ -66,10 +66,9 @@ export class InicioPage implements OnInit {
 //  this.authSvc.logout();
 //   }
 
-  async onLogout( ) {
-    
-      await this.authSvc.logout();
-      this.router.navigateByUrl('/login');
-  }
+async logout() {
+  await this.authService.logout();
+  this.router.navigateByUrl('/', { replaceUrl: true });
+}
 
 }

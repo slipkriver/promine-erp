@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController, LoadingController, MenuController, Platform } from '@ionic/angular';
+import { User } from 'src/app/shared/user.class';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -10,32 +13,53 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPage implements OnInit {
 
+  credentials: FormGroup;
+    
   constructor( 
-    private authSvc: AuthService,
+    private fb: FormBuilder,
+    private loadingController: LoadingController,
+    private alertController: AlertController,
+    private authService: AuthService,
     private router: Router
-     ) { }
+     ) {}
+
+     get email() {
+      return this.credentials.get('email');
+    }
+
+    get password() {
+      return this.credentials.get('password');
+    }
 
   ngOnInit() {
+    this.credentials = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
   }
 
-  async onLogin( email, password ) {
-    try {
-      const user = await this.authSvc.login(email.value, password.value);
-      if(user) {
-        const isVerified = this.authSvc.isEmailVerified(user);
-        // console.log('verified', isVerified);
-        // console.log('user',user);
-        this.redirectUser(isVerified);
-      }
-    } catch (error) {
-      console.log('error', error);
+  async login() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    const user = await this.authService.login(this.credentials.value);
+    await loading.dismiss();
+
+    if(user) {
+      this.router.navigateByUrl('/inicio', {replaceUrl: true});
+    }else {
+      this.showAlert('Error de inicio de sesión', 'Por favor intente nuevamente');
     }
   }
 
-private redirectUser(isVerified: boolean) {
-    if(isVerified) {
-      this.router.navigate(['inicio']);
-    }
+  async showAlert(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+      mode: 'ios'
+    });
+    await alert.present();
   }
 
 }

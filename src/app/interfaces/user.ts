@@ -4,3 +4,9 @@ export interface User {
   displayName: string;
   emailVerified: boolean;
 }
+
+export interface Componente {
+  icon: string;
+  name: string;
+  redirectTo: string;
+}

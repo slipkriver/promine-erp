@@ -1,33 +1,29 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './shared/auth.guard';
+import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['inicio']);
 
 const routes: Routes = 
-[
-  {
-    path: '',
-    redirectTo: 'inicio',
-    pathMatch: 'full'
-  },
-  {
-    path: '',
-    loadChildren: () => import('./pages/inicio/inicio.module').then(m => m.InicioPageModule)
+[ {
+  path: '',
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    ...canActivate(redirectLoggedInToHome),
   },
   {
     path: 'inicio',
-    loadChildren: () => import('./pages/inicio/inicio.module').then(m => m.InicioPageModule)
+    loadChildren: () => import('./pages/inicio/inicio.module').then(m => m.InicioPageModule),
+    ...canActivate(redirectUnauthorizedToLogin),
   },
   {
     path: 'tab-inicio',
-    loadChildren: () => import('./tabs/tab-inicio/tab-inicio.module').then(m => m.TabInicioPageModule), canActivate:[AuthGuard]
+    loadChildren: () => import('./tabs/tab-inicio/tab-inicio.module').then(m => m.TabInicioPageModule)
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
     path: 'principal-th',
@@ -49,6 +45,11 @@ const routes: Routes =
     path: 'principal-seguridad',
     loadChildren: () => import('./pages/principal-seguridad/principal-seguridad.module').then( m => m.PrincipalSeguridadPageModule)
   },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full',
+  }
   
 ];
 

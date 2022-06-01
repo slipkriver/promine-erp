@@ -33,7 +33,7 @@
 
       <ion-col size="12"  size-lg="5" size-md="7" size-sm="8" size-xs="12">
 
-        <form #formulario="ngForm" class="form-login ion-padding">
+        <form (ngSubmit)="login()" [formGroup]="credentials" class="form-login ion-padding">
           <ion-grid fixed style="height: 100%; ">
 
             <ion-row style="height: 30%; ">
@@ -51,23 +51,27 @@
 
             <ion-row style="height: 0%;">
               <ion-col size="12" style="height: 10%; margin: 2.5rem 0px .5rem 0px; ">
-                <ion-label class="ion-text text-small"  style="color: #071F3B;">  Ingrese su correo y contraseña </ion-label>
+                <ion-label class="ion-text-center"  style="color: #071F3B;"> <p>
+                  Ingrese su correo y contraseña 
+                </p> </ion-label>
 
                 <ion-item class="rounded">
                   <ion-label position="floating">Correo electrónico</ion-label>
-                  <ion-input type="email" name="email" #email
+                  <ion-input type="email" name="email" formControlName="email"
                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                     required>
                   </ion-input>
+                  <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email is invalid</ion-note>
                 </ion-item>
                 <ion-item class="rounded">
                   <ion-label position="floating">Contraseña</ion-label>
-                  <ion-input type="password" name="password" #password required>
+                  <ion-input type="password" name="password" formControlName="password" (keyup.enter)="login()" required>
                   </ion-input>
+                  <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Password needs to be 6 characters</ion-note>
                 </ion-item>
 
                 <div style="margin-bottom: 5%; bottom: 10%;">
-                  <ion-button [disabled]="formulario.invalid" shape="round" expand="block" type="submit" (click)="onLogin(email, password)"
+                  <ion-button [disabled]="!credentials.valid" shape="round" expand="block" type="submit" (click)="login()"
                     style="margin: 5rem !important;">
                     INGRESAR > 
                   </ion-button>
