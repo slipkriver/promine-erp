@@ -79,5 +79,15 @@ ion-toggle {
       cursor: pointer;
     }
   
-   
- 
+    .custom-loader-class{
+      --background: linear-gradient(90deg, #373B44 1%, #4286f4 100%);
+      --spinner-color: linear-gradient(90deg, rgba(165, 255, 192, 1) 1%, rgba(0, 212, 255, 1) 100%);
+      color: #fff;
+  }
+    
+  .my-custom-class {
+    // --backdrop-opacity: 0.2;
+    --background: linear-gradient(90deg, #373B44 1%, #4286f4 100%);
+    color: #fff;
+    forced-color-adjust: #fff;
+}
