@@ -1,16 +1,17 @@
 export interface AspiranteInfo {
-    asp_nombres: string;
-    asp_apellidos: string;
+    asp_id: string;
     asp_cedula: string;
     asp_codigo: string;
+    asp_nombres: string;
+    asp_apellidop: string;
+    asp_apellidom: string;
     asp_pais: string;
     asp_sexo: string;
     asp_edad: string;
     asp_correo: string;
-    asp_civil: string;
+    asp_ecivil: string;
     asp_gpo_sanguineo: string;
     asp_cargo: string;
-    asp_id: string;
     asp_sueldo: string;
     asp_conadis: string;
     asp_nro_conadis: string;
@@ -32,10 +33,6 @@ export interface AspiranteInfo {
     asp_fecha_nacimiento: string;
     asp_militar: string;
     asp_aprobacion: string;
-    asp_nombre_primer: string;
-    asp_nombre_segundo: string;
-    asp_apellido_primer: string;
-    asp_apellido_segundo: string;
     asp_evaluacion: string;
     asp_condicion: string;
     asp_lugar_nacimiento: string;
@@ -57,6 +54,9 @@ export interface AspiranteInfo {
     asp_recomendado: string;
 
     usuario: string;
-    nuevo();
+
+    //nuevo();
 
 }
+
+

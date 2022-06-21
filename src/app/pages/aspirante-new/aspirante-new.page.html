@@ -54,11 +54,20 @@
           <ion-item style="font-size: 0.9rem;" >
             <ion-row mode="ios">
 
-              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+              <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
                 <ion-item>
-                  <ion-label position="floating" color="primary">Apellidos</ion-label><b>
-                    <ion-input color="dark" type="text" name="apellidoAspirante" 
-                      [(ngModel)]="aspirante.asp_apellidos"  style="text-transform:uppercase;"
+                  <ion-label position="floating" color="primary">Apellido paterno</ion-label><b>
+                    <ion-input color="dark" type="text" name="apellidopAspirante" 
+                      [(ngModel)]="aspirante.asp_apellidop"  style="text-transform:uppercase;"
+                      required placeholder="ORLANDO ARMIJOS"></ion-input>
+                  </b>
+                </ion-item>
+              </ion-col>
+              <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+                <ion-item>
+                  <ion-label position="floating" color="primary">Apellido materno</ion-label><b>
+                    <ion-input color="dark" type="text" name="apellidomAspirante" 
+                      [(ngModel)]="aspirante.asp_apellidom"  style="text-transform:uppercase;"
                       required placeholder="ORLANDO ARMIJOS"></ion-input>
                   </b>
                 </ion-item>
@@ -128,8 +137,8 @@
                 <ion-item>
                   <ion-label position="floating" color="primary">Estado civil</ion-label>
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
-                              [(ngModel)]="aspirante.asp_civil" name="civilAspirante"
-                              [selectedText]="aspirante.asp_civil" required>
+                              [(ngModel)]="aspirante.asp_ecivil" name="civilAspirante"
+                              [selectedText]="aspirante.asp_ecivil" required>
                     <ion-select-option class="my-custom-interface" *ngFor="let aspirante of civil"> {{ aspirante.asp_nombre }} </ion-select-option>          
                   </ion-select>
                 </ion-item>

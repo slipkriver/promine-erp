@@ -46,6 +46,9 @@ export class AspiranteNewPage implements OnInit {
 
   ngOnInit() {
 
+    this.aspirante = this.dataService.newObjAspirante(this.aspirante)
+    //console.log(JSON.stringify(this.aspirante))
+
     this.listas.forEach(element => {
 
       this.dataService.getAspiranteLData(element).subscribe(lista => {
@@ -128,7 +131,15 @@ export class AspiranteNewPage implements OnInit {
     });
     loading.present()
 
-    console.log('INGRESO')
+    console.log(this.aspirante)
+
+
+    this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
+
+      console.log(res['result'])
+
+    })
+
 
   }
 
