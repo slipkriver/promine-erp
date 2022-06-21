@@ -18,6 +18,10 @@ const routes: Routes = [
         loadChildren: () => import('../../tabs/tab-aspirante/tab-aspirante.module').then( m => m.TabAspirantePageModule )
       },
       {
+        path:'devtools',
+        loadChildren: () => import('../../pages/devtools/devtools.module').then( m => m.DevtoolsPageModule )
+      },
+      {
         path: '',
         redirectTo: 'tab-inicio',
         pathMatch: 'full'
