@@ -7,13 +7,19 @@
 
 <ion-fab vertical="top" horizontal="end" slot="fixed" style="margin: 20px 30px 0px 0px;">
   <ion-fab-button>
-    <ion-icon size="large" name="person-circle-outline"></ion-icon>
+    <ion-icon name="options-outline"></ion-icon>
   </ion-fab-button>
 
-  <ion-fab-list side="bottom">
+  <ion-fab-list side="bottom" style="width: 200px;">
 
-    <ion-button fill="outline" [routerLink]="['/inicio/tab-aspirante/aspirante-new']"
-      routerLinkActive="router-link-active">
+
+    <ion-button fill="solid" style="width: 200px;">
+      <ion-icon slot="start" name="reload-outline"></ion-icon>
+      Actualizar
+    </ion-button>
+
+    <ion-button fill="solid" [routerLink]="['/inicio/tab-aspirante/aspirante-new']"
+      routerLinkActive="router-link-active" style="width: 200px;">
       <ion-icon slot="start" name="add"></ion-icon>
       Nuevo
     </ion-button>
@@ -23,16 +29,16 @@
 </ion-fab>
 <ion-content>
 
-  <ion-grid style="height: 100%;" >
-    <ion-row style="height: 100%;" >
+  <ion-grid style="height: 100%;">
+    <ion-row style="height: 100%;">
 
-      <ion-col size="8" >
+      <ion-col size="8">
 
 
       </ion-col>
 
-      <ion-col size="4" style="height: 100%; background: #d7d8da;" >
-        
+      <ion-col size="4" style="height: 100%; background: #d7d8da;">
+
         <!-- <ion-col>
           <ion-button expand="block" shape="round" [routerLink]="['/inicio/tab-aspirante/aspirante-new']"
             routerLinkActive="router-link-active" color="success" >Nuevo
@@ -40,9 +46,31 @@
         </ion-col> -->
 
         <ion-searchbar class="searchbar-header" placeholder="Buscar empleado" inputmode="text"
-          (ionChange)="buscarAspirante($event)" [debounce]="250" mode="ios" color="light" animated>
+          (ionChange)="buscarAspirante($event)" [debounce]="500" mode="ios" color="light" animated>
 
         </ion-searchbar>
+
+        <ion-list *ngIf="(aspirantesNuevo.length)">
+          <!-- <ion-item *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" style="font-size: 0.5rem;"> -->
+          <ion-item *ngFor="let item of aspirantesNuevo" style="font-size: 0.8rem; color: #071f3b; ">
+            <div style="margin: 5px 0px 5px 0; width: 100%;">
+              <ion-label><ion-icon name="person-circle-outline" slot="start"> </ion-icon><b> {{item.asp_apellidop}} {{item.asp_apellidom}} {{item.asp_nombres}}</b></ion-label>
+              <ion-label><i>{{item.asp_cargo}}</i></ion-label>
+              <ion-label>
+                <ion-icon name="card-outline"></ion-icon> {{item.asp_cedula}} &nbsp;
+                <ion-icon name="call-outline"></ion-icon> <i> {{item.asp_telefono}}</i>
+              </ion-label>
+              <!-- <ion-chip color="primary" style="font-size: 0.8rem;"> -->
+                <ion-label color="secondary">{{item.asp_estado}}</ion-label>
+              <!-- </ion-chip> -->
+            </div>
+            <ion-button (click)="onClick()" fill="clear" >
+              <ion-icon  name="ellipsis-vertical"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+        </ion-list>
+
 
       </ion-col>
 

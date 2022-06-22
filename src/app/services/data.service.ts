@@ -52,8 +52,8 @@ export class DataService {
     return <any>this.http.get("/assets/data/empleados/" + lista + ".json")
   }
 
-  getDatos() {
-    const body = JSON.stringify({ 'task': 'listar' })
+  getListanuevos(texto) {
+    const body = JSON.stringify({ 'task': 'buscar', texto })
     //const x = parse this.serverweb + "/aspirante.php/?" + body
     //return this.http.get(this.serverweb + "/library/config.php")
     //return this.http.get(`${this.serverweb}/aspirante.php/?${body}`)

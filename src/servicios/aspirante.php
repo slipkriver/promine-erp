@@ -72,24 +72,32 @@
         echo $result;
     }
 	
-  else if($postjson['task']=='listar'){
+  else if($postjson['task']=='buscar'){
 
   	$data = array();
   	//$query = mysqli_query($mysqli, "SELECT * FROM esmeraldas ORDER BY id LIMIT $postjson[start],$postjson[limit]");
-	$query = mysqli_query($mysqli, "SELECT * FROM ASPIRANTE ORDER BY ASPI_FACTUALIZADO DESC");
+	$query = mysqli_query($mysqli, "SELECT * FROM aspirante WHERE 
+		asp_nombres LIKE '%$postjson[texto]%' OR 
+		asp_apellidop LIKE '%$postjson[texto]%' OR 
+		asp_apellidom LIKE '%$postjson[texto]%' OR 
+		asp_cedula LIKE '%$postjson[texto]%' OR 
+		asp_codigo LIKE '%$postjson[texto]%' 
+		ORDER BY asp_fch_ingreso DESC");
   	while($row = mysqli_fetch_array($query)){
 
 	    $data[] = array(
 
-            'cedula'	=> $row['asp_id'],
-            'nombres'	=> $row['asp_cedula'],
-            'apellido1'	=> $row['asp_codigo'],
-            'apellido2'	=> $row['asp_nombres'],
-            'domicilio'	=> $row['asp_apellidop'],
-            'telefono'	=> $row['asp_apellidom'],
-            'nacionalidad'	=> $row['asp_pais'],
-            'referido'	=> $row['asp_sexo'],
-            'fingreso'	=> $row['asp_edad']
+			'asp_codigo' => $row['asp_codigo'],
+			'asp_cedula' => $row['asp_cedula'],
+			'asp_nombres' => $row['asp_nombres'],
+			'asp_apellidop' => $row['asp_apellidop'],
+			'asp_apellidom' => $row['asp_apellidom'],
+			'asp_cargo' => $row['asp_cargo'],
+			'asp_fch_ingreso' => $row['asp_fch_ingreso'],
+			'asp_telefono' => $row['asp_telefono'],
+			'asp_estado' => $row['asp_estado'],
+			'asp_recomendado' => $row['asp_recomendado'],
+			'asp_observaciones' => $row['asp_observaciones']
 
   		);
   	}

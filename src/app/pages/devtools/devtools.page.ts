@@ -96,27 +96,39 @@ export class DevtoolsPage implements OnInit {
     listaSQL = strSQL + listaSQL + "\n );"
     this.cadenaSQL = listaSQL
     this.cadenaSQLvisible = true
-    console.log(listaSQL)
+    //console.log(listaSQL)
 
 
   }
 
-  interfaceToPHP() {
+  interfaceToPHP(sentencia) {
 
-    var strPHP = "INSERT INTO " + this.nombretabla + " SET \n"
+    var strPHP
     var listaPHP = ""
 
-    this.listaDefinida.forEach(atributo => {
-      listaPHP = listaPHP + atributo.nombre + " = '$postjson[" + atributo.nombre + "]',\n "
-      // listaPHP = listaPHP +"'"+ atributo.nombre + "' => $row['" + atributo.nombre + "'],\n "
-    })
+    if (sentencia == "nuevo") {
+      strPHP = "INSERT INTO " + this.nombretabla + " SET \n"
+      this.listaDefinida.forEach(atributo => {
+        listaPHP = listaPHP + atributo.nombre + " = '$postjson[" + atributo.nombre + "]',\n "
+        // listaPHP = listaPHP +"'"+ atributo.nombre + "' => $row['" + atributo.nombre + "'],\n "
+      })
+    }else if (sentencia == "listar") {
+      strPHP = ""
+      this.listaDefinida.forEach(atributo => {
+        listaPHP = listaPHP + "'" + atributo.nombre + "' => $row['" + atributo.nombre + "'],\n "
+        // listaPHP = listaPHP +"'"+ atributo.nombre + "' => $row['" + atributo.nombre + "'],\n "
+      })
+    }
+
+
+
 
     listaPHP = listaPHP.trim()
     listaPHP = listaPHP.substring(0, listaPHP.length - 1)
     listaPHP = strPHP + listaPHP
-    this.cadenaPHP = listaPHP
-    this.cadenaPHPvisible = true
-    console.log(listaPHP)
+    this.cadenaSQL = listaPHP
+    this.cadenaSQLvisible = true
+    //console.log(listaPHP)
 
 
   }

@@ -38,13 +38,24 @@
                     <ion-fab-button (click)="interfaceToSQL()" color="success">
                       <ion-icon name="receipt-outline"></ion-icon>
                     </ion-fab-button>
-                    <ion-fab-button (click)="interfaceToPHP()" color="success">
-                      <ion-icon name="code-working-outline"></ion-icon>
-                    </ion-fab-button>
                     <ion-fab-button (click)="interfaceBorrar()" color="danger" size="small">
                       <ion-icon name="trash-outline"></ion-icon>
                     </ion-fab-button>
                   </div>
+                </ion-fab>
+
+                <ion-fab vertical="center" horizontal="end" *ngIf="(listaDefinida.length)" >
+                  <ion-fab-button color="primary">
+                    <ion-icon name="code-working-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-list side="end" style="width:fit-content;">
+                    <ion-fab-button color="primary" (click)="interfaceToPHP('nuevo')">
+                      <ion-icon name="add"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="primary" (click)="interfaceToPHP('listar')">
+                      <ion-icon name="list-outline"></ion-icon>
+                    </ion-fab-button>
+                  </ion-fab-list>
                 </ion-fab>
 
               </ion-col>
@@ -83,7 +94,7 @@
 
                 </ion-item-group>
 
-                <div *ngIf="(!!cadenaSQL)" >
+                <div *ngIf="(!!cadenaSQL)">
                   <ion-fab vertical="center" horizontal="end" fixed edge>
                     <ion-fab-button size="small" (click)="verStrattrib()" color="secondary">
                       <ion-icon *ngIf="(cadenaSQLvisible)" name="eye"></ion-icon>
@@ -92,7 +103,7 @@
                   </ion-fab>
                   <ion-item *ngIf="(cadenaSQLvisible)" color="secondary"
                     style="bottom: 25%; width: 100%; font-size: 0.8rem; position: absolute;">
-                    <ion-textarea rows="5" [(ngModel)]="cadenaSQL" class="texto-cadena" ></ion-textarea>
+                    <ion-textarea rows="5" [(ngModel)]="cadenaSQL" class="texto-cadena"></ion-textarea>
                   </ion-item>
                 </div>
 
@@ -104,7 +115,7 @@
         </ion-card-content>
       </ion-card>
     </ion-slide>
-    
+
   </ion-slides>
 
 
