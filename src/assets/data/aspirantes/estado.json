@@ -1,18 +1,86 @@
 [
     {
-      "asp_id": "1",
-      "asp_nombre": "APROBADO"
+      "est_id": "1",
+      "est_nombre": "INGRESADO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Verificando referencias y documentos"
     },
     {
-      "asp_id": "2",
-      "asp_nombre": "DENEGADO"
+      "est_id": "2",
+      "est_nombre": "VERIFICADO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Pendiente revisón de exámenes psicosométricos"
     },
     {
-      "asp_id": "3",
-      "asp_nombre": "EN PROCESO"
+      "est_id": "3",
+      "est_nombre": "NO APROBADO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Rechazado por inconsistencias en documentación presentada"
     },
     {
-      "asp_id": "4",
-      "asp_nombre": "PENDIENTE"
+      "est_id": "4",
+      "est_nombre": "PSICOSOMETRIA",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Revisión de exámenes médicos ocupacionales"
+    },
+    {
+      "est_id": "5",
+      "est_nombre": "NO APTO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Rechazado por resultados psicosométricos"
+    },
+    {
+      "est_id": "6",
+      "est_nombre": "EXAMENES",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Revisión final de examenes y documentos entregados"
+    },
+    {
+      "est_id": "7",
+      "est_nombre": "NO ADMITIDO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Rechazado por inconvenientes de salud ocupacional"
+    },
+    {
+      "est_id": "8",
+      "est_nombre": "REVISION",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Esperando por aprobación de aspirante"
+    },
+    {
+      "est_id": "9",
+      "est_nombre": "APROBADO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Ingreso de fichas y documentos derpantamento de psicología"
+    },
+    {
+      "est_id": "10",
+      "est_nombre": "PSICOLOGIA",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Ingreso de fichas y documentos derpantamento de medicina"
+    },
+    {
+      "est_id": "11",
+      "est_nombre": "MEDICINA",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "En proceso de inducción y capacitaciones"
+    },
+    {
+      "est_id": "12",
+      "est_nombre": "INDUCCION",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Procesando documentos de contratación"
+    },
+    {
+      "est_id": "13",
+      "est_nombre": "FINALIZANDO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": "Contratación finalizada"
+    },
+    {
+      "est_id": "14",
+      "est_nombre": "CONTRATADO",
+      "est_entidad": "ASPIRANTE",
+      "est_descripcion": ""
     }
   ]

@@ -34,6 +34,45 @@
 
       <ion-col size="8">
 
+        <ion-list>
+
+          <ion-card *ngFor="let item of listaTareas" button="true" (click)="opcionesTarea(item)" style="color: #071f3b;">
+            <ion-card-content style="display: flex;">
+
+              <div style="width: 90%;">
+
+                <ion-label>
+                  <ion-icon name="person-circle-outline"> </ion-icon>&nbsp;
+                  <b>{{item.asp_apellidop}} {{item.asp_apellidom}}
+                    {{item.asp_nombres}}</b>
+                </ion-label><br>
+                <ion-label>cargo: <i>{{item.asp_cargo}}</i></ion-label><br>
+                <ion-label>
+                  <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - {{item.asp_referido}}
+                </ion-label><br>
+                <ion-label>{{item.asp_observaciones}} </ion-label><br>
+                <ion-label>ingresado <b>{{item.asp_fch_ingreso}}</b> &nbsp;
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <i>{{item.est_descripcion}}</i>
+                </ion-label>
+
+              </div>
+
+              <div style="width: 10%;">
+
+                <ion-button  fill="clear">
+                  <ion-icon name="ellipsis-vertical" ></ion-icon>
+                </ion-button>
+
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+
+        <!-- <ion-item *ngFor="let item of aspirantesNuevo" style="font-size: 0.8rem; color: #071f3b; ">
+        </ion-item> -->
+
 
       </ion-col>
 
@@ -54,18 +93,21 @@
           <!-- <ion-item *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" style="font-size: 0.5rem;"> -->
           <ion-item *ngFor="let item of aspirantesNuevo" style="font-size: 0.8rem; color: #071f3b; ">
             <div style="margin: 5px 0px 5px 0; width: 100%;">
-              <ion-label><ion-icon name="person-circle-outline" slot="start"> </ion-icon><b> {{item.asp_apellidop}} {{item.asp_apellidom}} {{item.asp_nombres}}</b></ion-label>
+              <ion-label>
+                <ion-icon name="person-circle-outline" slot="start"> </ion-icon><b> {{item.asp_apellidop}}
+                  {{item.asp_apellidom}} {{item.asp_nombres}}</b>
+              </ion-label>
               <ion-label><i>{{item.asp_cargo}}</i></ion-label>
               <ion-label>
                 <ion-icon name="card-outline"></ion-icon> {{item.asp_cedula}} &nbsp;
                 <ion-icon name="call-outline"></ion-icon> <i> {{item.asp_telefono}}</i>
               </ion-label>
               <!-- <ion-chip color="primary" style="font-size: 0.8rem;"> -->
-                <ion-label color="secondary">{{item.asp_estado}}</ion-label>
+              <ion-label color="secondary">{{item.asp_estado}}</ion-label>
               <!-- </ion-chip> -->
             </div>
-            <ion-button (click)="onClick()" fill="clear" >
-              <ion-icon  name="ellipsis-vertical"></ion-icon>
+            <ion-button (click)="onClick()" fill="clear">
+              <ion-icon name="ellipsis-vertical"></ion-icon>
             </ion-button>
           </ion-item>
 

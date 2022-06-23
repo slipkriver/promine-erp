@@ -72,6 +72,7 @@ export class DataService {
       aspirante[key] = value.toString().toUpperCase()
     });
 
+    //aspirante['asp_estado']
     body =  {...aspirante, task:'nuevo'};
     body['asp_edad'] = body['asp_edad'].toString()
 
@@ -83,6 +84,20 @@ export class DataService {
 
   }
 
+  listarPorEstado(id_estado) {
+    var body 
+
+    //aspirante['asp_estado']
+    body =  {task:'listarporestado', id_estado:id_estado};
+    //body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/aspirante.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
 
   newObjAspirante(aspirante){
 

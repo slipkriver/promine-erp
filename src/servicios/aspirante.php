@@ -32,7 +32,7 @@
 		 asp_direccion = '$postjson[asp_direccion]',
 		 asp_hora_entrevista = '$postjson[asp_hora_entrevista]',
 		 asp_referencia = '$postjson[asp_referencia]',
-		 asp_estado = '$postjson[asp_estado]',
+		 asp_estado = 'INGRESADO',
 		 asp_observaciones = '$postjson[asp_observaciones]',
 		 asp_observacion_medico = '$postjson[asp_observacion_medico]',
 		 asp_observacion_final = '$postjson[asp_observacion_final]',
@@ -111,5 +111,49 @@
 
   }
 
+
+  else if($postjson['task']=='listarporestado'){
+
+	$data = array();
+	//$query = mysqli_query($mysqli, "SELECT * FROM esmeraldas ORDER BY id LIMIT $postjson[start],$postjson[limit]");
+  $query = mysqli_query($mysqli, "SELECT asp_codigo,asp_cedula,asp_nombres,asp_apellidop,asp_apellidom,
+                    asp_cargo,asp_fch_ingreso,asp_telefono,asp_estado,asp_recomendado,asp_observaciones, 
+                    est_descripcion
+                    FROM aspirante 
+                    
+	                INNER JOIN estados
+		                ON estados.est_nombre LIKE aspirante.asp_estado
+		                
+	                WHERE estados.est_id > $postjson[id_estado]
+	ORDER BY asp_fch_ingreso DESC");
+	
+	while($row = mysqli_fetch_array($query)){
+
+	  $data[] = array(
+
+		  'asp_codigo' => $row['asp_codigo'],
+		  'asp_cedula' => $row['asp_cedula'],
+		  'asp_nombres' => $row['asp_nombres'],
+		  'asp_apellidop' => $row['asp_apellidop'],
+		  'asp_apellidom' => $row['asp_apellidom'],
+		  'asp_cargo' => $row['asp_cargo'],
+		  'asp_fch_ingreso' => $row['asp_fch_ingreso'],
+		  'asp_telefono' => $row['asp_telefono'],
+		  'asp_estado' => $row['asp_estado'],
+		  'asp_recomendado' => $row['asp_recomendado'],
+		  'asp_observaciones' => $row['asp_observaciones'],
+		  'est_descripcion' => $row['est_descripcion']
+
+		);
+	}
+  $mysqli->close();
+  
+	if($query) 
+	  $result = json_encode(array('success'=>true, 'result'=>$data));
+	else 
+	  $result = json_encode(array('success'=>false));
+	echo $result;
+
+}
 
 ?>
