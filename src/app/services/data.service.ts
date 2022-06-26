@@ -11,6 +11,7 @@ export class DataService {
 
   //server: string = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
   serverweb: string = "https://promine-ec.000webhostapp.com/servicios";
+  aspirante
 
   constructor(
     private http: HttpClient
@@ -76,7 +77,27 @@ export class DataService {
     body =  {...aspirante, task:'nuevo'};
     body['asp_edad'] = body['asp_edad'].toString()
 
-    console.log(JSON.stringify(body))  
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/aspirante.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
+  updateAspirante(aspirante) {
+    var body 
+
+    Object.entries(aspirante).forEach(([key, value], index) => {
+      // 👇️ name Tom 0, country Chile 1
+      aspirante[key] = value.toString().toUpperCase()
+    });
+
+    //aspirante['asp_estado']
+    body =  {...aspirante, task:'actualizar'};
+    body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
     return this.http.post(this.serverweb + "/aspirante.php", JSON.stringify(body))
     // .subscribe( res => {
     //   console.log(res, body)  
@@ -89,6 +110,21 @@ export class DataService {
 
     //aspirante['asp_estado']
     body =  {task:'listarporestado', id_estado:id_estado};
+    //body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/aspirante.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
+  getAspirante(cedula) {
+    var body 
+
+    //aspirante['asp_estado']
+    body =  {task:'obtener', texto:cedula};
     //body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -127,7 +163,7 @@ export class DataService {
     aspirante.asp_hora_entrevista = ""
     aspirante.asp_referencia = ""
     aspirante.asp_estado = ""
-    aspirante.asp_observaciones = ""
+    aspirante.asp_observaciones = "ninguna"
     aspirante.asp_observacion_medico = ""
     aspirante.asp_observacion_final = ""
     aspirante.asp_academico = ""

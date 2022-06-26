@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal-th',
@@ -13,10 +14,12 @@ export class PrincipalThPage implements OnInit {
   estados = []
 
   listaTareas = []
+  textobusqueda=""
 
   constructor(
     private dataService: DataService,
-    private actionSheetCtr: ActionSheetController
+    private actionSheetCtr: ActionSheetController,
+    private router: Router,
 
   ) { }
 
@@ -28,10 +31,7 @@ export class PrincipalThPage implements OnInit {
     });
 
     // setTimeout(() => {
-    this.dataService.listarPorEstado(0).subscribe(res => {
-      this.listaTareas = res['result']
-
-    })
+    this.listarAspirantes(0)
     // }, 2000);
 
   }
@@ -49,6 +49,17 @@ export class PrincipalThPage implements OnInit {
 
   }
 
+  listarAspirantes(id){
+
+    this.dataService.listarPorEstado(id).subscribe(res => {
+      //console.log( res )
+      this.listaTareas = res['result']
+
+    })
+
+
+  }
+
   async opcionesTarea(aspirante){
 
     //var strTitulo = aspirante.asp_cedula + '::' 
@@ -61,7 +72,14 @@ export class PrincipalThPage implements OnInit {
           text: 'Ver ficha de ingreso ',
           icon: 'create',
           handler: () => {
-            console.log('Share clicked');
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              //console.log( res )
+              this.dataService.aspirante = res['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+  
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
           },
         },
         {
@@ -91,8 +109,14 @@ export class PrincipalThPage implements OnInit {
     await opciones.present();
 
     const { role } = await opciones.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+    //console.log('onDidDismiss resolved with role', role);
 
+  }
+
+  borrarBusqueda(){
+    this.textobusqueda=""
+    this.aspirantesNuevo=[]
+    console.log(this.aspirantesNuevo)
   }
 
 }

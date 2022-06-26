@@ -106,7 +106,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
                               [(ngModel)]="aspirante.asp_pais" name="paisAspirante"
                               [selectedText]="aspirante.asp_pais" required>
-                    <ion-select-option *ngFor="let aspirante of paises"> {{ aspirante.asp_nombre }} </ion-select-option></ion-select>
+                    <ion-select-option *ngFor="let aspirante of paises">{{aspirante.asp_nombre}}</ion-select-option></ion-select>
                 </ion-item>
               </ion-col>
 
@@ -117,7 +117,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
                               [(ngModel)]="aspirante.asp_sexo" name="sexoAspirante"
                               [selectedText]="aspirante.asp_sexo" required>
-                    <ion-select-option *ngFor="let aspirante of sexo" >{{ aspirante.asp_nombre }}</ion-select-option>
+                    <ion-select-option *ngFor="let aspirante of sexo" >{{aspirante.asp_nombre}}</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -139,7 +139,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
                               [(ngModel)]="aspirante.asp_ecivil" name="civilAspirante"
                               [selectedText]="aspirante.asp_ecivil" required>
-                    <ion-select-option class="my-custom-interface" *ngFor="let aspirante of civil"> {{ aspirante.asp_nombre }} </ion-select-option>          
+                    <ion-select-option class="my-custom-interface" *ngFor="let aspirante of civil">{{aspirante.asp_nombre}}</ion-select-option>          
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -151,7 +151,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno"
                               [(ngModel)]="aspirante.asp_gpo_sanguineo" name="sangreAspirante"
                               [selectedText]="aspirante.asp_gpo_sanguineo" required>
-                    <ion-select-option *ngFor="let apsirante of tipo_sangre"> {{ apsirante.asp_nombre }} </ion-select-option></ion-select>
+                    <ion-select-option *ngFor="let apsirante of tipo_sangre">{{apsirante.asp_nombre}}</ion-select-option></ion-select>
                 </ion-item>
               </ion-col>
 
@@ -161,7 +161,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno"
                               [(ngModel)]="aspirante.asp_cargo" name="cargoAspirante"
                               [selectedText]="aspirante.asp_cargo" required>
-                    <ion-select-option *ngFor="let aspirante of cargo" >{{ aspirante.asp_nombre }}</ion-select-option>
+                    <ion-select-option *ngFor="let aspirante of cargo" >{{aspirante.asp_nombre}}</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -201,7 +201,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover" 
                               [(ngModel)]="aspirante.asp_referencia" name="referenciaAspirante"
                               [selectedText]="aspirante.asp_referencia" required>
-                    <ion-select-option *ngFor="let aspirante of referencia" > {{ aspirante.asp_nombre }} </ion-select-option>
+                    <ion-select-option *ngFor="let aspirante of referencia" >{{ aspirante.asp_nombre }}</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -487,9 +487,16 @@
         <!-- <ion-button type="submit" size="large" expand="full" [disabled]="formulario.invalid" *ngIf="!!productor.prod_codigo"
         class="botones">Enviar
       </ion-button> -->
-        <ion-button type="submit" expand="block" fill="solid"   class="botones" color="primary" (click)="onSubmitTemplate()"
+        <ion-button type="submit" expand="block" fill="solid"   class="botones" color="primary" 
+              *ngIf="aspirantecodigo=='nuevo'" (click)="onSubmitTemplate()"
           > ENVIAR
           <ion-icon slot="start" size="medium" name="checkmark-circle-outline"></ion-icon>
+         
+        </ion-button>
+        <ion-button type="submit" expand="block" fill="solid"   class="botones" color="primary"
+              *ngIf="aspirantecodigo!='nuevo'" (click)="onSubmitUpdate()"
+          > ACTUALIZAR
+          <ion-icon slot="start" size="medium" name="save-outline"></ion-icon>
          
         </ion-button>
       </ion-col>

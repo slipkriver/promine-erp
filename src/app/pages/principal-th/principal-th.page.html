@@ -13,7 +13,7 @@
   <ion-fab-list side="bottom" style="width: 200px;">
 
 
-    <ion-button fill="solid" style="width: 200px;">
+    <ion-button fill="solid" style="width: 200px;" (click)="listarAspirantes(1)">
       <ion-icon slot="start" name="reload-outline"></ion-icon>
       Actualizar
     </ion-button>
@@ -36,7 +36,8 @@
 
         <ion-list>
 
-          <ion-card *ngFor="let item of listaTareas" button="true" (click)="opcionesTarea(item)" style="color: #071f3b;">
+          <ion-card *ngFor="let item of listaTareas" button="true" (click)="opcionesTarea(item)" 
+                    color="light" style="color: #071f3b;">
             <ion-card-content style="display: flex;">
 
               <div style="width: 90%;">
@@ -46,15 +47,18 @@
                   <b>{{item.asp_apellidop}} {{item.asp_apellidom}}
                     {{item.asp_nombres}}</b>
                 </ion-label><br>
-                <ion-label>cargo: <i>{{item.asp_cargo}}</i></ion-label><br>
+                <ion-label>cargo postulado: <i>{{item.asp_cargo}}</i></ion-label><br>
                 <ion-label>
-                  <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - {{item.asp_referido}}
+                  <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referido}}
                 </ion-label><br>
-                <ion-label>{{item.asp_observaciones}} </ion-label><br>
-                <ion-label>ingresado <b>{{item.asp_fch_ingreso}}</b> &nbsp;
-                  <ion-icon name="information-circle-outline"></ion-icon>
+                <ion-label>observaciones: {{item.asp_observaciones}} </ion-label><br>
+                <ion-label color="primary" style="font-size: 0.8rem;" >ingresado el <b>{{item.asp_fch_ingreso}}</b> &nbsp;
+                </ion-label>
+                <ion-label color="success" style="font-size: 0.8rem;"> 
+                  <ion-icon name="information-circle" style="font-size: 1.1rem; vertical-align: text-bottom;"></ion-icon>
                   <i>{{item.est_descripcion}}</i>
                 </ion-label>
+                  
 
               </div>
 
@@ -84,15 +88,15 @@
           </ion-button>
         </ion-col> -->
 
-        <ion-searchbar class="searchbar-header" placeholder="Buscar empleado" inputmode="text"
-          (ionChange)="buscarAspirante($event)" [debounce]="500" mode="ios" color="light" animated>
+        <ion-searchbar class="searchbar-header" placeholder="Buscar empleado" inputmode="text" mode="ios" color="light" animated
+          (ionChange)="buscarAspirante($event)" [debounce]="500" (ionClear)="borrarBusqueda()" [(ngModel)]="textobusqueda">
 
         </ion-searchbar>
 
         <ion-list *ngIf="(aspirantesNuevo.length)">
           <!-- <ion-item *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" style="font-size: 0.5rem;"> -->
           <ion-item *ngFor="let item of aspirantesNuevo" style="font-size: 0.8rem; color: #071f3b; ">
-            <div style="margin: 5px 0px 5px 0; width: 100%;">
+            <div style="margin: 5px;">
               <ion-label>
                 <ion-icon name="person-circle-outline" slot="start"> </ion-icon><b> {{item.asp_apellidop}}
                   {{item.asp_apellidom}} {{item.asp_nombres}}</b>
@@ -103,7 +107,7 @@
                 <ion-icon name="call-outline"></ion-icon> <i> {{item.asp_telefono}}</i>
               </ion-label>
               <!-- <ion-chip color="primary" style="font-size: 0.8rem;"> -->
-              <ion-label color="secondary">{{item.asp_estado}}</ion-label>
+              <ion-label color="secondary">{{item.est_descripcion}}</ion-label>
               <!-- </ion-chip> -->
             </div>
             <ion-button (click)="onClick()" fill="clear">

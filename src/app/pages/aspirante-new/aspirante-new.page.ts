@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 
@@ -14,6 +15,7 @@ export class AspiranteNewPage implements OnInit {
 
   aspirante = <AspiranteInfo>{}
   empleado = <EmpleadoInfo>{}
+  aspirantecodigo = "nuevo"
 
   fechaEntrevista: Date = new Date();
   fechaIngreso: Date = new Date();
@@ -41,7 +43,8 @@ export class AspiranteNewPage implements OnInit {
   constructor(
     private dataService: DataService,
     private loadingCtrl: LoadingController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private actRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -62,6 +65,18 @@ export class AspiranteNewPage implements OnInit {
     this.dataService.getEmpleadoLData('departamento').subscribe(departamentos => {
       this.departamentos = departamentos;
     });
+
+    this.actRoute.params.subscribe( (data: any) => {
+      //console.log(data)        
+
+      if (data['asp_cedula']) {
+        this.aspirante =  this.dataService.aspirante
+        this.aspirantecodigo = data.asp_codigo
+      }else{
+        this.aspirante = <AspiranteInfo>{}
+        //console.log(data)        
+      }
+    })
 
   }
 
@@ -131,12 +146,32 @@ export class AspiranteNewPage implements OnInit {
     });
     loading.present()
 
-    console.log(this.aspirante)
+    //console.log(this.aspirante)
 
 
     this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
 
       console.log(res['result'])
+
+    })
+
+
+  }
+
+  async onSubmitUpdate() {
+    const loading = await this.loadingCtrl.create({
+      message: '<b>Guardando información... <b><br>Espere por favor',
+      translucent: true,
+      duration: 2000,
+    });
+    loading.present()
+
+    //console.log(this.aspirante)
+
+
+    this.dataService.updateAspirante(this.aspirante).subscribe(res => {
+
+      console.log(res)
 
     })
 

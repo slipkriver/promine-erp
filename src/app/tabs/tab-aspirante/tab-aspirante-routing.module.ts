@@ -41,6 +41,10 @@ const routes: Routes = [
         loadChildren: () => import('../../pages/aspirante-new/aspirante-new.module').then( m => m.AspiranteNewPageModule )
       },
       {
+        path:'aspirante-new/:asp_cedula',
+        loadChildren: () => import('../../pages/aspirante-new/aspirante-new.module').then( m => m.AspiranteNewPageModule )
+      },
+      {
         path:'aspirante-psicologia',
         loadChildren: () => import('../../pages/aspirante-psicologia/aspirante-psicologia.module').then( m => m.AspirantePsicologiaPageModule )
       },
