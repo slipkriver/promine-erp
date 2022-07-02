@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 export class DataService {
 
   //server: string = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
-  serverweb: string = "https://promine-ec.000webhostapp.com/servicios";
+  //serverweb: string = "https://promine-ec.000webhostapp.com/servicios";
+  serverweb: string = "https://getssoma.com/servicios";
   aspirante
 
   constructor(
@@ -66,7 +67,7 @@ export class DataService {
   }
 
   nuevoAspirante(aspirante) {
-    var body 
+    var body
 
     Object.entries(aspirante).forEach(([key, value], index) => {
       // 👇️ name Tom 0, country Chile 1
@@ -74,7 +75,7 @@ export class DataService {
     });
 
     //aspirante['asp_estado']
-    body =  {...aspirante, task:'nuevo'};
+    body = { ...aspirante, task: 'nuevo' };
     body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -86,15 +87,19 @@ export class DataService {
   }
 
   updateAspirante(aspirante) {
-    var body 
+    var body
 
     Object.entries(aspirante).forEach(([key, value], index) => {
       // 👇️ name Tom 0, country Chile 1
-      aspirante[key] = value.toString().toUpperCase()
+      if (key.substring(0, 4) == "asp_") {
+        aspirante[key] = value.toString().toUpperCase()
+      } else if (key.substring(0, 4) == "atv_") {
+        aspirante[key] = value.toString()
+      }
     });
 
     //aspirante['asp_estado']
-    body =  {...aspirante, task:'actualizar'};
+    body = { ...aspirante, task: 'actualizar' };
     body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -105,11 +110,34 @@ export class DataService {
 
   }
 
-  listarPorEstado(id_estado) {
-    var body 
+  verifyTalento(aspirante) {
+    var body
+
+    var objTalento = {}
+
+    Object.entries(aspirante).forEach(([key, value], index) => {
+      // 👇️ name Tom 0, country Chile 1
+      if (key.substring(0, 4) == "atv_") {
+        objTalento[key] = value.toString()
+      }
+    });
 
     //aspirante['asp_estado']
-    body =  {task:'listarporestado', id_estado:id_estado};
+    body = { ...objTalento, task: 'talentoh1' };
+
+    console.log(body)  
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
+  listarPorEstado(id_estado) {
+    var body
+
+    //aspirante['asp_estado']
+    body = { task: 'listarporestado', id_estado: id_estado };
     //body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -121,10 +149,10 @@ export class DataService {
   }
 
   getAspirante(cedula) {
-    var body 
+    var body
 
     //aspirante['asp_estado']
-    body =  {task:'obtener', texto:cedula};
+    body = { task: 'obtener', texto: cedula };
     //body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -135,7 +163,7 @@ export class DataService {
 
   }
 
-  newObjAspirante(aspirante){
+  newObjAspirante(aspirante) {
 
     aspirante.asp_cedula = ""
     aspirante.asp_codigo = ""
@@ -189,6 +217,15 @@ export class DataService {
     aspirante.asp_construccion = ""
     aspirante.asp_movilizacion = ""
     aspirante.asp_recomendado = ""
+
+
+    aspirante.atv_aspirante = ""
+    aspirante.atv_fingreso = ""
+    aspirante.atv_fmodificado = ""
+    aspirante.atv_plegales = false
+    aspirante.atv_pfiscalia = false
+    aspirante.atv_ppenales = false
+    aspirante.atv_plaborales = false
 
     return aspirante
   }

@@ -168,9 +168,9 @@ export class AspiranteNewPage implements OnInit {
 
     //console.log(this.aspirante)
 
+    this.aspirante.atv_aspirante = this.aspirante.asp_cedula
 
     this.dataService.updateAspirante(this.aspirante).subscribe(res => {
-
       console.log(res)
 
     })

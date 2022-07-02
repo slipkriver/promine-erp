@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
+import { FormValidarTthhComponent } from '../../componentes/form-validar-tthh/form-validar-tthh.component';
 
 @Component({
   selector: 'app-principal-th',
@@ -12,14 +13,16 @@ export class PrincipalThPage implements OnInit {
 
   aspirantesNuevo = []
   estados = []
+  estado
 
   listaTareas = []
-  textobusqueda=""
+  textobusqueda = ""
 
   constructor(
     private dataService: DataService,
     private actionSheetCtr: ActionSheetController,
     private router: Router,
+    public modalController: ModalController
 
   ) { }
 
@@ -27,11 +30,12 @@ export class PrincipalThPage implements OnInit {
 
     this.dataService.getAspiranteLData("estado").subscribe(lista => {
       this.estados = lista;
+      this.estado = lista[0];
       //console.log(this.estados[10]);
     });
 
     // setTimeout(() => {
-    this.listarAspirantes(0)
+    this.listarAspirantes({ detail: { value: 0 } })
     // }, 2000);
 
   }
@@ -49,18 +53,58 @@ export class PrincipalThPage implements OnInit {
 
   }
 
-  listarAspirantes(id){
+  listarAspirantes(event) {
 
+    const id = event.detail.value
+    this.estado = this.estados[id]
+    //console.log(event, id, parseInt(id))
     this.dataService.listarPorEstado(id).subscribe(res => {
-      //console.log( res )
       this.listaTareas = res['result']
+      //console.log(res)
+
 
     })
 
 
   }
 
-  async opcionesTarea(aspirante){
+  cambiarBool(aspirante) {
+
+
+    (Object.keys(aspirante) as (keyof typeof aspirante)[]).forEach((key, index) => {
+      if (aspirante[key] == "true") {
+        aspirante[key] = true
+        // console.log(key, aspirante[key], index);
+      } else if (aspirante[key] == "false") {
+        aspirante[key] = false
+        // console.log(key, aspirante[key], index);
+      }
+      // 👇️ name Tom 0, country Chile 1
+    })
+
+    // aspirante.forEach(campo => {
+    //   if(campo == "true" || campo == "false"){
+    //     campo = (Boolean)(campo)
+    //   }
+    // });
+    // setTimeout(() => {
+
+    this.dataService.aspirante = aspirante;
+    return aspirante
+
+    // }, 2000);
+
+  }
+
+  async opcionesTarea(aspirante) {
+
+    this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+      //console.log(res['result'][0])
+      // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+      //console.log(res['result'][0])
+
+      this.dataService.aspirante = this.cambiarBool(res['result'][0])
+    })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
     var strTitulo = aspirante.asp_apellidop + " " + aspirante.asp_apellidom + " " + aspirante.asp_nombres
@@ -73,20 +117,25 @@ export class PrincipalThPage implements OnInit {
           icon: 'create',
           handler: () => {
 
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              //console.log( res )
-              this.dataService.aspirante = res['result'][0];
-              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-  
-            })
+            // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+            //console.log( res )
+            // this.dataService.aspirante = res['result'][0];
+            this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            // })
             //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
           },
         },
         {
           text: 'Detalles del proceso',
           icon: 'information-circle',
-          handler: () => {
-            console.log('Play clicked');
+          handler: async () => {
+            setTimeout(() => {
+
+              this.abrirFormalidar()
+
+            }, 2000);
+            //console.log('Play clicked');
           },
         },
         {
@@ -113,10 +162,35 @@ export class PrincipalThPage implements OnInit {
 
   }
 
-  borrarBusqueda(){
-    this.textobusqueda=""
-    this.aspirantesNuevo=[]
-    console.log(this.aspirantesNuevo)
+  borrarBusqueda() {
+    this.textobusqueda = ""
+    this.aspirantesNuevo = []
+    //console.log(this.aspirantesNuevo)
+  }
+
+  async abrirFormalidar() {
+    const modal = await this.modalController.create({
+      component: FormValidarTthhComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'aspirante': this.dataService.aspirante
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    //console.log(data);
+    if (!!data.aspirante) {
+      if (data.validado == true) {
+        data.aspirante.asp_estado = this.estados[2].est_nombre
+      } else {
+
+      }
+      data.aspirante.task = "actualizar"
+      this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+        //console.log(res)
+      })
+    }
   }
 
 }

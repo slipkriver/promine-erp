@@ -1,0 +1,38 @@
+<ion-content class="ion-padding">
+  <p>
+    Seleccione los elementos respectivos sobre la informacion legal del 
+    <i>Apirante</i> que han sido validados por el departamento de Talento Humano.<br>
+    <ion-text color="danger" style="font-size: small;">
+      <!-- <h1>Awesome text</h1> -->
+      <i>* Deben estar todos validados para proceder a entrevista con el psicologo.</i>
+    </ion-text>
+  </p>
+  <ion-item>
+    <ion-label>No posee procesos legales pendientes</ion-label>
+    <ion-checkbox [(ngModel)]="aspirante.atv_plegales" [checked]="aspirante.atv_plegales" (ionChange)="cambiarCheckbox('atv_plegales',$event)" slot="start"></ion-checkbox>
+    <!-- <ion-toggle slot="start"></ion-toggle> -->
+  </ion-item>
+  <ion-item>
+    <ion-label>No registra proces en Fiscalía General del Estado </ion-label>
+    <ion-checkbox [(ngModel)]="aspirante.atv_pfiscalia" [checked]="aspirante.atv_pfiscalia" (ionChange)="cambiarCheckbox('atv_pfiscalia',$event)" slot="start"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>No existen antecedentes penales</ion-label>
+    <ion-checkbox [(ngModel)]="aspirante.atv_ppenales" [checked]="aspirante.atv_ppenales" (ionChange)="cambiarCheckbox('atv_ppenales',$event)" slot="start"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Referencias laborales correctas</ion-label>
+    <ion-checkbox [(ngModel)]="aspirante.atv_plaborales" [checked]="aspirante.atv_plaborales" (ionChange)="cambiarCheckbox('atv_plaborales',$event)" slot="start"></ion-checkbox>
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()" expand="block"  fill="clear" color="danger">
+      Cancelar
+    </ion-button>
+    <ion-button (click)="guardarCambios()" expand="block" slot="end" fill="solid" color="primary">
+      Guardar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

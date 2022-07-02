@@ -29,10 +29,22 @@
 </ion-fab>
 <ion-content>
 
+
   <ion-grid style="height: 100%;">
     <ion-row style="height: 100%;">
 
       <ion-col size="8">
+
+        <ion-toolbar>
+          <ion-item  color="medium">
+            <ion-label>Estado de solicitud</ion-label>
+            <ion-select value="1" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
+              <ion-select-option *ngFor="let item of estados"  [value]="item.est_id">{{item.est_nombre}}</ion-select-option>
+              <!-- <ion-select-option value="2">VERIFICADOS</ion-select-option>
+              <ion-select-option value="3">NO APROBADOS</ion-select-option> -->
+            </ion-select>
+          </ion-item>
+        </ion-toolbar>
 
         <ion-list>
 

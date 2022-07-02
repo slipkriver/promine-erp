@@ -53,6 +53,13 @@ export interface AspiranteInfo {
     asp_movilizacion: string;
     asp_recomendado: string;
 
+    atv_aspirante: string;
+    atv_fingreso: string;
+    atv_fmodificado: string;
+    atv_plegales: boolean;
+    atv_pfiscalia: boolean;
+    atv_ppenales: boolean;
+    atv_plaborales: boolean;
     usuario: string;
 
     //nuevo();
