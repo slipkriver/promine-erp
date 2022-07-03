@@ -71,14 +71,16 @@ export class DataService {
 
     Object.entries(aspirante).forEach(([key, value], index) => {
       // 👇️ name Tom 0, country Chile 1
-      aspirante[key] = value.toString().toUpperCase()
+      if (key.substring(0, 4) == "asp_") {
+        aspirante[key] = value.toString().toUpperCase()
+      }
     });
 
     //aspirante['asp_estado']
     body = { ...aspirante, task: 'nuevo' };
     body['asp_edad'] = body['asp_edad'].toString()
 
-    //console.log(JSON.stringify(body))  
+    //console.log(JSON.stringify(body))
     return this.http.post(this.serverweb + "/aspirante.php", JSON.stringify(body))
     // .subscribe( res => {
     //   console.log(res, body)  
@@ -125,7 +127,7 @@ export class DataService {
     //aspirante['asp_estado']
     body = { ...objTalento, task: 'talentoh1' };
 
-    console.log(body)  
+    //console.log(body)
     return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
     // .subscribe( res => {
     //   console.log(res, body)  
@@ -222,10 +224,11 @@ export class DataService {
     aspirante.atv_aspirante = ""
     aspirante.atv_fingreso = ""
     aspirante.atv_fmodificado = ""
-    aspirante.atv_plegales = false
-    aspirante.atv_pfiscalia = false
-    aspirante.atv_ppenales = false
-    aspirante.atv_plaborales = false
+    aspirante.atv_plegales = "false"
+    aspirante.atv_pfiscalia = "false"
+    aspirante.atv_ppenales = "false"
+    aspirante.atv_plaborales = "false"
+    aspirante.atv_verificado = "false"
 
     return aspirante
   }

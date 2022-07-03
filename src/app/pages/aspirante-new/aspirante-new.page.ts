@@ -49,9 +49,6 @@ export class AspiranteNewPage implements OnInit {
 
   ngOnInit() {
 
-    this.aspirante = this.dataService.newObjAspirante(this.aspirante)
-    //console.log(JSON.stringify(this.aspirante))
-
     this.listas.forEach(element => {
 
       this.dataService.getAspiranteLData(element).subscribe(lista => {
@@ -76,6 +73,10 @@ export class AspiranteNewPage implements OnInit {
         this.aspirante = <AspiranteInfo>{}
         //console.log(data)        
       }
+
+      this.aspirante = this.dataService.newObjAspirante(this.aspirante)
+      //console.log(JSON.stringify(this.aspirante))
+
     })
 
   }
@@ -139,19 +140,21 @@ export class AspiranteNewPage implements OnInit {
   }
 
   async onSubmitTemplate() {
+    this.aspirante.asp_estado = 'INGRESADO'
+
     const loading = await this.loadingCtrl.create({
       message: '<b>Guardando información... <b><br>Espere por favor',
       translucent: true,
-      duration: 2000,
+      duration: 1000,
     });
     loading.present()
 
+    this.aspirante.atv_aspirante = this.aspirante.asp_cedula
     //console.log(this.aspirante)
-
 
     this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
 
-      console.log(res['result'])
+      //console.log(res)
 
     })
 

@@ -82,13 +82,6 @@ export class PrincipalThPage implements OnInit {
       // 👇️ name Tom 0, country Chile 1
     })
 
-    // aspirante.forEach(campo => {
-    //   if(campo == "true" || campo == "false"){
-    //     campo = (Boolean)(campo)
-    //   }
-    // });
-    // setTimeout(() => {
-
     this.dataService.aspirante = aspirante;
     return aspirante
 
