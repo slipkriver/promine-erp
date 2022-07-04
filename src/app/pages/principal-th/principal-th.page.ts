@@ -192,7 +192,7 @@ export class PrincipalThPage implements OnInit {
       }
       data.aspirante.atv_verificado = true
     } else {
-     //data.aspirante.atv_verificado = false
+      data.aspirante.atv_verificado = false
     }
     data.aspirante.task = "actualizar"
     this.dataService.verifyTalento(data.aspirante).subscribe(res => {

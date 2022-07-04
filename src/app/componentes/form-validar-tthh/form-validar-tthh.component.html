@@ -16,7 +16,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" >
   <p>
     Seleccione los elementos respectivos sobre la informacion legal del
     <i>Apirante</i> que han sido validados por el departamento de Talento Humano.<br>
@@ -25,35 +25,35 @@
       <i>* Deben estar todos validados para proceder a entrevista con el psicologo.</i>
     </ion-text>
   </p>
-  <ion-item>
+  <ion-item [disabled]="aspirante.atv_verificado">
     <ion-label>No posee procesos legales pendientes</ion-label>
     <ion-checkbox [(ngModel)]="aspirante.atv_plegales" [checked]="aspirante.atv_plegales"
       (ionChange)="cambiarCheckbox('atv_plegales',$event)" slot="start"></ion-checkbox>
     <!-- <ion-toggle slot="start"></ion-toggle> -->
   </ion-item>
-  <ion-item>
+  <ion-item [disabled]="aspirante.atv_verificado">
     <ion-label>No registra proces en Fiscalía General del Estado </ion-label>
     <ion-checkbox [(ngModel)]="aspirante.atv_pfiscalia" [checked]="aspirante.atv_pfiscalia"
       (ionChange)="cambiarCheckbox('atv_pfiscalia',$event)" slot="start"></ion-checkbox>
   </ion-item>
-  <ion-item>
+  <ion-item [disabled]="aspirante.atv_verificado">
     <ion-label>No existen antecedentes penales</ion-label>
     <ion-checkbox [(ngModel)]="aspirante.atv_ppenales" [checked]="aspirante.atv_ppenales"
       (ionChange)="cambiarCheckbox('atv_ppenales',$event)" slot="start"></ion-checkbox>
   </ion-item>
-  <ion-item>
+  <ion-item [disabled]="aspirante.atv_verificado">
     <ion-label>Referencias laborales correctas</ion-label>
     <ion-checkbox [(ngModel)]="aspirante.atv_plaborales" [checked]="aspirante.atv_plaborales"
       (ionChange)="cambiarCheckbox('atv_plaborales',$event)" slot="start"></ion-checkbox>
   </ion-item>
 
   <div [hidden]="!validado">
-    <ion-item>
+    <ion-item [disabled]="aspirante.atv_verificado">
       <ion-label style="font-size: small;">Aspirante apto para continuar con el proceso de contratracion?</ion-label>
       <ion-toggle (ionChange)="cambiarToggle($event)" [checked]="aspirante.atv_verificado" slot="end"></ion-toggle>
     </ion-item>
 
-    <ion-item [hidden]="aspirante.atv_verificado">
+    <ion-item [hidden]="aspirante.atv_verificado" [disabled]="aspirante.atv_verificado">
       <ion-textarea [(ngModel)]="aspirante.atv_observacion" [value]="aspirante.atv_observacion" type="text" name="atv_observacion"
         placeholder="Causas por las cuales NO ha sido autorizado el aspirante..." (ionChange)="editObservacion($event)"></ion-textarea>
     </ion-item>
@@ -65,10 +65,10 @@
     <ion-button (click)="cerrarModal()" expand="block" fill="clear" slot="start" color="danger">
       Cancelar
     </ion-button>
-    <ion-button (click)="guardarCambios()" expand="block" slot="end" fill="outline" color="primary">
+    <ion-button [disabled]="aspirante.atv_verificado" (click)="guardarCambios()" expand="block" slot="end" fill="outline" color="primary">
       Guardar
     </ion-button>
-    <ion-button [disabled]="!validado" (click)="presentAlert()" expand="block" slot="end" fill="solid" color="primary">
+    <ion-button [disabled]="!validado || aspirante.atv_verificado" (click)="presentAlert()" expand="block" slot="end" fill="solid" color="primary">
       Finalizar
     </ion-button>
   </ion-toolbar>
