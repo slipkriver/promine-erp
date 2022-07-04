@@ -120,14 +120,21 @@ export class PrincipalThPage implements OnInit {
           },
         },
         {
-          text: 'Detalles del proceso',
-          icon: 'information-circle',
+          text: 'Verificar documentación legal',
+          icon: 'checkmark-circle',
           handler: async () => {
             setTimeout(() => {
 
               this.abrirFormalidar()
 
-            }, 2000);
+            }, 1000);
+            //console.log('Play clicked');
+          },
+        },
+        {
+          text: 'Detalles del proceso',
+          icon: 'information-circle',
+          handler: async () => {
             //console.log('Play clicked');
           },
         },
@@ -169,21 +176,29 @@ export class PrincipalThPage implements OnInit {
         'aspirante': this.dataService.aspirante
       }
     });
-    await modal.present();
+    modal.present();
 
     const { data } = await modal.onDidDismiss();
-    //console.log(data);
-    if (!!data.aspirante) {
-      if (data.validado == true) {
-        data.aspirante.asp_estado = this.estados[2].est_nombre
-      } else {
-
-      }
-      data.aspirante.task = "actualizar"
-      this.dataService.verifyTalento(data.aspirante).subscribe(res => {
-        //console.log(res)
-      })
+    if (!data || data == undefined || data.role == "cancelar") {
+      return;
     }
+    //console.log(data);
+    // if (data.length>0) {
+    if (data.validado == true) {
+      if (data.aspirante.atv_verificado == true)
+        data.aspirante.asp_estado = this.estados[2].est_nombre
+      else {
+        data.aspirante.asp_estado = this.estados[3].est_nombre
+      }
+      data.aspirante.atv_verificado = true
+    } else {
+     //data.aspirante.atv_verificado = false
+    }
+    data.aspirante.task = "actualizar"
+    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+      //console.log(res)
+    })
+    // }
   }
 
 }

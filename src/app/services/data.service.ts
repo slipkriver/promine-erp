@@ -124,7 +124,7 @@ export class DataService {
       }
     });
 
-    //aspirante['asp_estado']
+    objTalento['asp_estado'] = aspirante['asp_estado']
     body = { ...objTalento, task: 'talentoh1' };
 
     //console.log(body)

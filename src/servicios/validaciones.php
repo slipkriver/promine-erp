@@ -23,10 +23,11 @@ if ($postjson['task'] == 'talentoh1') {
 	$query = mysqli_query($mysqli, "UPDATE asp_tthh_validar SET " . $strObjeto .
 		"WHERE atv_aspirante LIKE '$postjson[atv_aspirante]'");
 
-	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
-			asp_estado	= 'VERIFICADO'
+	if ($postjson['atv_verificado'] == 'true') {
+		$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
+			asp_estado	= '$postjson[asp_estado]'
 		WHERE asp_cedula LIKE '$postjson[atv_aspirante]'");
-
+	}
 
 	$mysqli->close();
 
@@ -36,4 +37,4 @@ if ($postjson['task'] == 'talentoh1') {
 		$result = json_encode(array('success' => false));
 	}
 	echo $result;
-} 
+}

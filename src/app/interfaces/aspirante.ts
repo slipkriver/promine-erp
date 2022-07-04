@@ -60,6 +60,8 @@ export interface AspiranteInfo {
     atv_pfiscalia: boolean;
     atv_ppenales: boolean;
     atv_plaborales: boolean;
+    atv_verificado: boolean;
+    atv_observacion: string;
     usuario: string;
 
     //nuevo();

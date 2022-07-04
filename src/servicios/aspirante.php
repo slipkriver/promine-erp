@@ -17,7 +17,7 @@ $strcampos =  "asp_id,asp_cedula,asp_codigo,asp_nombres,asp_apellidop,asp_apelli
 	"asp_referencia_vivienda,asp_cargas,asp_cargas_primaria,asp_cargas_secundaria," .
 	"asp_vivienda,asp_construccion,asp_movilizacion,asp_recomendado,est_descripcion," .
 	"atv_aspirante,atv_fingreso,atv_fmodificado,atv_plegales,atv_pfiscalia,atv_ppenales,".
-	"atv_plaborales,atv_verificado";
+	"atv_plaborales,atv_verificado,atv_observacion";
 
 $strcamposlistar = "asp_codigo,asp_cedula,asp_nombres,asp_apellidop,asp_apellidom," .
 		"asp_cargo,asp_fch_ingreso,asp_telefono,asp_estado,asp_recomendado,asp_observaciones," .
