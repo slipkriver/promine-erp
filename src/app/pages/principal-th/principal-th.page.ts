@@ -55,13 +55,13 @@ export class PrincipalThPage implements OnInit {
 
   listarAspirantes(event) {
 
+    this.listaTareas = []
     const id = event.detail.value
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
     this.dataService.listarPorEstado(id).subscribe(res => {
       this.listaTareas = res['result']
       //console.log(res)
-
 
     })
 
