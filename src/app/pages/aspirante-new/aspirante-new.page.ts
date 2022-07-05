@@ -63,19 +63,20 @@ export class AspiranteNewPage implements OnInit {
       this.departamentos = departamentos;
     });
 
-    this.actRoute.params.subscribe( (data: any) => {
-      //console.log(data)        
+    this.actRoute.params.subscribe((data: any) => {
+      console.log(data)
 
       if (data['asp_cedula']) {
-        this.aspirante =  this.dataService.aspirante
+        this.aspirante = this.dataService.aspirante
         this.aspirantecodigo = data.asp_codigo
-      }else{
+      } else {
         this.aspirante = <AspiranteInfo>{}
+        this.aspirante = this.dataService.newObjAspirante(this.aspirante)
+
         //console.log(data)        
       }
 
-      this.aspirante = this.dataService.newObjAspirante(this.aspirante)
-      //console.log(JSON.stringify(this.aspirante))
+      console.log(JSON.stringify(this.aspirante))
 
     })
 

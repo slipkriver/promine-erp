@@ -35,14 +35,23 @@ export class PrincipalThPage implements OnInit {
     });
 
     // setTimeout(() => {
-    this.listarAspirantes({ detail: { value: 0 } })
     // }, 2000);
 
   }
 
+  ionViewDidEnter() {
+    this.listarAspirantes({ detail: { value: 0 } })
+    console.log(this.aspirantesNuevo)
+
+    //this.validado = this.aspirante.atv_verificado
+  }
+
+
   buscarAspirante(event) {
 
     if (event.detail.value.length < 3) return
+
+    this.aspirantesNuevo = []
 
     this.dataService.getListanuevos(event.detail.value).subscribe(res => {
       //console.log(res['result'])
@@ -94,9 +103,9 @@ export class PrincipalThPage implements OnInit {
     this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
       //console.log(res['result'][0])
       // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-      //console.log(res['result'][0])
-
+      
       this.dataService.aspirante = this.cambiarBool(res['result'][0])
+      console.log(res['result'][0])
     })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
@@ -110,12 +119,12 @@ export class PrincipalThPage implements OnInit {
           icon: 'create',
           handler: () => {
 
-            // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-            //console.log( res )
-            // this.dataService.aspirante = res['result'][0];
-            this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
-            // })
+            })
             //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
           },
         },
