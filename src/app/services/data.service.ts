@@ -165,6 +165,21 @@ export class DataService {
 
   }
 
+  getAspRole(cedula,role) {
+    var body
+
+    //aspirante['asp_estado']
+    body = { task: 'aspiranterol', texto: cedula, role };
+    //body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   newObjAspirante(aspirante) {
 
     aspirante.asp_cedula = ""

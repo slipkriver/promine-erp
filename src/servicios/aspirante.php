@@ -16,13 +16,13 @@ $strcampos =  "asp_id,asp_cedula,asp_codigo,asp_nombres,asp_apellidop,asp_apelli
 	"asp_parentezco_familiar,asp_telefono_familiar,asp_descripcion_vivienda," .
 	"asp_referencia_vivienda,asp_cargas,asp_cargas_primaria,asp_cargas_secundaria," .
 	"asp_vivienda,asp_construccion,asp_movilizacion,asp_recomendado,est_descripcion," .
-	"atv_aspirante,atv_fingreso,atv_fmodificado,atv_plegales,atv_pfiscalia,atv_ppenales,".
+	"atv_aspirante,atv_fingreso,atv_fmodificado,atv_plegales,atv_pfiscalia,atv_ppenales," .
 	"atv_plaborales,atv_verificado,atv_observacion";
 
 $strcamposlistar = "asp_codigo,asp_cedula,asp_nombres,asp_apellidop,asp_apellidom," .
-		"asp_cargo,asp_fch_ingreso,asp_telefono,asp_estado,asp_recomendado,asp_observaciones," .
-		"est_descripcion";
-		
+	"asp_cargo,asp_fch_ingreso,asp_telefono,asp_estado,asp_recomendado,asp_observaciones," .
+	"est_descripcion";
+
 if ($postjson['task'] == 'nuevo') {
 
 	$strObjeto = "";
@@ -32,7 +32,7 @@ if ($postjson['task'] == 'nuevo') {
 		$col_id = substr($key, 0, 4);
 		if ($col_id == "asp_") {
 			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
-		}else if ($col_id == "atv_") {
+		} else if ($col_id == "atv_") {
 			$strObjetoValth = $strObjetoValth . $key . " = '" . (string)$value . "',\n";
 		}
 	}
@@ -53,12 +53,10 @@ if ($postjson['task'] == 'nuevo') {
 	}
 
 	echo $result;
- 
- 
 } elseif ($postjson['task'] == 'obtener') {
 	$data = array();
-	$query = mysqli_query($mysqli, "SELECT * FROM aspirante ".
-					"INNER JOIN asp_tthh_validar 
+	$query = mysqli_query($mysqli, "SELECT * FROM aspirante " .
+		"INNER JOIN asp_tthh_validar 
 						ON asp_tthh_validar.atv_aspirante = aspirante.asp_cedula
 					INNER JOIN estados 
 		                ON estados.est_nombre = aspirante.asp_estado
@@ -77,14 +75,14 @@ if ($postjson['task'] == 'nuevo') {
 
 	$strObjeto = "";
 	$strObjetoValth = "";
-	
+
 	foreach ($postjson as $key => $value) {
 
 		$col_id = substr($key, 0, 4);
 
 		if ($col_id == "asp_" && trim($key) != "asp_id") {
 			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
-		}else if ($col_id == "atv_") {
+		} else if ($col_id == "atv_") {
 			$strObjetoValth = $strObjetoValth . $key . " = '" . (string)$value . "',\n";
 		}
 	}
@@ -110,7 +108,7 @@ if ($postjson['task'] == 'nuevo') {
 
 	$data = array();
 
-	$query = mysqli_query($mysqli, "SELECT " . (string)$strcamposlistar.  
+	$query = mysqli_query($mysqli, "SELECT " . (string)$strcamposlistar .
 		" FROM aspirante 
 		INNER JOIN asp_tthh_validar
 			ON asp_tthh_validar.atv_aspirante LIKE aspirante.asp_cedula
@@ -127,7 +125,6 @@ if ($postjson['task'] == 'nuevo') {
 	while ($row = mysqli_fetch_array($query)) {
 
 		$data[] = llenarArray($row, $strcamposlistar);
-		
 	}
 	$mysqli->close();
 
@@ -147,20 +144,19 @@ if ($postjson['task'] == 'nuevo') {
 	                INNER JOIN estados
 		                ON estados.est_nombre LIKE aspirante.asp_estado ";
 
-	if($postjson['id_estado']>0){
-		$consulta = $consulta." WHERE estados.est_id = $postjson[id_estado]
+	if ($postjson['id_estado'] == 0) {
+		$consulta = $consulta . " WHERE estados.est_id > 0
 		ORDER BY asp_fch_ingreso DESC";
-	}else{
-		$consulta = $consulta." WHERE estados.est_id > 0
+	} else {
+		$consulta = $consulta . " WHERE estados.est_id = $postjson[id_estado]
 		ORDER BY asp_fch_ingreso DESC";
 	}
-	
+
 	$query = mysqli_query($mysqli, $consulta);
 
 	while ($row = mysqli_fetch_array($query)) {
 
 		$data[] = llenarArray($row, $strcamposlistar);
-
 	}
 	$mysqli->close();
 

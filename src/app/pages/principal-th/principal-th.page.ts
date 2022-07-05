@@ -41,7 +41,7 @@ export class PrincipalThPage implements OnInit {
 
   ionViewDidEnter() {
     this.listarAspirantes({ detail: { value: 0 } })
-    console.log(this.aspirantesNuevo)
+    //console.log(this.aspirantesNuevo)
 
     //this.validado = this.aspirante.atv_verificado
   }
@@ -105,7 +105,7 @@ export class PrincipalThPage implements OnInit {
       // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
       
       this.dataService.aspirante = this.cambiarBool(res['result'][0])
-      console.log(res['result'][0])
+      //console.log(res['result'][0])
     })
 
     //var strTitulo = aspirante.asp_cedula + '::' 

@@ -5,6 +5,24 @@ include "library/config.php";
 $postjson = json_decode(file_get_contents("php://input"), true);
 
 
+if ($postjson['task'] == 'aspiranterol') {
+
+	if ($postjson['asp_estado'] == 'psico') {
+		$query = mysqli_query($mysqli, "SELECT * FROM asp_psico_validar 
+		WHERE apv_aspirante LIKE '$postjson[cedula]'");
+	}
+
+	$mysqli->close();
+
+	if ($query) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo
+
+	$result;
+}
 if ($postjson['task'] == 'talentoh1') {
 
 	$strObjeto = "";
