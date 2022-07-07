@@ -50,7 +50,8 @@
   <div >
     <ion-list >
 
-      <ion-radio-group  [(ngModel)]="aspirante.atv_aprobado" [value]="aspirante.atv_aprobado" style="display: flex;">
+      <ion-radio-group  [(ngModel)]="aspirante.atv_aprobado" [value]="aspirante.atv_aprobado" 
+                        (ionChange)="setAprobado($event)" style="display: flex;">
 
         <ion-item [disabled]="aspirante.atv_verificado" >
           <ion-label color="primary">APROBADO</ion-label>

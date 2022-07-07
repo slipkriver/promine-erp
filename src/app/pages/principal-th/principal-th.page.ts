@@ -100,16 +100,15 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.getAspiranteRole(aspirante['asp_cedula'],'tthh').subscribe(res => {
-      
-      console.log(res)
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
+
       this.dataService.aspirante = this.cambiarBool(res['aspirante'])
       aspirante = this.cambiarBool(res['aspirante'])
 
     })
 
     // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-      // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+    // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
     // })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
@@ -124,7 +123,7 @@ export class PrincipalThPage implements OnInit {
           handler: () => {
 
             this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              console.log(res)
+              // console.log(res)
               this.dataService.aspirante = res['result'][0];
               this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
@@ -140,7 +139,7 @@ export class PrincipalThPage implements OnInit {
             //this.dataService.getAspiranteRole()
             // setTimeout(() => {
 
-              this.abrirFormalidar(aspirante)
+            this.abrirFormalidar(aspirante)
 
             // }, 1000);
             //console.log('Play clicked');
@@ -191,34 +190,27 @@ export class PrincipalThPage implements OnInit {
       component: FormValidarTthhComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        aspirante:objAspirante
+        aspirante: objAspirante
       }
     });
     await modal.present();
-    
+
     const { data } = await modal.onDidDismiss();
     if (!data || data == undefined || data.role == "cancelar") {
-      console.log(data);
+      //console.log(data);
       //objAspirante = ''
       modal.dismiss()
       return;
     }
-    console.log(data)
+    // console.log(data)
     // if (data.length>0) {
-    if (data.validado == true) {
-      if (data.aspirante.atv_verificado == true)
-        data.aspirante.asp_estado = this.estados[2].est_nombre
-      else {
-        data.aspirante.asp_estado = this.estados[3].est_nombre
-      }
-      data.aspirante.atv_verificado = true
-    } else {
-      data.aspirante.atv_verificado = false
-    }
-    // data.aspirante.task = "actualizar"
-    // this.dataService.verifyTalento(data.aspirante).subscribe(res => {
-    //   console.log(res)
-    // })
+
+    data.aspirante.atv_verificado = true
+
+    data.aspirante.task = "actualizar"
+    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+      console.log(res)
+    })
     // }
   }
 

@@ -23,7 +23,7 @@ export class FormValidarTthhComponent implements OnInit {
     // setTimeout(() => {
     //   console.log(this.aspirante)
     // }, 1000);
-    console.log(this.aspirante)
+    //console.log(this.aspirante)
 
 
   }
@@ -36,9 +36,9 @@ export class FormValidarTthhComponent implements OnInit {
   }
 
   cambiarCheckbox(campo, event) {
-    if(event.checked)
-    this.aspirante[campo] = event.detail.checked
-    //console.log(campo,event.detail)
+    // console.log(event)
+    if (event.detail.checked==true || event.detail.checked==false)
+      this.aspirante[campo] = event.detail.checked
     //this.verificarCheckbox()
 
   }
@@ -59,18 +59,29 @@ export class FormValidarTthhComponent implements OnInit {
   }
 
   editObservacion(evento) {
-    if(evento.detail.value)
+    if (evento.detail.value)
       this.aspirante.atv_observacion = evento.detail.value
   }
 
   cerrarModal() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.aspirante=""
+    this.aspirante = ""
     this.modalController.dismiss({
       role: "cancelar"
     });
   }
+
+  setAprobado(evento){
+    // console.log(evento)
+    this.aspirante.atv_aprobado = evento.detail.value
+    if(evento.detail.value == 'SI'){
+      this.aspirante.asp_estado = "VERIFICADO"
+    }else{
+      this.aspirante.asp_estado = "NO APROBADO"
+    }
+  }
+
 
   guardarCambios() {
     var validado = false
@@ -85,15 +96,19 @@ export class FormValidarTthhComponent implements OnInit {
     });
   }
 
+  
   finalizarCambios() {
     var validado = true
+
     //console.log(this.aspirante)
 
     this.modalController.dismiss({
       aspirante: this.aspirante,
       validado
     });
+
   }
+
 
   async presentAlert() {
     const alert = await this.alertController.create({
@@ -110,7 +125,7 @@ export class FormValidarTthhComponent implements OnInit {
           text: 'CONFIRMAR',
           role: 'confirm',
           handler: () => {
-            console.log('Alert GUARDAR');
+            //console.log('Alert GUARDAR');
             this.finalizarCambios()
           }
         }
