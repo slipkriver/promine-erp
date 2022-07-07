@@ -45,9 +45,9 @@ export class PrincipalPsicologiaPage implements OnInit {
     const id = event.detail.value
     //this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listarPorEstado(id).subscribe(res => {
-      this.listaTareas = res['result']
-      //console.log(res)
+    this.dataService.listadoPorDepartamento('psico').subscribe(res => {
+      this.listaTareas = res['aspirantes']
+      console.log(this.listaTareas)
 
     })
 
@@ -55,9 +55,9 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.getAspRole(aspirante['asp_cedula'],'psico').subscribe(res => {
+    // this.dataService.getAspiranteRole(aspirante['asp_cedula'],'psico').subscribe(res => {
 
-    })
+    // })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
     var strTitulo = aspirante.asp_apellidop + " " + aspirante.asp_apellidom + " " + aspirante.asp_nombres

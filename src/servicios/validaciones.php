@@ -5,17 +5,55 @@ include "library/config.php";
 $postjson = json_decode(file_get_contents("php://input"), true);
 
 
-if ($postjson['task'] == 'aspiranterol') {
+if ($postjson['task'] == 'getaspiranterol') {
 
-	if ($postjson['asp_estado'] == 'psico') {
-		$query = mysqli_query($mysqli, "SELECT * FROM asp_psico_validar 
-		WHERE apv_aspirante LIKE '$postjson[cedula]'");
+	$data = array();
+
+	if ($postjson['role'] == 'tthh') {
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
+						WHERE asp_cedula LIKE '$postjson[cedula]'");
+	}
+
+	while ($row = mysqli_fetch_array($query)) {
+
+		$keys = array_filter(array_keys($row), "is_numeric");
+		$out = array_diff_key($row, array_flip($keys));
+
+		$data[] = $out;
 	}
 
 	$mysqli->close();
 
 	if ($query) {
-		$result = json_encode(array('success' => true));
+		$result = json_encode(array('success' => true, 'aspirante' => $data[0]));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo
+
+	$result;
+}
+
+if ($postjson['task'] == 'aspiranterol') {
+
+	$data = array();
+
+	if ($postjson['asp_estado'] == 'psico') {
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico ");
+	}
+
+	while ($row = mysqli_fetch_array($query)) {
+
+		$keys = array_filter(array_keys($row), "is_numeric");
+		$out = array_diff_key($row, array_flip($keys));
+
+		$data[] = $out;
+	}
+
+	$mysqli->close();
+
+	if ($query) {
+		$result = json_encode(array('success' => true, 'aspirantes' => $data));
 	} else {
 		$result = json_encode(array('success' => false));
 	}
@@ -39,18 +77,18 @@ if ($postjson['task'] == 'talentoh1') {
 	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
 
 	$query = mysqli_query($mysqli, "UPDATE asp_tthh_validar SET " . $strObjeto .
-		"WHERE atv_aspirante LIKE '$postjson[atv_aspirante]'");
+		"WHERE atv_aspirante LIKE '$postjson[asp_cedula]'");
 
 	if ($postjson['atv_verificado'] == 'true') {
 		$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
 			asp_estado	= '$postjson[asp_estado]'
-		WHERE asp_cedula LIKE '$postjson[atv_aspirante]'");
+		WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
 	}
 
 	$mysqli->close();
 
 	if ($query && $query2) {
-		$result = json_encode(array('success' => true));
+		$result = json_encode(array('success' => true,'SQL'=>$strObjeto));
 	} else {
 		$result = json_encode(array('success' => false));
 	}

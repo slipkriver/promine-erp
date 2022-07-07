@@ -150,6 +150,21 @@ export class DataService {
 
   }
 
+  listadoPorDepartamento(estado) {
+    var body
+
+    //aspirante['asp_estado']
+    body = { task: 'aspiranterol', asp_estado: estado };
+    //body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   getAspirante(cedula) {
     var body
 
@@ -165,11 +180,11 @@ export class DataService {
 
   }
 
-  getAspRole(cedula,role) {
+  getAspiranteRole(cedula,role) {
     var body
 
     //aspirante['asp_estado']
-    body = { task: 'aspiranterol', texto: cedula, role };
+    body = { task: 'getaspiranterol', cedula, role };
     //body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  
@@ -244,6 +259,7 @@ export class DataService {
     aspirante.atv_ppenales = "false"
     aspirante.atv_plaborales = "false"
     aspirante.atv_verificado = "false"
+    aspirante.atv_aprobado = "false"
 
     return aspirante
   }

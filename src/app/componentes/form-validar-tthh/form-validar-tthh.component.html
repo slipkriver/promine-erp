@@ -6,7 +6,7 @@
       </ion-avatar>
       <p class="ion-margin">
         <ion-label>
-          {{aspirante.asp_apellidop}} {{aspirante.asp_apellidom}} {{aspirante.asp_nombres}} ::
+          {{aspirante.asp_nombre}} ::
           <b>{{aspirante.asp_cedula}}</b>
         </ion-label>
         <ion-label><i>{{aspirante.asp_cargo}}</i></ion-label>
@@ -16,8 +16,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" >
-  <p>
+<ion-content class="ion-padding">
+  <p style="margin-bottom: 0;">
     Seleccione los elementos respectivos sobre la informacion legal del
     <i>Apirante</i> que han sido validados por el departamento de Talento Humano.<br>
     <ion-text color="danger" style="font-size: small;">
@@ -47,28 +47,42 @@
       (ionChange)="cambiarCheckbox('atv_plaborales',$event)" slot="start"></ion-checkbox>
   </ion-item>
 
-  <div [hidden]="!validado">
-    <ion-item [disabled]="aspirante.atv_verificado">
-      <ion-label style="font-size: small;">Aspirante apto para continuar con el proceso de contratracion?</ion-label>
-      <ion-toggle (ionChange)="cambiarToggle($event)" [checked]="aspirante.atv_verificado" slot="end"></ion-toggle>
+  <div >
+    <ion-list >
+
+      <ion-radio-group  [(ngModel)]="aspirante.atv_aprobado" [value]="aspirante.atv_aprobado" style="display: flex;">
+
+        <ion-item [disabled]="aspirante.atv_verificado" >
+          <ion-label color="primary">APROBADO</ion-label>
+          <ion-radio slot="start" value="SI"></ion-radio>
+        </ion-item>
+
+        <ion-item [disabled]="aspirante.atv_verificado" >
+          <ion-label color="danger">NO APROBADO</ion-label>
+          <ion-radio value="NO" slot="start"></ion-radio>
+        </ion-item>
+
+      </ion-radio-group>
+
+
+    </ion-list>
+
+
+    <ion-item [hidden]="" [disabled]="aspirante.atv_verificado">
+      <ion-textarea [(ngModel)]="aspirante.atv_observacion" [value]="aspirante.atv_observacion" type="text"
+        name="atv_observacion" placeholder="Comentarios y observaciones" (ionChange)="editObservacion($event)">
+      </ion-textarea>
     </ion-item>
 
-    <ion-item [hidden]="aspirante.atv_verificado" [disabled]="aspirante.atv_verificado">
-      <ion-textarea [(ngModel)]="aspirante.atv_observacion" [value]="aspirante.atv_observacion" type="text" name="atv_observacion"
-        placeholder="Causas por las cuales NO ha sido autorizado el aspirante..." (ionChange)="editObservacion($event)"></ion-textarea>
-    </ion-item>
   </div>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button (click)="cerrarModal()" expand="block" fill="clear" slot="start" color="danger">
+    <ion-button (click)="cerrarModal()" expand="block" fill="clear" color="danger">
       Cancelar
     </ion-button>
-    <ion-button [disabled]="aspirante.atv_verificado" (click)="guardarCambios()" expand="block" slot="end" fill="outline" color="primary">
-      Guardar
-    </ion-button>
-    <ion-button [disabled]="!validado || aspirante.atv_verificado" (click)="presentAlert()" expand="block" slot="end" fill="solid" color="primary">
+    <ion-button [hidden]="aspirante.atv_verificado" (click)="presentAlert()" expand="block" slot="end" fill="solid" color="primary">
       Finalizar
     </ion-button>
   </ion-toolbar>

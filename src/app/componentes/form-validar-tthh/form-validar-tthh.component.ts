@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
+import { defaultMaxListeners } from 'events';
 import { AspiranteInfo } from '../../interfaces/aspirante';
 
 @Component({
@@ -22,29 +23,32 @@ export class FormValidarTthhComponent implements OnInit {
     // setTimeout(() => {
     //   console.log(this.aspirante)
     // }, 1000);
+    console.log(this.aspirante)
 
 
   }
 
   ionViewDidEnter() {
-    //console.log(this.aspirante)
-    this.verificarCheckbox()
-    //this.validado = this.aspirante.atv_verificado
+    //this.verificarCheckbox()
+    //this.aspirante['atv_aprobado'] = <string>this.aspirante['atv_aprobado']
+    this.validado = this.aspirante.atv_verificado
+
   }
 
   cambiarCheckbox(campo, event) {
-    //console.log(campo,event.detail.checked)
+    if(event.checked)
     this.aspirante[campo] = event.detail.checked
-    this.verificarCheckbox()
+    //console.log(campo,event.detail)
+    //this.verificarCheckbox()
 
   }
 
   verificarCheckbox() {
     if (this.aspirante.atv_plegales == true && this.aspirante.atv_pfiscalia == true
       && this.aspirante.atv_ppenales == true && this.aspirante.atv_plaborales == true) {
-      this.validado = this.aspirante.atv_verificado = true
+      //this.validado = this.aspirante.atv_verificado = true
     } else {
-      this.validado = this.aspirante.atv_verificado = false
+      //this.validado = this.aspirante.atv_verificado = false
     }
   }
 
@@ -55,13 +59,14 @@ export class FormValidarTthhComponent implements OnInit {
   }
 
   editObservacion(evento) {
-    //console.log(evento)
-    this.aspirante.atv_observacion = evento.detail.value
+    if(evento.detail.value)
+      this.aspirante.atv_observacion = evento.detail.value
   }
 
   cerrarModal() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
+    this.aspirante=""
     this.modalController.dismiss({
       role: "cancelar"
     });

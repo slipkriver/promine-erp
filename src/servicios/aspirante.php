@@ -138,9 +138,7 @@ if ($postjson['task'] == 'nuevo') {
 
 	$data = array();
 
-	$consulta = (string)"SELECT DISTINCT " . $strcampos . " FROM aspirante 
-					INNER JOIN asp_tthh_validar
-						ON asp_tthh_validar.atv_aspirante LIKE aspirante.asp_cedula
+	$consulta = (string)"SELECT DISTINCT " . $strcamposlistar . " FROM aspirante 
 	                INNER JOIN estados
 		                ON estados.est_nombre LIKE aspirante.asp_estado ";
 

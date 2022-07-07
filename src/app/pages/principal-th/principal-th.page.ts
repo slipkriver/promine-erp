@@ -91,7 +91,7 @@ export class PrincipalThPage implements OnInit {
       // 👇️ name Tom 0, country Chile 1
     })
 
-    this.dataService.aspirante = aspirante;
+    //this.dataService.aspirante = aspirante;
     return aspirante
 
     // }, 2000);
@@ -100,13 +100,17 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-      //console.log(res['result'][0])
-      // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'],'tthh').subscribe(res => {
       
-      this.dataService.aspirante = this.cambiarBool(res['result'][0])
-      //console.log(res['result'][0])
+      console.log(res)
+      this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+      aspirante = this.cambiarBool(res['aspirante'])
+
     })
+
+    // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+      // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+    // })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
     var strTitulo = aspirante.asp_apellidop + " " + aspirante.asp_apellidom + " " + aspirante.asp_nombres
@@ -131,12 +135,14 @@ export class PrincipalThPage implements OnInit {
         {
           text: 'Verificar documentación legal',
           icon: 'checkmark-circle',
-          handler: async () => {
-            setTimeout(() => {
+          handler: () => {
 
-              this.abrirFormalidar()
+            //this.dataService.getAspiranteRole()
+            // setTimeout(() => {
 
-            }, 1000);
+              this.abrirFormalidar(aspirante)
+
+            // }, 1000);
             //console.log('Play clicked');
           },
         },
@@ -177,21 +183,27 @@ export class PrincipalThPage implements OnInit {
     //console.log(this.aspirantesNuevo)
   }
 
-  async abrirFormalidar() {
+  async abrirFormalidar(aspirante) {
+
+    const objAspirante = JSON.parse(JSON.stringify(aspirante))
+
     const modal = await this.modalController.create({
       component: FormValidarTthhComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        'aspirante': this.dataService.aspirante
+        aspirante:objAspirante
       }
     });
-    modal.present();
-
+    await modal.present();
+    
     const { data } = await modal.onDidDismiss();
     if (!data || data == undefined || data.role == "cancelar") {
+      console.log(data);
+      //objAspirante = ''
+      modal.dismiss()
       return;
     }
-    //console.log(data);
+    console.log(data)
     // if (data.length>0) {
     if (data.validado == true) {
       if (data.aspirante.atv_verificado == true)
@@ -203,10 +215,10 @@ export class PrincipalThPage implements OnInit {
     } else {
       data.aspirante.atv_verificado = false
     }
-    data.aspirante.task = "actualizar"
-    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
-      //console.log(res)
-    })
+    // data.aspirante.task = "actualizar"
+    // this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+    //   console.log(res)
+    // })
     // }
   }
 
