@@ -253,13 +253,13 @@ export class DataService {
 
     aspirante.atv_aspirante = ""
     aspirante.atv_fingreso = ""
-    aspirante.atv_fmodificado = ""
+    aspirante.atv_fverificado = ""
     aspirante.atv_plegales = "false"
     aspirante.atv_pfiscalia = "false"
     aspirante.atv_ppenales = "false"
     aspirante.atv_plaborales = "false"
     aspirante.atv_verificado = "false"
-    aspirante.atv_aprobado = "false"
+    aspirante.atv_aprobado = "NO"
 
     return aspirante
   }

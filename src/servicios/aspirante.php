@@ -47,7 +47,8 @@ if ($postjson['task'] == 'nuevo') {
 	$mysqli->close();
 
 	if ($query) {
-		$result = json_encode(array('success' => true, 'SQL' => $strObjeto, 'SQ2L' => $postjson));
+		$result = json_encode(array('success' => true));
+		// $result = json_encode(array('success' => true, 'SQL' => $strObjetoValth, 'SQ2L' => $postjson));
 	} else {
 		$result = json_encode(array('success' => false, 'sql' => 'Error'));
 	}

@@ -188,14 +188,15 @@ export class AspiranteNewPage implements OnInit {
     });
     loading.present()
 
-    this.aspirante.atv_aspirante = this.aspirante.asp_cedula
     this.aspirante.asp_fch_ingreso = this.fechaEntrevista.toISOString().substring(0,19).replace('T',' ')
+    this.aspirante.atv_aspirante = this.aspirante.asp_cedula
+    this.aspirante.atv_fingreso = this.aspirante.asp_fch_ingreso
 
-    //this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
+    this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
 
-      console.log(this.aspirante)
+      //console.log(this.aspirante, res)
 
-    //})
+    })
 
 
   }

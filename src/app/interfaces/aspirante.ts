@@ -55,7 +55,7 @@ export interface AspiranteInfo {
 
     atv_aspirante: string;
     atv_fingreso: string;
-    atv_fmodificado: string;
+    atv_fverificado: string;
     atv_plegales: boolean;
     atv_pfiscalia: boolean;
     atv_ppenales: boolean;
