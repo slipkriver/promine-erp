@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
+import { concat } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
 import { AspiranteInfo } from '../../interfaces/aspirante';
@@ -40,6 +41,8 @@ export class AspiranteNewPage implements OnInit {
 
   listas = ['estado', 'paises', 'sexo', 'civil', 'tipo_sangre', 'cargo', 'referencia']
 
+  mdFechaEntrevista = false
+
   constructor(
     private dataService: DataService,
     private loadingCtrl: LoadingController,
@@ -73,14 +76,34 @@ export class AspiranteNewPage implements OnInit {
         this.aspirante = <AspiranteInfo>{}
         this.aspirante = this.dataService.newObjAspirante(this.aspirante)
 
-        //console.log(data)        
       }
+      
+      //const srtfecha = this.fechaEntrevista.toUTCString()
+      //let fecha = this.fechaEntrevista.toISOString()
+      //const str = this.fechaEntrevista.toJSON()   
+      
+      //var fechaTest: Date = new Date(srtfecha);
+      console.log(this.fechaEntrevista)
 
-      console.log(JSON.stringify(this.aspirante))
+      //var fechaTest: Date = new Date("2022-08-25 15:30:00Z");
+      //fechaTest.valueOf()
+      //this.fechaEntrevista = new Date()
+      // let items = fecha.split(', ')
+      // var nfecha = items[0].trim()
+      // const nHora = items[1].trim()
+      // items = nfecha.split('/')
+      //nfecha = items[2].toString()+'-'+items[1].toString()+'-'+items[0].toString()
+      //const str = nfecha.concat(', ', nHora,'Z')
+      //this.fechaEntrevista.setUTCHours(-5)
+      //this.fechaEntrevista = new Date(fechaTest)
+      //this.aspirante.asp_fch_ingreso = new Date (srtfecha).toUTCString()
+
+      //console.log(fechaTest.toUTCString(),'*',fechaTest.toISOString(),
+                //'$',fechaTest.toTimeString(),'#',this.aspirante.asp_fch_ingreso,'>>',fecha,'<<>>',this.fechaEntrevista.toDateString())//,'**',fechaTest.toISOString(),'<>',fechaTest.toUTCString())
 
     })
 
-  }
+  }//2022-07-08T20:06:38
 
   mostrarContenido(contenido) {
 
@@ -88,12 +111,6 @@ export class AspiranteNewPage implements OnInit {
 
   }
 
-  cambioFecha(event) {
-
-    console.log(event);
-    console.log(new Date(event.detail.value));
-
-  }
 
   verificarci(evento) {
     var cedula: string = evento.detail.value
@@ -140,6 +157,27 @@ export class AspiranteNewPage implements OnInit {
     return (decenaInt == 10) ? 0 : decenaInt;
   }
 
+
+  abrirFechaEsntrevista() {
+    if (this.mdFechaEntrevista == true) {
+      this.mdFechaEntrevista = false
+    } else {
+      this.mdFechaEntrevista = true
+     }
+  }
+
+
+  setFecha(evento) {
+    //console.log(evento.detail.value);
+    const fecha = evento.detail.value.toString()
+    var fechaTest= new Date(fecha.substring(0, 21)+"0:00");
+    this.fechaEntrevista = fechaTest
+    this.aspirante.asp_fch_ingreso = fechaTest.toUTCString().substring(0,22)
+    //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
+    
+  }
+
+
   async onSubmitTemplate() {
     this.aspirante.asp_estado = 'INGRESADO'
 
@@ -151,13 +189,13 @@ export class AspiranteNewPage implements OnInit {
     loading.present()
 
     this.aspirante.atv_aspirante = this.aspirante.asp_cedula
-    //console.log(this.aspirante)
+    this.aspirante.asp_fch_ingreso = this.fechaEntrevista.toISOString().substring(0,19).replace('T',' ')
 
-    this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
+    //this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
 
-      //console.log(res)
+      console.log(this.aspirante)
 
-    })
+    //})
 
 
   }
