@@ -104,3 +104,42 @@ if ($postjson['task'] == 'talentoh1') {
 	}
 	echo $result;
 }
+
+if ($postjson['task'] == 'psicologia1') {
+
+	$strObjeto = "";
+
+	foreach ($postjson as $key => $value) {
+
+		$col_id = substr($key, 0, 4);
+
+		if ($col_id == "apv_") {
+			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
+		}
+	}
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE asp_psico_validar SET " . $strObjeto .
+		" WHERE apv_aspirante LIKE '$postjson[apv_aspirante]'");
+
+	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
+			asp_estado	= '$postjson[asp_estado]'
+		WHERE asp_cedula LIKE '$postjson[apv_aspirante]'");
+
+	/*if ($postjson['atv_aprobado'] == 'SI') {
+		$strObjetoValth = 	"apv_aspirante = '$postjson[atv_aspirante]', 
+							 apv_fverificado = '$postjson[atv_fverificado]' ";
+		$query3 = mysqli_query($mysqli, "INSERT INTO asp_psico_validar SET " . $strObjetoValth);
+	}*/
+
+
+	$mysqli->close();
+
+	if ($query && $query2) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}

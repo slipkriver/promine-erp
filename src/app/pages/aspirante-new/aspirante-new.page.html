@@ -216,6 +216,17 @@
                 </ion-item>
               </ion-col>
 
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+                <ion-item>
+                  <ion-label position="floating" color="dark_b">Situación militar definida</ion-label>
+                  <ion-select mode="ios" interface="popover" placeholder="Seleccione uno" 
+                              [(ngModel)]="aspirante.asp_militar" name="libretaMilitar"
+                              [selectedText]="aspirante.asp_militar" required>
+                    <ion-select-option *ngFor="let aspirante of militar" >{{aspirante.asp_nombre}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="4">
                 <ion-item>
                   <ion-label position="floating" color="primary">Referencia personal PROMINE</ion-label>
@@ -248,70 +259,8 @@
                 </ion-item>
               </ion-col>
 
-              <ion-col size="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
-                <ion-item>
-                  <br>
-                  <ion-toggle mode="md" color="primary" slot="start" checked
-                    (ionChange)="actualizarvalor($event,'asp_conadis')" name="test" slot="end" checked></ion-toggle>
-                  <ion-label color="primary" class="text-small">¿Carné del CONADIS?</ion-label>
-                </ion-item>
-              </ion-col>
-
-              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-                <ion-item *ngIf="( aspirante.asp_conadis !== 'NO')">
-                  <ion-label position="fixed" color="primary">Carné Nro</ion-label>
-                  <ion-input color="dark" type="text" name="nroCarne" [(ngModel)]="aspirante.asp_nro_conadis"
-                    style="text-transform:uppercase;" required></ion-input>
-                </ion-item>
-              </ion-col>
-
-              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="4" size-xl="4">
-                <ion-item *ngIf="( aspirante.asp_conadis !== 'NO')">
-                  <ion-label class="ion-text-wrap" position="fixed" color="primary">Discapacidad</ion-label>
-                  <ion-input color="dark" type="text" name="nombreDiscapacidad" [(ngModel)]="aspirante.asp_discapacidad"
-                    style="text-transform:uppercase;" required></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="2" size-xl="2">
-                <ion-item *ngIf="( aspirante.asp_conadis !== 'NO')">
-                  <ion-label position="fixed" color="primary">Porcentaje</ion-label>
-                  <ion-input color="dark" type="number" name="porcentajeDiscapacidad"
-                    [(ngModel)]="aspirante.asp_porcentaje" required></ion-input>
-                </ion-item>
-              </ion-col>
-
-              <!-- <ion-col size="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
-                  <ion-label color="dark_a" class="text-small">¿Tiene alguna experiencia?
-                  </ion-label>
-                  <br>
-                  <ion-item>
-                    <ion-toggle mode="md" color="primary" slot="start" checked
-                      (ionChange)="actualizarvalor($event,'asp_experiencia')" name="test">
-                    </ion-toggle>
-                  </ion-item>
-              </ion-col> -->
-
-              <ion-col size="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
-                <ion-item>
-                  <br>
-                  <ion-toggle mode="md" color="primary" slot="start" checked
-                    (ionChange)="actualizarvalor($event,'asp_experiencia')" name="test" slot="end" checked></ion-toggle>
-                  <ion-label color="primary" class="text-small">¿Tiene alguna experiencia?</ion-label>
-                </ion-item>
-              </ion-col>
-
-              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="9" size-xl="9">
-                <ion-item *ngIf="( aspirante.asp_experiencia !== 'NO')">
-                  <ion-label position="fixed" color="primary">Mencione</ion-label>
-                  <!-- <ion-input color="primary" type="text" name="experiencia"
-                             [(ngModel)]="aspirante.asp_nmb_experiencia" placeholder="EXPERIENCIA EN CARGADORA"
-                             style="text-transform:uppercase;" required></ion-input> -->
-                  <ion-textarea color="dark" type="text" name="experiencia" [(ngModel)]="aspirante.asp_nmb_experiencia"
-                    placeholder="Experiencia en minas como ayudante de polvorin..." required></ion-textarea>
-                </ion-item>
-              </ion-col>
-
-              <ion-col size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
+              
+              <ion-col size="4" size-sm="6" size-md="6" size-lg="4" size-xl="4">
                 <ion-item>
                   <ion-label color="primary" class="text-small">Fecha de ingresado </ion-label>
                   <ion-label>{{aspirante.asp_fch_ingreso}}</ion-label>
@@ -333,6 +282,58 @@
                       </ng-template>
                     </ion-modal>
                   </ion-buttons>
+                </ion-item>
+              </ion-col>
+              
+
+              <ion-col size="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+                <ion-item>
+                  <br>
+                  <ion-toggle mode="md" color="primary" slot="start" [checked]="(aspirante.asp_conadis == 'SI')"
+                    (ionChange)="actualizarvalor($event,'asp_conadis')" name="test" slot="end" checked></ion-toggle>
+                  <ion-label color="primary" class="text-small">¿Carné del CONADIS?</ion-label>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+                <ion-item *ngIf="( aspirante.asp_conadis == 'SI')">
+                  <ion-label position="fixed" color="primary">Carné Nro</ion-label>
+                  <ion-input color="dark" type="text" name="nroCarne" [(ngModel)]="aspirante.asp_nro_conadis"
+                    style="text-transform:uppercase;" required></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="4" size-xl="4">
+                <ion-item *ngIf="( aspirante.asp_conadis == 'SI')">
+                  <ion-label class="ion-text-wrap" position="fixed" color="primary">Discapacidad</ion-label>
+                  <ion-input color="dark" type="text" name="nombreDiscapacidad" [(ngModel)]="aspirante.asp_discapacidad"
+                    style="text-transform:uppercase;" required></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="2" size-xl="2">
+                <ion-item *ngIf="( aspirante.asp_conadis == 'SI')">
+                  <ion-label position="fixed" color="primary">Porcentaje</ion-label>
+                  <ion-input color="dark" type="number" name="porcentajeDiscapacidad"
+                    [(ngModel)]="aspirante.asp_porcentaje" required></ion-input>
+                </ion-item>
+              </ion-col>
+
+
+              <ion-col size="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+                <ion-item>
+                  <br>
+                  <ion-toggle mode="md" color="primary" slot="start" [checked]="(aspirante.asp_experiencia == 'SI')"
+                    (ionChange)="actualizarvalor($event,'asp_experiencia')" name="test" slot="end" checked></ion-toggle>
+                  <ion-label color="primary" class="text-small">¿Tiene alguna experiencia?</ion-label>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="9" size-xl="9">
+                <ion-item *ngIf="( aspirante.asp_experiencia == 'SI')">
+                  <ion-label position="fixed" color="primary">Mencione</ion-label>
+                  <ion-textarea color="dark" type="text" name="experiencia" [(ngModel)]="aspirante.asp_nmb_experiencia"
+                    placeholder="Experiencia en minas como ayudante de polvorin..." required></ion-textarea>
                 </ion-item>
               </ion-col>
 

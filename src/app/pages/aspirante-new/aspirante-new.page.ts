@@ -34,6 +34,7 @@ export class AspiranteNewPage implements OnInit {
   cargo: any[] = [];
   referencia: any[] = [];
   academico: any[] = []; 
+  militar: any[] = []; 
 
   infogeneral: boolean = true;
   infoubicacion: boolean = true;
@@ -41,7 +42,7 @@ export class AspiranteNewPage implements OnInit {
   ci_valida: boolean = true;
   soloLectura: boolean = true
 
-  listas = ['estado', 'paises', 'sexo', 'civil', 'tipo_sangre', 'cargo', 'referencia', 'academico']
+  listas = ['estado', 'paises', 'sexo', 'civil', 'tipo_sangre', 'cargo', 'referencia', 'academico', 'militar']
 
   mdFechaEntrevista = false
   mdFechaNacimiento = false

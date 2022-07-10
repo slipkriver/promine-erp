@@ -54,7 +54,7 @@ export class PrincipalPsicologiaPage implements OnInit {
     //console.log(event, id, parseInt(id))
     this.dataService.listadoPorDepartamento('psico').subscribe(res => {
       this.listaTareas = res['aspirantes']
-      console.log(res)
+      //console.log(res)
 
     })
 
@@ -77,20 +77,6 @@ export class PrincipalPsicologiaPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Ver informacion del apirante ',
-          icon: 'create',
-          handler: () => {
-
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              //console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-
-            })
-            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
-          },
-        },
-        {
           text: 'Verificar pruebas psicosometricas',
           icon: 'checkmark-circle',
           handler: async () => {
@@ -100,6 +86,20 @@ export class PrincipalPsicologiaPage implements OnInit {
 
             }, 1000);
             //console.log(aspirante);
+          },
+        },
+        {
+          text: 'Ver informacion del apirante ',
+          icon: 'information-circle-outline',
+          handler: () => {
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              //console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
           },
         },
         {
@@ -120,26 +120,29 @@ export class PrincipalPsicologiaPage implements OnInit {
   }
 
   async abrirFormpsico(aspirante) {
+   
+    const objAspirante = JSON.parse(JSON.stringify(aspirante))
+
     const modal = await this.modalController.create({
       component: FormValidarPsicoComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        'aspirante': this.dataService.aspirante
+        aspirante: objAspirante
       }
     });
     modal.present();
 
     const { data } = await modal.onDidDismiss();
-    if (!data || data == undefined || data.role == "cancelar") {
+    if (!data || data == undefined || data.role == "cancel") {
       return;
     }
     //console.log(data);
     // if (data.length>0) {
     data.aspirante.task = "actualizar"
     
-    //this.dataService.verifyTalento(data.aspirante).subscribe(res => {
-      //console.log(res)
-    //})
+    this.dataService.verifyPsicologia(data.aspirante).subscribe(res => {
+      console.log(res)
+    })
 
     // }
   }

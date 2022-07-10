@@ -40,7 +40,7 @@
           </ion-label>
           <ion-label style="font-size: 0.8rem;">
             <ion-icon name="hourglass"> </ion-icon>
-            Edad: <i> 45 años </i>
+            Edad: <i> {{asp_edad}} años </i>
           </ion-label>
           <ion-label style="font-size: 0.8rem;">
             <ion-icon name="id-card"> </ion-icon>
@@ -61,7 +61,8 @@
   <!-- <p style="margin-bottom: 0;"> -->
   <ion-card-header style="margin: 0;">
     <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
-    <ion-card-title class="ion-text-center" style="margin: 0; font-size: 1rem;"><b>PROCESO DE SELECCION DE PERSONAL</b>
+    <ion-card-title class="ion-text-center" color="primary" style="margin: 0; font-size: 1rem;">
+      <b>PROCESO DE SELECCION DE PERSONAL</b>
     </ion-card-title>
   </ion-card-header>
   <!-- <ion-text color="danger" style="font-size: small;">
@@ -76,7 +77,7 @@
     <ion-item [hidden]="" [disabled]="aspirante.apv_verificado">
       <ion-label position="floating">Concepto final</ion-label>
       <ion-textarea [(ngModel)]="aspirante.apv_concepto" [value]="aspirante.apv_concepto" type="text"
-        name="apv_observacion" placeholder="(espacio para el entrevistador)" (ionChange)="editObservacion($event)">
+        name="apv_concepto" placeholder="(espacio para el entrevistador)" (ionChange)="editTextbox($event,'apv_concepto')">
       </ion-textarea>
     </ion-item>
 
@@ -106,7 +107,7 @@
 
     <ion-item [hidden]="" [disabled]="aspirante.apv_verificado">
       <ion-textarea [(ngModel)]="aspirante.apv_observacion" [value]="aspirante.apv_observacion" type="text"
-        name="apv_observacion" placeholder="Observaciones" (ionChange)="editObservacion($event)">
+        name="apv_observacion" placeholder="Observaciones" (ionChange)="editTextbox($event,'apv_observacion')">
       </ion-textarea>
     </ion-item>
 
@@ -121,7 +122,7 @@
     <ion-button (click)="cerrarModal()" expand="block" fill="clear" color="danger">
       Cancelar
     </ion-button>
-    <ion-button [hidden]="aspirante.apv_verificado" (click)="presentAlert()" expand="block" slot="end" fill="solid"
+    <ion-button [disabled]="aspirante.apv_verificado" (click)="presentAlert()" expand="block" slot="end" fill="solid"
       color="primary">
       Finalizar
     </ion-button>
