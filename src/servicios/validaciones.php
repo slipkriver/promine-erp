@@ -14,6 +14,11 @@ if ($postjson['task'] == 'getaspiranterol') {
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
 	}
 
+	if ($postjson['role'] == 'psico') {
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
+						WHERE asp_cedula LIKE '$postjson[cedula]'");
+	}
+
 	while ($row = mysqli_fetch_array($query)) {
 
 		$keys = array_filter(array_keys($row), "is_numeric");
@@ -82,6 +87,12 @@ if ($postjson['task'] == 'talentoh1') {
 	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
 			asp_estado	= '$postjson[asp_estado]'
 		WHERE asp_cedula LIKE '$postjson[atv_aspirante]'");
+
+	if ($postjson['atv_aprobado'] == 'SI') {
+		$strObjetoValth = 	"apv_aspirante = '$postjson[atv_aspirante]', 
+							 apv_fverificado = '$postjson[atv_fverificado]' ";
+		$query3 = mysqli_query($mysqli, "INSERT INTO asp_psico_validar SET " . $strObjetoValth);
+	}
 
 
 	$mysqli->close();

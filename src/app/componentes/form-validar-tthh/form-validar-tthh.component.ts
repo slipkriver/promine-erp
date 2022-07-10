@@ -100,7 +100,11 @@ export class FormValidarTthhComponent implements OnInit {
   finalizarCambios() {
     var validado = true
 
+    const fecha: Date = new Date()
+    const fverificado  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
+    this.aspirante.atv_fverificado = fverificado
     //console.log(this.aspirante)
+    //return
 
     this.modalController.dismiss({
       aspirante: this.aspirante,

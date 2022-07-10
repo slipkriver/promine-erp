@@ -117,18 +117,33 @@
                 </ion-item>
               </ion-col>
 
-              <ion-col size-lg="2" size-xl="2">
+              <ion-col size="3" size-sm="6" size-md="6" size-lg="3" size-xl="3">
                 <ion-item>
-                  <ion-label position="floating" color="primary">Edad
-                  </ion-label>
-                  <ion-input type="number" color="dark" name="edadAspirante" minlength="2" maxlength="2"
-                    [(ngModel)]="aspirante.asp_edad" required>
+                  <ion-label color="primary" class="text-small" position="stacked">Fecha de nacimiento </ion-label>
+                  <ion-input [value]="aspirante.asp_fecha_nacimiento">
+                    <ion-buttons>
+                      <ion-button id="open-nacimiento" (click)="abrirModalfecha('mdFechaNacimiento')">
+                        <ion-icon name="calendar-outline"></ion-icon>
+                      </ion-button>
+                      <ion-modal [isOpen]="mdFechaNacimiento">
+                        <ng-template>
+                          <ion-content class="ion-padding">
+                            <ion-datetime [value]="fechaNacimiento.toISOString()" display-format="YYYY MM DD"
+                              presentation="date" name="fechaNacimiento" (ionChange)="setFechanacimiento( $event )"
+                              size="cover" [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar">
+                              <span slot="title">INGRESO DE ENTREVISTA</span>
+                            </ion-datetime>
+                          </ion-content>
+                        </ng-template>
+                      </ion-modal>
+                    </ion-buttons>
                   </ion-input>
                 </ion-item>
+
               </ion-col>
 
 
-              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="4">
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
                 <ion-item>
                   <ion-label position="floating" color="primary">Estado civil</ion-label>
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
@@ -189,7 +204,17 @@
                 </ion-item>
               </ion-col>
 
-
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2" size-xl="2">
+                <ion-item>
+                  <ion-label position="floating" color="dark_b">Nivel de estudios</ion-label>
+                  <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
+                    [(ngModel)]="aspirante.asp_academico" name="academicoAspirante"
+                    [selectedText]="aspirante.asp_academico" required>
+                    <ion-select-option *ngFor="let item of academico">{{item.asp_nombre}}</ion-select-option>
+                  
+                  </ion-select>
+                </ion-item>
+              </ion-col>
 
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="4">
                 <ion-item>
@@ -197,8 +222,7 @@
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
                     [(ngModel)]="aspirante.asp_referencia" name="referenciaAspirante"
                     [selectedText]="aspirante.asp_referencia" required>
-                    <ion-select-option *ngFor="let aspirante of referencia">{{ aspirante.asp_nombre }}
-                    </ion-select-option>
+                    <ion-select-option *ngFor="let aspirante of referencia">{{aspirante.asp_nombre}}</ion-select-option>
                   </ion-select>
                 </ion-item>
               </ion-col>
@@ -289,20 +313,18 @@
 
               <ion-col size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
                 <ion-item>
-                  <ion-label color="primary" class="text-small">Fecha de ingresado
-                  </ion-label>
+                  <ion-label color="primary" class="text-small">Fecha de ingresado </ion-label>
                   <ion-label>{{aspirante.asp_fch_ingreso}}</ion-label>
                   <br>
                   <ion-buttons>
-                    <ion-button id="open-entrevista" (click)="abrirFechaEsntrevista()">
+                    <ion-button id="open-entrevista" (click)="abrirModalfecha('mdFechaEntrevista')">
                       <ion-icon name="calendar-outline"></ion-icon>
                     </ion-button>
                     <ion-modal [isOpen]="mdFechaEntrevista">
                       <ng-template>
                         <ion-content class="ion-padding">
-                          <ion-datetime [value]="fechaEntrevista.toISOString()" 
-                            display-format="YYYY MM DDTHH:mm" 
-                            name="fechaEntrevista" (ionChange)="setFecha( $event )" size="cover"
+                          <ion-datetime [value]="fechaEntrevista.toISOString()" display-format="YYYY MM DDTHH:mm"
+                            name="fechaEntrevista" (ionChange)="setFecha( $event,'mdFechaEntrevista' )" size="cover"
                             [showDefaultButtons]="true" doneText="Aceptar" cancelText="Cancelar">
                             <span slot="title">INGRESO DE ENTREVISTA</span>
                             <span slot="time-label">Hora de entrevista</span>
@@ -312,9 +334,8 @@
                     </ion-modal>
                   </ion-buttons>
                 </ion-item>
-
               </ion-col>
-              
+
 
               <ion-col ze-xs="12" size-sm="6" size-md="6" size-lg="8" size-xl="8">
 

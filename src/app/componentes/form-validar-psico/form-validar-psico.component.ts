@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-form-validar-psico',
@@ -7,8 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormValidarPsicoComponent implements OnInit {
 
+  @Input("aspirante") aspirante;
+  validado = false
+  
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    //console.log(this.aspirante)
+    
+  }
+
+  ionViewDidEnter() {
+
+    console.log(this.aspirante)
+  }
 
 }

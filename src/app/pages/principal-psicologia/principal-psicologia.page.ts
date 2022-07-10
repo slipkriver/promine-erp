@@ -36,6 +36,13 @@ export class PrincipalPsicologiaPage implements OnInit {
     this.listarAspirantes({ detail: { value: 2 } })
     //console.log(this.aspirantesNuevo)
 
+    /*setTimeout(() => {
+      this.opcionesTarea(this.listaTareas[0])
+      setTimeout(() => {
+        this.abrirFormpsico(this.dataService.aspirante)
+      }, 1000);
+    }, 3000);*/
+
     //this.validado = this.aspirante.atv_verificado
   }
 
@@ -47,7 +54,7 @@ export class PrincipalPsicologiaPage implements OnInit {
     //console.log(event, id, parseInt(id))
     this.dataService.listadoPorDepartamento('psico').subscribe(res => {
       this.listaTareas = res['aspirantes']
-      console.log(this.listaTareas)
+      console.log(res)
 
     })
 
@@ -55,12 +62,16 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    // this.dataService.getAspiranteRole(aspirante['asp_cedula'],'psico').subscribe(res => {
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
-    // })
+      this.dataService.aspirante = res['aspirante']
+      //console.log(res)
+      aspirante = res['aspirante']
+
+    })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
-    var strTitulo = aspirante.asp_apellidop + " " + aspirante.asp_apellidom + " " + aspirante.asp_nombres
+    var strTitulo = aspirante.asp_nombre
     const opciones = await this.actionSheetCtr.create({
       header: strTitulo,
       cssClass: '',
@@ -71,7 +82,7 @@ export class PrincipalPsicologiaPage implements OnInit {
           handler: () => {
 
             this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              console.log(res)
+              //console.log(res)
               this.dataService.aspirante = res['result'][0];
               //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
@@ -85,10 +96,10 @@ export class PrincipalPsicologiaPage implements OnInit {
           handler: async () => {
             setTimeout(() => {
 
-              this.abrirFormpsico()
+              this.abrirFormpsico(aspirante)
 
             }, 1000);
-            //console.log('Play clicked');
+            //console.log(aspirante);
           },
         },
         {
@@ -108,7 +119,7 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   }
 
-  async abrirFormpsico() {
+  async abrirFormpsico(aspirante) {
     const modal = await this.modalController.create({
       component: FormValidarPsicoComponent,
       cssClass: 'my-custom-class',

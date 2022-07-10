@@ -71,6 +71,7 @@ export class DataService {
 
     Object.entries(aspirante).forEach(([key, value], index) => {
       // 👇️ name Tom 0, country Chile 1
+      aspirante[key] = value.toString().trim()
       if (key.substring(0, 4) == "asp_") {
         aspirante[key] = value.toString().toUpperCase()
       }

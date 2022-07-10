@@ -54,6 +54,7 @@ if ($postjson['task'] == 'nuevo') {
 	}
 
 	echo $result;
+
 } elseif ($postjson['task'] == 'obtener') {
 	$data = array();
 	$query = mysqli_query($mysqli, "SELECT * FROM aspirante " .
@@ -72,6 +73,7 @@ if ($postjson['task'] == 'nuevo') {
 	if ($query) $result = json_encode(array('success' => true, 'result' => $data));
 	else $result = json_encode(array('success' => false));
 	echo $result;
+	
 } else if ($postjson['task'] == 'actualizar') {
 
 	$strObjeto = "";

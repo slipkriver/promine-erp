@@ -6,8 +6,8 @@
       </ion-avatar>
       <p class="ion-margin">
         <ion-label>
-          {{aspirante.asp_nombre}} ::
-          <b>{{aspirante.asp_cedula}}</b>
+          {{aspirante.asp_nombre}}  
+          <ion-badge color="light" mode="md">  CI: <b>{{aspirante.asp_cedula}}</b></ion-badge>  
         </ion-label>
         <ion-label><i>{{aspirante.asp_cargo}}</i></ion-label>
       </p>
@@ -22,7 +22,7 @@
     <i>Apirante</i> que han sido validados por el departamento de Talento Humano.<br>
     <ion-text color="danger" style="font-size: small;">
       <!-- <h1>Awesome text</h1> -->
-      <i>* Deben estar todos validados para proceder a entrevista con el psicologo.</i>
+      <i>* Deben estar todos los campos validados para proceder a entrevista con el psicologo.</i>
     </ion-text>
   </p>
   <ion-item [disabled]="aspirante.atv_verificado">

@@ -21,6 +21,7 @@ export class AspiranteNewPage implements OnInit {
   fechaEntrevista: Date = new Date();
   fechaIngreso: Date = new Date();
   fechaDepartamento: Date = new Date();
+  fechaNacimiento: Date = new Date();
 
   conadis: boolean = true;
   experiencia: boolean = true;
@@ -32,6 +33,7 @@ export class AspiranteNewPage implements OnInit {
   tipo_sangre: any[] = [];
   cargo: any[] = [];
   referencia: any[] = [];
+  academico: any[] = []; 
 
   infogeneral: boolean = true;
   infoubicacion: boolean = true;
@@ -39,9 +41,10 @@ export class AspiranteNewPage implements OnInit {
   ci_valida: boolean = true;
   soloLectura: boolean = true
 
-  listas = ['estado', 'paises', 'sexo', 'civil', 'tipo_sangre', 'cargo', 'referencia']
+  listas = ['estado', 'paises', 'sexo', 'civil', 'tipo_sangre', 'cargo', 'referencia', 'academico']
 
   mdFechaEntrevista = false
+  mdFechaNacimiento = false
 
   constructor(
     private dataService: DataService,
@@ -67,7 +70,7 @@ export class AspiranteNewPage implements OnInit {
     });
 
     this.actRoute.params.subscribe((data: any) => {
-      console.log(data)
+      //console.log(data)
 
       if (data['asp_cedula']) {
         this.aspirante = this.dataService.aspirante
@@ -83,23 +86,7 @@ export class AspiranteNewPage implements OnInit {
       //const str = this.fechaEntrevista.toJSON()   
       
       //var fechaTest: Date = new Date(srtfecha);
-      console.log(this.fechaEntrevista)
-
-      //var fechaTest: Date = new Date("2022-08-25 15:30:00Z");
-      //fechaTest.valueOf()
-      //this.fechaEntrevista = new Date()
-      // let items = fecha.split(', ')
-      // var nfecha = items[0].trim()
-      // const nHora = items[1].trim()
-      // items = nfecha.split('/')
-      //nfecha = items[2].toString()+'-'+items[1].toString()+'-'+items[0].toString()
-      //const str = nfecha.concat(', ', nHora,'Z')
-      //this.fechaEntrevista.setUTCHours(-5)
-      //this.fechaEntrevista = new Date(fechaTest)
-      //this.aspirante.asp_fch_ingreso = new Date (srtfecha).toUTCString()
-
-      //console.log(fechaTest.toUTCString(),'*',fechaTest.toISOString(),
-                //'$',fechaTest.toTimeString(),'#',this.aspirante.asp_fch_ingreso,'>>',fecha,'<<>>',this.fechaEntrevista.toDateString())//,'**',fechaTest.toISOString(),'<>',fechaTest.toUTCString())
+      //console.log(this.fechaEntrevista)
 
     })
 
@@ -166,13 +153,31 @@ export class AspiranteNewPage implements OnInit {
      }
   }
 
+  abrirModalfecha(variable) {
+    //console.log(variable,this[variable])
+    if (this[variable] == true) {
+      this[variable] = false
+    } else {
+      this[variable] = true
+     }
+  }
 
-  setFecha(evento) {
+  setFecha(evento,variable) {
     //console.log(evento.detail.value);
     const fecha = evento.detail.value.toString()
     var fechaTest= new Date(fecha.substring(0, 21)+"0:00");
     this.fechaEntrevista = fechaTest
     this.aspirante.asp_fch_ingreso = fechaTest.toUTCString().substring(0,22)
+    this[variable] = false
+    //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
+    
+  }
+
+  setFechanacimiento(evento) {
+    this.fechaNacimiento = new Date(evento.detail.value.toString())
+    this.aspirante.asp_fecha_nacimiento = evento.detail.value.substring(0,10).trim()
+    this.mdFechaNacimiento = false
+    //console.log(evento.detail.value,'**',this.aspirante.asp_fecha_nacimiento);
     //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
     
   }
