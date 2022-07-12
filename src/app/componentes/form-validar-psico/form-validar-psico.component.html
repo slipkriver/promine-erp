@@ -11,7 +11,7 @@
           <ion-item color="primary" class="ion-no-padding">
 
             <ion-label>{{aspirante.asp_nombre}}</ion-label>
-            <ion-badge  color="light" style="right: 0;" mode="ios"> CI: {{aspirante.asp_cedula}}</ion-badge>
+            <ion-badge color="light" style="right: 0;" mode="ios"> CI: {{aspirante.asp_cedula}}</ion-badge>
 
           </ion-item>
 
@@ -77,7 +77,8 @@
     <ion-item [hidden]="" [disabled]="aspirante.apv_verificado">
       <ion-label position="floating">Concepto final</ion-label>
       <ion-textarea [(ngModel)]="aspirante.apv_concepto" [value]="aspirante.apv_concepto" type="text"
-        name="apv_concepto" placeholder="(espacio para el entrevistador)" (ionChange)="editTextbox($event,'apv_concepto')">
+        name="apv_concepto" placeholder="(espacio para el entrevistador)"
+        (ionChange)="editTextbox($event,'apv_concepto')">
       </ion-textarea>
     </ion-item>
 
@@ -110,6 +111,15 @@
         name="apv_observacion" placeholder="Observaciones" (ionChange)="editTextbox($event,'apv_observacion')">
       </ion-textarea>
     </ion-item>
+
+    <!-- <ion-item>
+      <ion-label>Ficha psicologia</ion-label>
+      <input accept=".xls,.xlsx,.pdf" class="form-control" type="file" (change)="onChange($event)">
+
+      <button (click)="onUpload()" class="btn btn-success">
+        Upload
+      </button>
+    </ion-item> -->
 
   </ion-list>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { concat } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 
@@ -33,8 +33,8 @@ export class AspiranteNewPage implements OnInit {
   tipo_sangre: any[] = [];
   cargo: any[] = [];
   referencia: any[] = [];
-  academico: any[] = []; 
-  militar: any[] = []; 
+  academico: any[] = [];
+  militar: any[] = [];
 
   infogeneral: boolean = true;
   infoubicacion: boolean = true;
@@ -52,6 +52,7 @@ export class AspiranteNewPage implements OnInit {
     private loadingCtrl: LoadingController,
     public navCtrl: NavController,
     private actRoute: ActivatedRoute,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -81,17 +82,45 @@ export class AspiranteNewPage implements OnInit {
         this.aspirante = this.dataService.newObjAspirante(this.aspirante)
 
       }
-      
+
       //const srtfecha = this.fechaEntrevista.toUTCString()
       //let fecha = this.fechaEntrevista.toISOString()
       //const str = this.fechaEntrevista.toJSON()   
-      
+
       //var fechaTest: Date = new Date(srtfecha);
       //console.log(this.fechaEntrevista)
 
     })
 
+    setTimeout(() => {
+      //this.mostrarAlerduplicado()
+    }, 2000);
+
   }//2022-07-08T20:06:38
+
+
+  async mostrarAlerduplicado(aspirante){
+    const alert = await this.alertCtrl.create({
+      header: 'Error de ingreso',
+
+      //subHeader: 'El aspirante ya se escuentra ingresado en el sistema',
+      message: "<p>El aspirante ya se escuentra ingresado en el sistema. O la informacion necesaria no esta bien ingresada.</p>"+
+                "<ion-item> <ion-icon name='warning' size='large' slot='start'>" +
+                "</ion-icon> <ion-label>Cedula: <b>" + aspirante["asp_cedula"]+ "<br>" + aspirante["asp_nombre"]+ "</b>" +
+                "</ion-label></ion-item>" +
+                "<div style='display: flex;''><ion-icon name='information-circle'></ion-icon>"+
+                "<ion-label >"+
+                "<i>Revisa los campos ingresados y vuelve a intentar.</i></ion-label></div>",
+      cssClass: 'alertDuplicado',
+      buttons:[
+        {
+          text:'< Regresar',
+          cssClass: 'btnAlertDplicado'
+      }
+    ]
+    });
+    await alert.present()
+  }
 
   mostrarContenido(contenido) {
 
@@ -151,7 +180,7 @@ export class AspiranteNewPage implements OnInit {
       this.mdFechaEntrevista = false
     } else {
       this.mdFechaEntrevista = true
-     }
+    }
   }
 
   abrirModalfecha(variable) {
@@ -160,27 +189,27 @@ export class AspiranteNewPage implements OnInit {
       this[variable] = false
     } else {
       this[variable] = true
-     }
+    }
   }
 
-  setFecha(evento,variable) {
+  setFecha(evento, variable) {
     //console.log(evento.detail.value);
     const fecha = evento.detail.value.toString()
-    var fechaTest= new Date(fecha.substring(0, 21)+"0:00");
+    var fechaTest = new Date(fecha.substring(0, 21) + "0:00");
     this.fechaEntrevista = fechaTest
-    this.aspirante.asp_fch_ingreso = fechaTest.toUTCString().substring(0,22)
+    this.aspirante.asp_fch_ingreso = fechaTest.toUTCString().substring(0, 22)
     this[variable] = false
     //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
-    
+
   }
 
   setFechanacimiento(evento) {
     this.fechaNacimiento = new Date(evento.detail.value.toString())
-    this.aspirante.asp_fecha_nacimiento = evento.detail.value.substring(0,10).trim()
+    this.aspirante.asp_fecha_nacimiento = evento.detail.value.substring(0, 10).trim()
     this.mdFechaNacimiento = false
     //console.log(evento.detail.value,'**',this.aspirante.asp_fecha_nacimiento);
     //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
-    
+
   }
 
 
@@ -194,13 +223,15 @@ export class AspiranteNewPage implements OnInit {
     });
     loading.present()
 
-    this.aspirante.asp_fch_ingreso = this.fechaEntrevista.toISOString().substring(0,19).replace('T',' ')
+    this.aspirante.asp_fch_ingreso = this.fechaEntrevista.toISOString().substring(0, 19).replace('T', ' ')
     this.aspirante.atv_aspirante = this.aspirante.asp_cedula
     this.aspirante.atv_fingreso = this.aspirante.asp_fch_ingreso
 
-    this.dataService.nuevoAspirante(this.aspirante).subscribe(res => {
+    this.dataService.nuevoAspirante(this.aspirante).subscribe(async res => {
 
-      //console.log(this.aspirante, res)
+      if (res['aspirante']) {
+        this.mostrarAlerduplicado(res['aspirante'])
+      }
 
     })
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { FormValidarTthhComponent } from '../../componentes/form-validar-tthh/form-validar-tthh.component';
+import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/form-validar-psico.component';
 
 @Component({
   selector: 'app-principal-th',
@@ -18,11 +19,14 @@ export class PrincipalThPage implements OnInit {
   listaTareas = []
   textobusqueda = ""
 
+  listamenu = []
+
   constructor(
     private dataService: DataService,
     private actionSheetCtr: ActionSheetController,
     private router: Router,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private alertCtrl: AlertController
 
   ) { }
 
@@ -43,6 +47,10 @@ export class PrincipalThPage implements OnInit {
     this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 
+    this.listamenu = [
+      { text: '<i class="icon ion-gear-a"></i> Ver ficha de ingreso del aspirante' },
+      { text: '<i class="icon ion-cube"></i> Cancelar' }
+    ];
     //this.validado = this.aspirante.atv_verificado
   }
 
@@ -69,6 +77,15 @@ export class PrincipalThPage implements OnInit {
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
     this.dataService.listarPorEstado(id).subscribe(res => {
+      res['result'].forEach(element => {
+        if (element.asp_estado == 'NO APROBADO') {
+          element.asp_colorestado = "danger"
+        } else if (element.asp_estado == 'VERIFICADO') {
+          element.asp_colorestado = "success"
+        } else {
+          element.asp_colorestado = "primary"
+        }
+      });
       this.listaTareas = res['result']
       //console.log(res)
 
@@ -100,19 +117,37 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
+    const asp_estado = aspirante.asp_estado
 
-      this.dataService.aspirante = this.cambiarBool(res['aspirante'])
-      aspirante = this.cambiarBool(res['aspirante'])
+    if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
 
-    })
+        this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+        aspirante = this.cambiarBool(res['aspirante'])
+        this.opcionesTthh1(aspirante)
+      })
 
+    } else if (asp_estado == 'PSICOSOMETRIA') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+
+        this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+        aspirante = this.cambiarBool(res['aspirante'])
+        this.opcionesTthh2(aspirante)
+      })
+    }
     // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
     // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
     // })
 
     //var strTitulo = aspirante.asp_cedula + '::' 
-    var strTitulo = aspirante.asp_apellidop + " " + aspirante.asp_apellidom + " " + aspirante.asp_nombres
+
+    //console.log('onDidDismiss resolved with role');
+
+  }
+
+  async opcionesTthh1(aspirante) {
+
+    var strTitulo = aspirante.asp_nombre
     const opciones = await this.actionSheetCtr.create({
       header: strTitulo,
       cssClass: '',
@@ -135,14 +170,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Verificar documentación legal',
           icon: 'checkmark-circle',
           handler: () => {
-
-            //this.dataService.getAspiranteRole()
-            // setTimeout(() => {
-
             this.abrirFormalidar(aspirante)
-
-            // }, 1000);
-            //console.log('Play clicked');
           },
         },
         {
@@ -172,8 +200,67 @@ export class PrincipalThPage implements OnInit {
     await opciones.present();
 
     const { role } = await opciones.onDidDismiss();
-    //console.log('onDidDismiss resolved with role', role);
+  }
 
+  async opcionesTthh2(aspirante) {
+
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Ver ficha de ingreso ',
+          icon: 'create',
+          handler: () => {
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              // console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
+          },
+        },
+        {
+          text: 'Ver ficha de aprobacion Psicologica',
+          icon: 'checkmark-circle',
+          handler: () => {
+
+            this.abrirFormpsico(aspirante)
+
+          },
+        },
+        {
+          text: 'Autorizar examenes ocupacionales',
+          icon: 'checkmark-circle',
+          handler: () => {
+
+            this.mostrarAlerMedicina(aspirante)
+
+          },
+        },
+        {
+          text: 'Detalles del proceso',
+          icon: 'information-circle',
+          handler: async () => {
+            //console.log('Play clicked');
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
   }
 
   borrarBusqueda() {
@@ -181,6 +268,7 @@ export class PrincipalThPage implements OnInit {
     this.aspirantesNuevo = []
     //console.log(this.aspirantesNuevo)
   }
+
 
   async abrirFormalidar(aspirante) {
 
@@ -197,13 +285,9 @@ export class PrincipalThPage implements OnInit {
 
     const { data } = await modal.onDidDismiss();
     if (!data || data == undefined || data.role == "cancelar") {
-      //console.log(data);
-      //objAspirante = ''
       modal.dismiss()
       return;
     }
-    // console.log(data)
-    // if (data.length>0) {
 
     data.aspirante.atv_verificado = true
 
@@ -213,5 +297,63 @@ export class PrincipalThPage implements OnInit {
     })
     // }
   }
+
+
+  async abrirFormpsico(aspirante) {
+
+    const objAspirante = JSON.parse(JSON.stringify(aspirante))
+
+    const modal = await this.modalController.create({
+      component: FormValidarPsicoComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        aspirante: objAspirante
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    if (!data || data == undefined || data.role == "cancelar") {
+      //console.log(data);
+      //objAspirante = ''
+      modal.dismiss()
+      return;
+    }
+
+    data.aspirante.atv_verificado = true
+
+    data.aspirante.task = "actualizar"
+    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+      console.log(res)
+    })
+    // }
+  }
+
+
+  async mostrarAlerMedicina(aspirante) {
+    const alert = await this.alertCtrl.create({
+      header: 'Autorizacion de examenes',
+
+      //subHeader: 'El aspirante ya se escuentra ingresado en el sistema',
+      message: "<p>¿Estas seguro de autorizar al aspirante para que proceda a realizar los examenes ocupacionales .</p>" +
+        "<ion-item> <ion-icon name='help-circle' size='large' slot='start'>" +
+        "</ion-icon> <ion-label>Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
+        "</ion-label></ion-item>" ,
+      cssClass: 'alertExamenes',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role:'calcel',
+        },
+        {
+          text: 'Autorizar',
+          role:'ok',
+          cssClass: 'btnAlerAceptar'
+        }
+      ]
+    });
+    await alert.present()
+  }
+
 
 }

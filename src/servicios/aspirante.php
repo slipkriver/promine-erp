@@ -40,21 +40,28 @@ if ($postjson['task'] == 'nuevo') {
 	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
 	$strObjetoValth = substr($strObjetoValth, 0, strlen($strObjetoValth) - 2);
 
-	$query = mysqli_query($mysqli, "INSERT INTO aspirante SET " . $strObjeto);
+	$query = mysqli_query($mysqli, "SELECT asp_cedula, 
+									CONCAT(asp_nombres,' ',asp_apellidop,' ',asp_apellidom) AS `asp_nombre`
+									FROM aspirante 
+									WHERE asp_cedula='$postjson[asp_cedula]'");
 
-	$query2 = mysqli_query($mysqli, "INSERT INTO asp_tthh_validar SET " . $strObjetoValth);
-
+	$row = mysqli_fetch_array($query);
+	if (count($row) < 1) {
+		$query = mysqli_query($mysqli, "INSERT INTO aspirante SET " . $strObjeto);
+		$query2 = mysqli_query($mysqli, "INSERT INTO asp_tthh_validar SET " . $strObjetoValth);
+		if ($query) {
+			$result = json_encode(array('success' => true));
+			// $result = json_encode(array('success' => true, 'SQL' => $strObjetoValth, 'SQ2L' => $postjson));
+		} else {
+			$result = json_encode(array('success' => false, 'sql' => 'Error'));
+		}
+	} else {
+		$result = json_encode(array('success' => false, 'aspirante'=>$row));
+	}
 	$mysqli->close();
 
-	if ($query) {
-		$result = json_encode(array('success' => true));
-		// $result = json_encode(array('success' => true, 'SQL' => $strObjetoValth, 'SQ2L' => $postjson));
-	} else {
-		$result = json_encode(array('success' => false, 'sql' => 'Error'));
-	}
 
 	echo $result;
-
 } elseif ($postjson['task'] == 'obtener') {
 	$data = array();
 	$query = mysqli_query($mysqli, "SELECT * FROM aspirante " .
@@ -73,7 +80,6 @@ if ($postjson['task'] == 'nuevo') {
 	if ($query) $result = json_encode(array('success' => true, 'result' => $data));
 	else $result = json_encode(array('success' => false));
 	echo $result;
-	
 } else if ($postjson['task'] == 'actualizar') {
 
 	$strObjeto = "";

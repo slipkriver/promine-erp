@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 
 @Component({
   selector: 'app-form-validar-psico',
@@ -12,10 +13,15 @@ export class FormValidarPsicoComponent implements OnInit {
   validado = false
   
   asp_edad:any = ''
+  loading: boolean = false;
+  file: File = null;
+  filename: string = "";
+
 
   constructor(
     public modalController: ModalController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private servicioFtp: FtpfilesService
 
   ) { }
 
@@ -85,6 +91,26 @@ export class FormValidarPsicoComponent implements OnInit {
     //this.roleMessage = `Dismissed with role: ${role}`;
   }
   
+  onChange(event) {
+    console.log(event.target)
+    this.file = event.target.files[0];
+  }
+
+  onUpload() {
+    this.loading = !this.loading;
+    console.log(this.file);
+    this.servicioFtp.setArchivo(this.file).subscribe(
+      (event: any) => {
+        if (typeof (event) === 'object') {
+
+          // Short link via api response
+          this.filename = event.link;
+
+          this.loading = false; // Flag variable 
+        }
+      }
+    );
+  }
     
   finalizarCambios() {
     var validado = true
