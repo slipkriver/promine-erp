@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/form-validar-psico.component';
 
@@ -18,8 +19,8 @@ export class PrincipalPsicologiaPage implements OnInit {
   constructor(
     private actionSheetCtr: ActionSheetController,
     private dataService: DataService,
-    public modalController: ModalController
-
+    public modalController: ModalController,
+    private servicioFtp: FtpfilesService
   ) { }
 
   ngOnInit() {
@@ -120,28 +121,38 @@ export class PrincipalPsicologiaPage implements OnInit {
   }
 
   async abrirFormpsico(aspirante) {
-   
+
     const objAspirante = JSON.parse(JSON.stringify(aspirante))
 
     const modal = await this.modalController.create({
       component: FormValidarPsicoComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        aspirante: objAspirante
+        aspirante: objAspirante,
+        rol: 'psico'
       }
     });
     modal.present();
 
     const { data } = await modal.onDidDismiss();
-    if (!data || data == undefined || data.role == "cancel") {
+    if (!data || data == undefined || data.role == "cancelar") {
       return;
     }
-    //console.log(data);
+
     // if (data.length>0) {
     data.aspirante.task = "actualizar"
-    
+
     this.dataService.verifyPsicologia(data.aspirante).subscribe(res => {
+
+      if (res['success'] == true && data.ficha != null) {
+        this.servicioFtp.uploadFile(data.ficha).subscribe( res2 => {
+          res = res2
+        })
+
+      }
+
       console.log(res)
+
     })
 
     // }

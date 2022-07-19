@@ -10,12 +10,16 @@ import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 export class FormValidarPsicoComponent implements OnInit {
 
   @Input("aspirante") aspirante;
+  @Input("rol") rol;
   validado = false
   
   asp_edad:any = ''
   loading: boolean = false;
+
   file: File = null;
   filename: string = "";
+  file_data: any = ''
+  existeficha: boolean = false
 
 
   constructor(
@@ -96,8 +100,38 @@ export class FormValidarPsicoComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
+  fileChange(index, event) {
+
+    const fileList: FileList = event.target.files;
+    //check whether file is selected or not
+    if (fileList.length > 0) {
+
+      const file = fileList[0];
+      //get file information such as name, size and type
+      //console.log(file.name.split('.')[1]);
+      //max file size is 4 mb
+      if ((file.size / 1048576) <= 4) {
+        let formData = new FormData();
+        //let task =  'subirfichapsico'
+        formData.append('file', file, file.name);
+        formData.append('aspirante', this.aspirante.asp_cedula)
+        formData.append('ext', file.name.split('.')[1]);
+        formData.append('task', 'subirfichapsico');
+
+        this.file_data = formData
+        this.existeficha = true
+        //console.log(formData)
+
+      } else {
+        //this.snackBar.open('File size exceeds 4 MB. Please choose less than 4 MB','',{duration: 2000});
+      }
+
+    }
+
+  }
+
   onUpload() {
-    this.loading = !this.loading;
+    /*this.loading = !this.loading;
     console.log(this.file);
     this.servicioFtp.setArchivo(this.file).subscribe(
       (event: any) => {
@@ -105,16 +139,18 @@ export class FormValidarPsicoComponent implements OnInit {
 
           // Short link via api response
           this.filename = event.link;
+          console.log(event);
 
           this.loading = false; // Flag variable 
         }
       }
-    );
+    );*/
+    this.servicioFtp.uploadFile(this.file_data)
   }
     
   finalizarCambios() {
     var validado = true
-
+    // '../psicologia/0705150803.xlsx'.replace('..','https://getssoma.com/servicios')
     const fecha: Date = new Date()
     const faprobado  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
     this.aspirante.apv_verificado = "true"
@@ -125,6 +161,7 @@ export class FormValidarPsicoComponent implements OnInit {
 
     this.modalController.dismiss({
       aspirante: this.aspirante,
+      ficha : (this.existeficha==true)?this.file_data:null,
       validado
     });
 
@@ -133,7 +170,7 @@ export class FormValidarPsicoComponent implements OnInit {
   cerrarModal() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.aspirante = ""
+    //this.aspirante = ""
     this.modalController.dismiss({
       role: "cancelar"
     });

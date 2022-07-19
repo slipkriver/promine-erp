@@ -112,19 +112,27 @@
       </ion-textarea>
     </ion-item>
 
-    <!-- <ion-item>
-      <ion-label>Ficha psicologia</ion-label>
-      <input accept=".xls,.xlsx,.pdf" class="form-control" type="file" (change)="onChange($event)">
-
-      <button (click)="onUpload()" class="btn btn-success">
-        Upload
-      </button>
-    </ion-item> -->
 
   </ion-list>
 
 
-  <!-- </div> -->
+  <ion-item [hidden]="aspirante.apv_verificado == 'true' || rol != 'psico'" >
+    <input (change)="fileChange(index,$event)" type="file" placeholder="File" accept=".xls,.xlsx,.pdf"
+      [formControl]="file">
+
+    <!-- <ion-button color="primary" expand="full" (click)="onUpload()"
+        >Upload</ion-button>
+      </ion-item> -->
+  </ion-item>
+
+  <ion-item [hidden]="aspirante.apv_verificado == 'false' || rol != 'psico'" >
+
+    <ion-button color="primary" expand="full" [href]="aspirante.apv_urlficha.replace('..','https://getssoma.com')" >
+      <ion-icon name="download-outline" slot="end"></ion-icon>
+      Descargar ficha psicologica</ion-button>
+  </ion-item>
+
+
 </ion-content>
 
 <ion-footer>

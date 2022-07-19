@@ -159,6 +159,29 @@ export class DataService {
 
   }
 
+  autorizarExocupacion(aspirante) {
+    var body
+
+    var objTalento = {}
+
+    Object.entries(aspirante).forEach(([key, value], index) => {
+      // 👇️ name Tom 0, country Chile 1
+      if (key.substring(0, 4) == "apv_") {
+        objTalento[key] = value.toString()
+      }
+    });
+
+    objTalento['asp_estado'] = aspirante['asp_estado']
+    body = { ...objTalento, task: 'psicologia1' };
+
+    //console.log(body)
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   listarPorEstado(id_estado) {
     var body
 

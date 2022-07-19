@@ -307,7 +307,8 @@ export class PrincipalThPage implements OnInit {
       component: FormValidarPsicoComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        aspirante: objAspirante
+        aspirante: objAspirante,
+        rol: 'tthh'
       }
     });
     await modal.present();
@@ -332,12 +333,12 @@ export class PrincipalThPage implements OnInit {
 
   async mostrarAlerMedicina(aspirante) {
     const alert = await this.alertCtrl.create({
-      header: 'Autorizacion de examenes',
+      header: 'Autorizacion de examenes ocupacionales',
 
       //subHeader: 'El aspirante ya se escuentra ingresado en el sistema',
-      message: "<p>¿Estas seguro de autorizar al aspirante para que proceda a realizar los examenes ocupacionales .</p>" +
-        "<ion-item> <ion-icon name='help-circle' size='large' slot='start'>" +
-        "</ion-icon> <ion-label>Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
+      message: "<p>¿Estas seguro de autorizar al aspirante para que proceda a realizar los examenes ocupacionales?</p>" +
+        "<ion-item > <ion-icon name='help-circle'  >" +
+        "</ion-icon> <ion-label >Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
         "</ion-label></ion-item>" ,
       cssClass: 'alertExamenes',
       buttons: [
@@ -348,12 +349,25 @@ export class PrincipalThPage implements OnInit {
         {
           text: 'Autorizar',
           role:'ok',
-          cssClass: 'btnAlerAceptar'
+          cssClass: 'btnAlerAceptar',
+          handler: () => {
+            //console.log('Alert GUARDAR');
+            this.autorizarExamenes(aspirante)
+          }
         }
       ]
     });
     await alert.present()
   }
 
+  autorizarExamenes(aspirante){
+    aspirante.task = "actualizar"
+
+    this.dataService.autorizarExocupacion(aspirante).subscribe(res => {
+
+      console.log(res)
+
+    })
+  }
 
 }
