@@ -87,7 +87,7 @@ export class PrincipalThPage implements OnInit {
         }
       });
       this.listaTareas = res['result']
-      //console.log(res)
+      console.log(res['result'])
 
     })
 
@@ -159,7 +159,7 @@ export class PrincipalThPage implements OnInit {
 
             this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
               // console.log(res)
-              this.dataService.aspirante = res['result'][0];
+              this.dataService.aspirante = res['result'][1];
               this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
             })
@@ -361,13 +361,25 @@ export class PrincipalThPage implements OnInit {
   }
 
   autorizarExamenes(aspirante){
-    aspirante.task = "actualizar"
+    //aspirante.task = "actualizar"
 
-    this.dataService.autorizarExocupacion(aspirante).subscribe(res => {
+    const fecha: Date = new Date()
+    const fexamenes  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
+    const aspMedico = {
+      amv_aspirante : aspirante.asp_cedula,
+      amv_fexamenes : fexamenes,
+      asp_estado : "EXAMENES",
+      task :  "autorizarex"
+    }
+
+    console.log(aspMedico)
+    
+    this.dataService.autorizarExocupacion(aspMedico).subscribe(res => {
 
       console.log(res)
 
     })
+    
   }
 
 }

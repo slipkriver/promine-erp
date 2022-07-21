@@ -8,13 +8,18 @@ import { PrincipalMedicinaPageRoutingModule } from './principal-medicina-routing
 
 import { PrincipalMedicinaPage } from './principal-medicina.page';
 
+import { ComponentsModule } from '../../componentes/components.module';
+import { FormValidarPsicoComponent } from 'src/app/componentes/form-validar-psico/form-validar-psico.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PrincipalMedicinaPageRoutingModule
+    PrincipalMedicinaPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [PrincipalMedicinaPage]
+  declarations: [PrincipalMedicinaPage,FormValidarPsicoComponent],
+  entryComponents: [FormValidarPsicoComponent],
 })
 export class PrincipalMedicinaPageModule {}

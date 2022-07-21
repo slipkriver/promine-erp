@@ -16,12 +16,12 @@ $strcampos =  "asp_id,asp_cedula,asp_codigo,asp_nombres,asp_apellidop,asp_apelli
 	"asp_parentezco_familiar,asp_telefono_familiar,asp_descripcion_vivienda," .
 	"asp_referencia_vivienda,asp_cargas,asp_cargas_primaria,asp_cargas_secundaria," .
 	"asp_vivienda,asp_construccion,asp_movilizacion,asp_recomendado,est_descripcion," .
-	"atv_aspirante,atv_fingreso,atv_fmodificado,atv_plegales,atv_pfiscalia,atv_ppenales," .
+	"est_color,atv_aspirante,atv_fingreso,atv_fmodificado,atv_plegales,atv_pfiscalia,atv_ppenales," .
 	"atv_plaborales,atv_verificado,atv_observacion";
 
 $strcamposlistar = "asp_codigo,asp_cedula,asp_nombres,asp_apellidop,asp_apellidom," .
 	"asp_cargo,asp_fch_ingreso,asp_telefono,asp_estado,asp_recomendado,asp_observaciones," .
-	"est_descripcion";
+	"est_descripcion,est_color";
 
 if ($postjson['task'] == 'nuevo') {
 
@@ -152,7 +152,7 @@ if ($postjson['task'] == 'nuevo') {
 		                ON estados.est_nombre LIKE aspirante.asp_estado ";
 
 	if ($postjson['id_estado'] == 0) {
-		$consulta = $consulta . " WHERE estados.est_id > 0
+		$consulta = $consulta . " WHERE estados.est_id = 1 OR estados.est_id = 4 OR estados.est_id = 8
 		ORDER BY asp_fch_ingreso DESC";
 	} else {
 		$consulta = $consulta . " WHERE estados.est_id = $postjson[id_estado]

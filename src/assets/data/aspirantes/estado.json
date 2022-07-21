@@ -1,7 +1,7 @@
 [
   {
     "est_id": "0",
-    "est_nombre": "VER TODAS",
+    "est_nombre": "NUEVOS",
     "est_entidad": "ASPIRANTE",
     "est_descripcion": "Listar todas las solicitudes en ingresadas"
   },
@@ -51,7 +51,7 @@
     "est_id": "8",
     "est_nombre": "REVISION",
     "est_entidad": "ASPIRANTE",
-    "est_descripcion": "Esperando por aprobación de aspirante"
+    "est_descripcion": "En proceso de verficación final de carpeta"
   },
   {
     "est_id": "9",

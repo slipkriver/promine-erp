@@ -19,6 +19,12 @@ if ($postjson['task'] == 'getaspiranterol') {
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
 	}
 
+	
+	if ($postjson['role'] == 'medi') {
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi  
+						WHERE asp_cedula LIKE '$postjson[cedula]'");
+	}
+
 	while ($row = mysqli_fetch_array($query)) {
 
 		$keys = array_filter(array_keys($row), "is_numeric");
@@ -126,6 +132,67 @@ if ($postjson['task'] == 'psicologia1') {
 	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
 			asp_estado	= '$postjson[asp_estado]'
 		WHERE asp_cedula LIKE '$postjson[apv_aspirante]'");
+
+	/*if ($postjson['atv_aprobado'] == 'SI') {
+		$strObjetoValth = 	"apv_aspirante = '$postjson[atv_aspirante]', 
+							 apv_fverificado = '$postjson[atv_fverificado]' ";
+		$query3 = mysqli_query($mysqli, "INSERT INTO asp_psico_validar SET " . $strObjetoValth);
+	}*/
+
+
+	$mysqli->close();
+
+	if ($query && $query2) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}
+
+if ($postjson['task'] == 'autorizarex') {
+
+	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
+			asp_estado	= '$postjson[asp_estado]'
+		WHERE asp_cedula LIKE '$postjson[amv_aspirante]'");
+
+	$strObjetoValth = 	"amv_aspirante = '$postjson[amv_aspirante]', 
+						 amv_fexamenes = '$postjson[amv_fexamenes]' ";
+	$query2 = mysqli_query($mysqli, "INSERT INTO asp_medi_validar SET " . $strObjetoValth);
+
+
+	$mysqli->close();
+
+	if ($query && $query2) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}
+
+
+if ($postjson['task'] == 'medicina1') {
+
+	$strObjeto = "";
+
+	foreach ($postjson as $key => $value) {
+
+		$col_id = substr($key, 0, 4);
+
+		if ($col_id == "amv_") {
+			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
+		}
+	}
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE asp_medi_validar SET " . $strObjeto .
+		" WHERE amv_aspirante LIKE '$postjson[amv_aspirante]'");
+
+	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
+			asp_estado	= '$postjson[asp_estado]'
+		WHERE asp_cedula LIKE '$postjson[amv_aspirante]'");
 
 	/*if ($postjson['atv_aprobado'] == 'SI') {
 		$strObjetoValth = 	"apv_aspirante = '$postjson[atv_aspirante]', 

@@ -38,7 +38,7 @@
         <ion-toolbar>
           <ion-item  color="medium">
             <ion-label>Estado de solicitud</ion-label>
-            <ion-select value="1" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
+            <ion-select value="0" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
               <ion-select-option *ngFor="let item of estados"  [value]="item.est_id">{{item.est_nombre}}</ion-select-option>
               <!-- <ion-select-option value="2">VERIFICADOS</ion-select-option>
               <ion-select-option value="3">NO APROBADOS</ion-select-option> -->
@@ -66,7 +66,7 @@
                 <ion-label>observaciones: {{item.asp_observaciones}} </ion-label><br>
                 <ion-label color="primary" style="font-size: 0.8rem;" >ingresado el <b>{{item.asp_fch_ingreso}}</b> &nbsp;
                 </ion-label>
-                <ion-label [color]="item.asp_colorestado" style="font-size: 0.8rem;"> 
+                <ion-label  style="font-size: 0.8rem;" [style.color]="item.est_color"> 
                   <ion-icon name="information-circle" style="font-size: 1.1rem; vertical-align: text-bottom;"></ion-icon>
                   <i>{{item.est_descripcion}}</i>
                 </ion-label>
