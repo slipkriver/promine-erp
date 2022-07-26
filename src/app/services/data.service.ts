@@ -191,17 +191,13 @@ export class DataService {
 
   autorizarExocupacion(aspirante) {
 
-    //var body
-    //var objTalento = {}
-
-    //objTalento['asp_estado'] = aspirante['asp_estado']
-    //body = { ...objTalento, task: 'psicologia1' };
-
-    //console.log(body)
     return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(aspirante))
-    // .subscribe( res => {
-    //   console.log(res, body)  
-    // });
+
+  }
+
+  autorizarPsicologia(aspirante) {
+
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(aspirante))
 
   }
 

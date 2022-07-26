@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { FormValidarTthhComponent } from '../../componentes/form-validar-tthh/form-validar-tthh.component';
 import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/form-validar-psico.component';
+import { FormValidarMediComponent } from '../../componentes/form-validar-medi/form-validar-medi.component';
 
 @Component({
   selector: 'app-principal-th',
@@ -136,6 +137,13 @@ export class PrincipalThPage implements OnInit {
         aspirante = this.cambiarBool(res['aspirante'])
         this.opcionesTthh2(aspirante)
       })
+    } else if (asp_estado == 'APROBADO') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+
+        this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+        aspirante = this.cambiarBool(res['aspirante'])
+        this.opcionesTthh3(aspirante)
+      })
     }
     // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
     // this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
@@ -265,6 +273,67 @@ export class PrincipalThPage implements OnInit {
     const { role } = await opciones.onDidDismiss();
   }
 
+  async opcionesTthh3(aspirante) {
+
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Ver ficha de ingreso ',
+          icon: 'create',
+          handler: () => {
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              // console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
+          },
+        },
+        {
+          text: 'Ver ficha de aprobacion Medica',
+          icon: 'checkmark-circle',
+          handler: () => {
+
+            this.abrirFormmedi(aspirante)
+
+          },
+        },
+        {
+          text: 'Autorizar entrevista Psicologia',
+          icon: 'checkmark-circle',
+          handler: () => {
+
+            this.mostrarAlerPsicologia(aspirante)
+
+          },
+        },
+        {
+          text: 'Detalles del proceso',
+          icon: 'information-circle',
+          handler: async () => {
+            //console.log('Play clicked');
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
+  }
+
   borrarBusqueda() {
     this.textobusqueda = ""
     this.aspirantesNuevo = []
@@ -342,6 +411,38 @@ export class PrincipalThPage implements OnInit {
     // }
   }
 
+  async abrirFormmedi(aspirante) {
+
+    const objAspirante = JSON.parse(JSON.stringify(aspirante))
+
+    const modal = await this.modalController.create({
+      component: FormValidarMediComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        aspirante: objAspirante,
+        rol: 'tthh'
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    if (!data || data == undefined || data.role == "cancelar") {
+      //console.log(data);
+      //objAspirante = ''
+      modal.dismiss()
+      return;
+    }
+
+    data.aspirante.atv_verificado = true
+
+    data.aspirante.task = "actualizar"
+    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+      console.log(res)
+      // this.dataService.cerrarLoading()
+    })
+    // }
+  }
+
 
   async mostrarAlerMedicina(aspirante) {
     const alert = await this.alertCtrl.create({
@@ -372,6 +473,35 @@ export class PrincipalThPage implements OnInit {
     await alert.present()
   }
 
+  async mostrarAlerPsicologia(aspirante) {
+    const alert = await this.alertCtrl.create({
+      header: 'Autorizacion de examenes ocupacionales',
+
+      //subHeader: 'El aspirante ya se escuentra ingresado en el sistema',
+      message: "<p>¿El aspirante cumple con todos los requisitos y puede procedera la consulta con el psicologo?</p>" +
+        "<ion-item > <ion-icon name='help-circle'  >" +
+        "</ion-icon> <ion-label >Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
+        "</ion-label></ion-item>" ,
+      cssClass: 'alertExamenes',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role:'calcel',
+        },
+        {
+          text: 'Autorizar',
+          role:'ok',
+          cssClass: 'btnAlerAceptar',
+          handler: () => {
+            //console.log('Alert GUARDAR');
+            this.autorizarPsicologo(aspirante)
+          }
+        }
+      ]
+    });
+    await alert.present()
+  }
+
   autorizarExamenes(aspirante){
     //aspirante.task = "actualizar"
 
@@ -387,6 +517,42 @@ export class PrincipalThPage implements OnInit {
     console.log(aspMedico)
     
     this.dataService.autorizarExocupacion(aspMedico).subscribe(res => {
+
+      this.listaTareas.forEach((element, index) => {
+        if(element.asp_cedula == aspMedico.amv_aspirante){
+          this.listaTareas.splice(index,1)
+          //console.log(element,index,data.aspirante,this.listaTareas)
+        }
+      });
+
+      console.log(res)
+
+    })
+    
+  }
+
+  autorizarPsicologo(aspirante){
+    //aspirante.task = "actualizar"
+
+    const fecha: Date = new Date()
+    const fexamenes  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
+    const aspPsico = {
+      amv_aspirante : aspirante.asp_cedula,
+      amv_fexamenes : fexamenes,
+      asp_estado : "PSICOLOGIA",
+      task :  "psicologia2"
+    }
+
+    console.log(aspPsico)
+    
+    this.dataService.autorizarPsicologia(aspPsico).subscribe(res => {
+
+      this.listaTareas.forEach((element, index) => {
+        if(element.asp_cedula == aspPsico.amv_aspirante){
+          this.listaTareas.splice(index,1)
+          //console.log(element,index,data.aspirante,this.listaTareas)
+        }
+      });
 
       console.log(res)
 
