@@ -73,7 +73,9 @@ export class FormValidarTthhComponent implements OnInit {
   }
 
   setAprobado(evento){
-    // console.log(evento)
+    //console.log(evento)
+    if(!evento.detail.value) return
+
     this.aspirante.atv_aprobado = evento.detail.value
     if(evento.detail.value == 'SI'){
       this.aspirante.asp_estado = "VERIFICADO"

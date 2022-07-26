@@ -15,6 +15,8 @@ export class DataService {
   serverweb: string = "https://getssoma.com/servicios";
   aspirante
 
+  isloading = false
+
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController
@@ -117,6 +119,7 @@ export class DataService {
   }
 
   verifyTalento(aspirante) {
+    this.mostrarLoading()
     var body
 
     var objTalento = {}
@@ -140,6 +143,7 @@ export class DataService {
   }
 
   verifyPsicologia(aspirante) {
+    this.mostrarLoading('Subiendo archivo. Espere por favor hasta que finalice el proceso.')
     var body
 
     var objTalento = {}
@@ -186,10 +190,10 @@ export class DataService {
   }
 
   autorizarExocupacion(aspirante) {
-    
+
     //var body
     //var objTalento = {}
-    
+
     //objTalento['asp_estado'] = aspirante['asp_estado']
     //body = { ...objTalento, task: 'psicologia1' };
 
@@ -216,7 +220,7 @@ export class DataService {
 
   }
 
-  listadoPorDepartamento(estado,id) {
+  listadoPorDepartamento(estado, id) {
     var body
 
     //aspirante['asp_estado']
@@ -246,7 +250,7 @@ export class DataService {
 
   }
 
-  getAspiranteRole(cedula,role) {
+  getAspiranteRole(cedula, role) {
     var body
 
     //aspirante['asp_estado']
@@ -261,22 +265,32 @@ export class DataService {
 
   }
 
-  async mostrarLoading() {
+  async mostrarLoading(mensaje?) {
+    let message = (!!mensaje) ? mensaje : 'Espere por favor mientras se carga la informacion...'
     const loading = await this.loadingCtrl.create({
-      message: 'Espere por favor mientras se carga la informacion...',
+      message,
       //duration: 3000,
       spinner: 'circles'
     });
-    
+
+    this.isloading = true
     loading.present();
+
+    setTimeout(() => {
+
+      if(this.isloading == true)
+        this.loadingCtrl.dismiss()
+      
+    }, 10000);
   }
 
   async cerrarLoading() {
-    
+
     setTimeout(() => {
-      
+
       this.loadingCtrl.dismiss();
-      
+      this.isloading = false
+
     }, 1000);
 
   }

@@ -294,8 +294,17 @@ export class PrincipalThPage implements OnInit {
     data.aspirante.atv_verificado = true
 
     data.aspirante.task = "actualizar"
+    data.aspirante.asp_estado = "VERIFICADO"
+
     this.dataService.verifyTalento(data.aspirante).subscribe(res => {
-      console.log(res)
+      this.listaTareas.forEach((element, index) => {
+        if(element.asp_cedula == data.aspirante.asp_cedula){
+          this.listaTareas.splice(index,1)
+          //console.log(element,index,data.aspirante,this.listaTareas)
+        }
+      });
+
+      this.dataService.cerrarLoading()
     })
     // }
   }
@@ -328,6 +337,7 @@ export class PrincipalThPage implements OnInit {
     data.aspirante.task = "actualizar"
     this.dataService.verifyTalento(data.aspirante).subscribe(res => {
       console.log(res)
+      // this.dataService.cerrarLoading()
     })
     // }
   }

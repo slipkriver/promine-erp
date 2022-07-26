@@ -65,14 +65,14 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.mostrarLoading()
+    //this.dataService.mostrarLoading()
 
     this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
       this.dataService.aspirante = res['aspirante']
       //console.log(res)
       aspirante = res['aspirante']
-      this.dataService.cerrarLoading()
+      //this.dataService.cerrarLoading()
 
     })
 
@@ -160,6 +160,7 @@ export class PrincipalPsicologiaPage implements OnInit {
       if (res['success'] == true && data.ficha != null) {
         this.servicioFtp.uploadFile(data.ficha).subscribe( res2 => {
           res = res2
+          this.dataService.cerrarLoading()
         })
 
       }
