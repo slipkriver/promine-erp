@@ -83,9 +83,9 @@
                   <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referido}}
                 </ion-label><br>
                 <ion-label>observaciones: {{item.asp_observaciones}} </ion-label><br>
-                <ion-label color="primary" style="font-size: 0.8rem;" > {{item.asp_estadodetalle}} <b>{{item.apv_faprobado}}</b> &nbsp;
+                <ion-label color="primary" style="font-size: 0.8rem;" >ingresado el <b>{{item.asp_fch_ingreso}}</b> &nbsp;
                 </ion-label>
-                <ion-label color="success" style="font-size: 0.8rem;"> 
+                <ion-label  style="font-size: 0.8rem;" [style.color]="item.est_color"> 
                   <ion-icon name="information-circle" style="font-size: 1.1rem; vertical-align: text-bottom;"></ion-icon>
                   <i>{{item.est_descripcion}}</i>
                 </ion-label>
