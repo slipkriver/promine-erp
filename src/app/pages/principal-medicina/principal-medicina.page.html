@@ -36,14 +36,25 @@
       <ion-col size="8">
 
         <ion-toolbar>
-          <ion-item  color="medium">
-            <ion-label>Estado de solicitud</ion-label>
-            <ion-select value="1" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
-              <ion-select-option *ngFor="let item of estados"  [value]="item.est_id">{{item.est_nombre}}</ion-select-option>
-              <!-- <ion-select-option value="2">VERIFICADOS</ion-select-option>
-              <ion-select-option value="3">NO APROBADOS</ion-select-option> -->
-            </ion-select>
+          <ion-radio-group [(ngModel)]="estado" [value]="estado"
+          (ionChange)="setEstado($event)" style="width: 100%; display:inline-flex;">
+    
+          <ion-item  >
+            <ion-label color="primary">EN ESPERA</ion-label>
+            <ion-radio slot="start" value="0"></ion-radio>
           </ion-item>
+    
+          <ion-item  >
+            <ion-label color="primary">APROBADOS</ion-label>
+            <ion-radio value="1" slot="start"></ion-radio>
+          </ion-item>
+    
+          <ion-item  >
+            <ion-label color="danger">NO APROBADOS</ion-label>
+            <ion-radio value="2" slot="start"></ion-radio>
+          </ion-item>
+    
+        </ion-radio-group>
         </ion-toolbar>
 
         <ion-list>
@@ -56,8 +67,7 @@
 
                 <ion-label>
                   <ion-icon name="person-circle-outline"> </ion-icon>&nbsp;
-                  <b>{{item.asp_apellidop}} {{item.asp_apellidom}}
-                    {{item.asp_nombres}}</b>
+                  <b> {{item.asp_nombre}} </b>
                 </ion-label><br>
                 <ion-label>cargo postulado: <i>{{item.asp_cargo}}</i></ion-label><br>
                 <ion-label>

@@ -53,13 +53,27 @@ if ($postjson['task'] == 'aspiranterol') {
 
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
-			WHERE asp_estado = 'VERIFICADO' OR asp_estado = 'APROBADO'");
+			WHERE asp_estado = 'VERIFICADO' OR asp_estado = 'PSICOLOGIA'");
 		}else if ($postjson['estado'] == 1){
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'PSICOLOGIA'");
 		}else if ($postjson['estado'] == 2){
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE asp_estado = 'NO APTO'");
+		}
+
+	}
+	if ($postjson['asp_estado'] == 'medi') {
+
+		if ($postjson['estado'] == 0) {
+			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
+			WHERE asp_estado = 'EXAMENES' OR asp_estado = 'MEDICINA'");
+		}else if ($postjson['estado'] == 1){
+			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
+			WHERE asp_estado = 'APROBADO' OR asp_estado = 'INDUCCION'");
+		}else if ($postjson['estado'] == 2){
+			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
+			WHERE asp_estado = 'NO ADMITIDO'");
 		}
 
 	}

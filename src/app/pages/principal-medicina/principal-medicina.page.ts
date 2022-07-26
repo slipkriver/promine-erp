@@ -28,17 +28,17 @@ export class PrincipalMedicinaPage implements OnInit {
 
   ngOnInit() {
 
-    this.dataService.getAspiranteLData("estado").subscribe(lista => {
-      this.estados = lista;
-      this.estado = lista[6];
-      //console.log(this.estado);
-    });
+    // this.dataService.getAspiranteLData("estado").subscribe(lista => {
+    //   this.estados = lista;
+    //   this.estado = lista[6];
+    //   console.log(this.estado);
+    // });
 
   }
 
 
   ionViewDidEnter() {
-    this.listarAspirantes({ detail: { value: 6 } })
+    this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 
     /*this.listamenu = [
@@ -53,14 +53,21 @@ export class PrincipalMedicinaPage implements OnInit {
     }, 2000);
   }
 
+  setEstado(evento){
+    // console.log(evento)
+    //this.estado = evento.detail.value
+    this.listarAspirantes(evento)
+  }
+  
   listarAspirantes(event) {
 
     this.listaTareas = []
     const id = event.detail.value
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listarPorEstado(id).subscribe(res => {
-      res['result'].forEach(element => {
+    this.dataService.listadoPorDepartamento('medi',id).subscribe(res => {
+      //console.log(res)
+      res['aspirantes'].forEach(element => {
         if (element.asp_estado == 'NO ADMITIDO') {
           element.asp_colorestado = "danger"
         } else if (element.asp_estado == 'EXAMENES') {
@@ -69,8 +76,7 @@ export class PrincipalMedicinaPage implements OnInit {
           element.asp_colorestado = "primary"
         }
       });
-      this.listaTareas = res['result']
-      //console.log(res)
+      this.listaTareas = res['aspirantes']
 
     })
 
