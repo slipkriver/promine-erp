@@ -76,8 +76,8 @@ export class PrincipalThPage implements OnInit {
     const id = event.detail.value
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listarPorEstado(id).subscribe(res => {
-      res['result'].forEach(element => {
+    this.dataService.listadoPorDepartamento('tthh',id).subscribe(res => {
+      res['aspirantes'].forEach(element => {
         if (element.asp_estado == 'NO APROBADO') {
           element.asp_colorestado = "danger"
         } else if (element.asp_estado == 'VERIFICADO') {
@@ -86,8 +86,8 @@ export class PrincipalThPage implements OnInit {
           element.asp_colorestado = "primary"
         }
       });
-      this.listaTareas = res['result']
-      console.log(res['result'])
+      this.listaTareas = res['aspirantes']
+      //console.log(res['aspirante'])
 
     })
 
