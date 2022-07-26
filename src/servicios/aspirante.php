@@ -153,10 +153,10 @@ if ($postjson['task'] == 'nuevo') {
 
 	if ($postjson['id_estado'] == 0) {
 		$consulta = $consulta . " WHERE estados.est_id = 1 OR estados.est_id = 4 OR estados.est_id = 8
-		ORDER BY asp_fch_ingreso DESC";
+		ORDER BY estados.est_id DESC";
 	} else {
 		$consulta = $consulta . " WHERE estados.est_id = $postjson[id_estado]
-		ORDER BY asp_fch_ingreso DESC";
+		ORDER BY estados.est_id DESC";
 	}
 
 	$query = mysqli_query($mysqli, $consulta);
