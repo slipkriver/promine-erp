@@ -54,12 +54,9 @@ if ($postjson['task'] == 'aspiranterol') {
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
 			WHERE asp_estado = 'INGRESADO' OR asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'APROBADO'");
-		}else if ($postjson['estado'] == 1){
+		}else {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
-			WHERE atv_verificado = 'true' ");
-		}else if ($postjson['estado'] == 2){
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
-			WHERE asp_estado = 'NO APROBADO'");
+			WHERE est_id = '$postjson[estado]'");
 		}
 
 	}

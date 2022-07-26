@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { FormValidarMediComponent } from '../../componentes/form-validar-medi/form-validar-medi.component';
 import { ActionSheetController, ModalController } from '@ionic/angular';
+import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 
 @Component({
   selector: 'app-principal-medicina',
@@ -22,7 +23,8 @@ export class PrincipalMedicinaPage implements OnInit {
   constructor(
     private dataService: DataService,
     private actionSheetCtr: ActionSheetController,
-    private modalController: ModalController
+    private modalController: ModalController,
+        private servicioFtp: FtpfilesService
   ) { }
 
 
@@ -99,7 +101,7 @@ export class PrincipalMedicinaPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Cestificado de Aptitud',
+          text: 'Certificado de Aptitud',
           icon: 'checkmark-circle',
           handler: async () => {
             setTimeout(() => {
@@ -171,6 +173,13 @@ export class PrincipalMedicinaPage implements OnInit {
     console.log(data.aspirante)
 
     this.dataService.verifyMedicina(data.aspirante).subscribe(res => {
+
+      if (res['success'] == true && data.ficha != null) {
+        this.servicioFtp.uploadFile(data.ficha).subscribe( res2 => {
+          res = res2
+        })
+
+      }
 
       console.log(res)
 

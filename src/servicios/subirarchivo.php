@@ -16,6 +16,19 @@ if ($_POST['task'] == 'subirfichapsico') {
 	}
 	
 	echo json_encode($result);
+}else if ($_POST['task'] == 'subirfichamedi') {
+	
+	$target_path = '../medicina/'. $_POST['aspirante'] . '.' . $_POST['ext'];
+
+	$result = json_encode(subirarchivo($target_path));
+
+	if($result['success']==true){
+		$query = mysqli_query($mysqli, "UPDATE asp_medi_validar SET 
+		amv_urlficha	= '$target_path'
+		WHERE amv_aspirante LIKE '$_POST[aspirante]'");
+	}
+	
+	echo json_encode($result);
 }
 
 function subirarchivo($target_path)

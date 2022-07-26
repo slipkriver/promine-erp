@@ -166,7 +166,7 @@
 
   </div>
 
-  <ion-item [hidden]="" [disabled]="aspirante.apv_verificado" lines="full">
+  <ion-item [hidden]="" [disabled]="aspirante.amv_verificado" lines="full">
     <!-- <ion-label position="floating">Concepto final</ion-label> -->
     <ion-textarea [(ngModel)]="aspirante.amv_recomendacion" [value]="aspirante.amv_recomendacion" type="text"
       name="amv_concepto" placeholder="Recomendaciones"
@@ -174,17 +174,16 @@
     </ion-textarea>
   </ion-item>
   
-  <!-- <ion-item [hidden]="aspirante.apv_verificado == 'true' || rol != 'psico'" >
-    <input (change)="fileChange(index,$event)" type="file" placeholder="File" accept=".xls,.xlsx,.pdf"
-      [formControl]="file">
+  <ion-item [hidden]="aspirante.amv_verificado == 'true' || rol != 'medi'" >
+    <input (change)="fileChange(index,$event)" type="file" placeholder="File" accept=".xls,.xlsx,.pdf" >
   </ion-item>
 
-  <ion-item [hidden]="aspirante.apv_verificado == 'false' || rol != 'psico'" >
+  <ion-item [hidden]="aspirante.amv_verificado == 'false' || rol != 'medi'" >
 
-    <ion-button color="primary" expand="full" [href]="aspirante.apv_urlficha.replace('..','https://getssoma.com')" >
+    <ion-button color="primary" expand="full" [href]="aspirante.amv_urlficha.replace('..','https://getssoma.com')" >
       <ion-icon name="download-outline" slot="end"></ion-icon>
       Descargar ficha psicologica</ion-button>
-  </ion-item> -->
+  </ion-item>
 
 
 </ion-content>

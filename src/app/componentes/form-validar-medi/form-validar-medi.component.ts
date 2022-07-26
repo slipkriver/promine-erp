@@ -21,6 +21,9 @@ export class FormValidarMediComponent implements OnInit {
 
   fechaEmision: Date = new Date();
 
+  file_data: any = ''
+  existeficha: boolean = false
+
   mdFechaEmision = false
 
   constructor(
@@ -115,6 +118,38 @@ export class FormValidarMediComponent implements OnInit {
     //this.roleMessage = `Dismissed with role: ${role}`;
   }
 
+  
+  fileChange(index, event) {
+
+    const fileList: FileList = event.target.files;
+    //check whether file is selected or not
+    if (fileList.length > 0) {
+
+      const file = fileList[0];
+      //get file information such as name, size and type
+      //console.log(file.name.split('.')[1]);
+      //max file size is 4 mb
+      if ((file.size / 1048576) <= 4) {
+        let formData = new FormData();
+        //let task =  'subirfichapsico'
+        formData.append('file', file, file.name);
+        formData.append('aspirante', this.aspirante.asp_cedula)
+        formData.append('ext', file.name.split('.')[1]);
+        formData.append('task', 'subirfichamedi');
+
+        this.file_data = formData
+        this.existeficha = true
+        //console.log(formData)
+
+      } else {
+        //this.snackBar.open('File size exceeds 4 MB. Please choose less than 4 MB','',{duration: 2000});
+      }
+
+    }
+
+  }
+
+
   finalizarCambios(event) {
     var validado = true
     // '../psicologia/0705150803.xlsx'.replace('..','https://getssoma.com/servicios')
@@ -130,7 +165,9 @@ export class FormValidarMediComponent implements OnInit {
     // return
 
     this.modal.dismiss({
-      aspirante: this.aspirante
+      aspirante: this.aspirante,
+      ficha : (this.existeficha==true)?this.file_data:null,
+      validado
     });
 
   }
