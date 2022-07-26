@@ -27,7 +27,6 @@ export class PrincipalThPage implements OnInit {
     private router: Router,
     public modalController: ModalController,
     private alertCtrl: AlertController
-
   ) { }
 
   ngOnInit() {
@@ -72,6 +71,8 @@ export class PrincipalThPage implements OnInit {
 
   listarAspirantes(event) {
 
+    this.dataService.mostrarLoading()
+
     this.listaTareas = []
     const id = event.detail.value
     this.estado = this.estados[id]
@@ -87,6 +88,7 @@ export class PrincipalThPage implements OnInit {
         }
       });
       this.listaTareas = res['aspirantes']
+      this.dataService.cerrarLoading()
       //console.log(res['aspirante'])
 
     })

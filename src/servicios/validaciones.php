@@ -68,7 +68,7 @@ if ($postjson['task'] == 'aspiranterol') {
 			WHERE asp_estado = 'VERIFICADO' OR asp_estado = 'PSICOLOGIA'");
 		}else if ($postjson['estado'] == 1){
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
-			WHERE apv_verificado = 'true' ");
+			WHERE apv_verificado = 'true' AND asp_estado<>'NO APTO' ");
 		}else if ($postjson['estado'] == 2){
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE asp_estado = 'NO APTO'");

@@ -172,5 +172,14 @@ export class FormValidarMediComponent implements OnInit {
 
   }
 
+  cerrarModal() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    //this.aspirante = ""
+    this.modal.dismiss({
+      role: "cancelar"
+    });
+  }
+  
 
 }

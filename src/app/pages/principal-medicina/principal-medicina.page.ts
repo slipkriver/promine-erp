@@ -63,6 +63,8 @@ export class PrincipalMedicinaPage implements OnInit {
   
   listarAspirantes(event) {
 
+    this.dataService.mostrarLoading()
+
     this.listaTareas = []
     const id = event.detail.value
     this.estado = this.estados[id]
@@ -80,6 +82,7 @@ export class PrincipalMedicinaPage implements OnInit {
       });
       this.listaTareas = res['aspirantes']
 
+      this.dataService.cerrarLoading()
     })
 
   }

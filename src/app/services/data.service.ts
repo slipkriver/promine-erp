@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 //import 'rxjs-compat/add/operator/map';
 import { Observable } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,9 @@ export class DataService {
   aspirante
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private loadingCtrl: LoadingController
+
   ) { }
 
 
@@ -255,6 +258,26 @@ export class DataService {
     // .subscribe( res => {
     //   console.log(res, body)  
     // });
+
+  }
+
+  async mostrarLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Espere por favor mientras se carga la informacion...',
+      //duration: 3000,
+      spinner: 'circles'
+    });
+    
+    loading.present();
+  }
+
+  async cerrarLoading() {
+    
+    setTimeout(() => {
+      
+      this.loadingCtrl.dismiss();
+      
+    }, 1000);
 
   }
 
