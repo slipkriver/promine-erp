@@ -117,8 +117,7 @@
 
 
   <ion-item [hidden]="aspirante.apv_verificado == 'true' || rol != 'psico'" >
-    <input (change)="fileChange(index,$event)" type="file" placeholder="File" accept=".xls,.xlsx,.pdf"
-      [formControl]="file">
+    <input (change)="fileChange(index,$event)" type="file" placeholder="File" accept=".xls,.xlsx,.pdf" >
 
     <!-- <ion-button color="primary" expand="full" (click)="onUpload()"
         >Upload</ion-button>

@@ -213,11 +213,11 @@ export class DataService {
 
   }
 
-  listadoPorDepartamento(estado) {
+  listadoPorDepartamento(estado,id) {
     var body
 
     //aspirante['asp_estado']
-    body = { task: 'aspiranterol', asp_estado: estado };
+    body = { task: 'aspiranterol', asp_estado: estado, estado: id };
     //body['asp_edad'] = body['asp_edad'].toString()
 
     //console.log(JSON.stringify(body))  

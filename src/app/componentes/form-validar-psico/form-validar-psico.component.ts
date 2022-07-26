@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 
 @Component({
@@ -11,6 +11,8 @@ export class FormValidarPsicoComponent implements OnInit {
 
   @Input("aspirante") aspirante;
   @Input("rol") rol;
+  @Input("objmodal") modal;
+
   validado = false
   
   asp_edad:any = ''
@@ -23,7 +25,6 @@ export class FormValidarPsicoComponent implements OnInit {
 
 
   constructor(
-    public modalController: ModalController,
     public alertController: AlertController,
     private servicioFtp: FtpfilesService
 
@@ -58,12 +59,14 @@ export class FormValidarPsicoComponent implements OnInit {
 
   setAprobado(evento){
     // console.log(evento)
-    this.aspirante.apv_aprobado = evento.detail.value
+    //this.aspirante.apv_aprobado = evento.detail.value
     if(evento.detail.value == 'NO'){
       this.aspirante.asp_estado = "NO APTO"
     }else{
       this.aspirante.asp_estado = "PSICOSOMETRIA"
     }
+    //this.aspirante.apv_aprobado = evento.detail.value
+
   }
 
   async presentAlert() {
@@ -159,7 +162,7 @@ export class FormValidarPsicoComponent implements OnInit {
     // console.log(this.aspirante)
     // return
 
-    this.modalController.dismiss({
+    this.modal.dismiss({
       aspirante: this.aspirante,
       ficha : (this.existeficha==true)?this.file_data:null,
       validado
@@ -171,7 +174,7 @@ export class FormValidarPsicoComponent implements OnInit {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     //this.aspirante = ""
-    this.modalController.dismiss({
+    this.modal.dismiss({
       role: "cancelar"
     });
   }

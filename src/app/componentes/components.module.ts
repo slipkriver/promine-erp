@@ -4,12 +4,15 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FormValidarMediComponent } from './form-validar-medi/form-validar-medi.component';
+import { FormValidarPsicoComponent } from './form-validar-psico/form-validar-psico.component';
+
 
 
 
 @NgModule({
   declarations: [
-    FormValidarMediComponent
+    FormValidarMediComponent,
+    FormValidarPsicoComponent
 
   ],
   imports: [
@@ -20,11 +23,13 @@ import { FormValidarMediComponent } from './form-validar-medi/form-validar-medi.
 
   ],
   entryComponents: [
-    FormValidarMediComponent
+    FormValidarMediComponent,
+    FormValidarPsicoComponent
   ],
 
   exports: [
-    FormValidarMediComponent
+    FormValidarMediComponent,
+    FormValidarPsicoComponent
   ]
 })
 export class ComponentsModule { }

@@ -170,6 +170,22 @@ export class PrincipalMedicinaPage implements OnInit {
 
     })
 
+  }
+
+
+  
+  buscarAspirante(event) {
+
+    if (event.detail.value.length < 3) return
+
+    this.aspirantesBuscar = []
+
+    this.dataService.getListanuevos(event.detail.value).subscribe(res => {
+      //console.log(res['result'])
+      if (res['result'] && res['result'].length > 0) {
+        this.aspirantesBuscar = res['result']
+      }
+    })
 
   }
 

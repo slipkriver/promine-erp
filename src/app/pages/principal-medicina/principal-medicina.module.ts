@@ -9,7 +9,7 @@ import { PrincipalMedicinaPageRoutingModule } from './principal-medicina-routing
 import { PrincipalMedicinaPage } from './principal-medicina.page';
 
 import { ComponentsModule } from '../../componentes/components.module';
-import { FormValidarPsicoComponent } from 'src/app/componentes/form-validar-psico/form-validar-psico.component';
+
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { FormValidarPsicoComponent } from 'src/app/componentes/form-validar-psic
     PrincipalMedicinaPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [PrincipalMedicinaPage,FormValidarPsicoComponent],
-  entryComponents: [FormValidarPsicoComponent],
+  declarations: [PrincipalMedicinaPage],
+  entryComponents: [],
 })
 export class PrincipalMedicinaPageModule {}

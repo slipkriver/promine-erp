@@ -27,14 +27,14 @@ export class PrincipalPsicologiaPage implements OnInit {
 
     this.dataService.getAspiranteLData("estado").subscribe(lista => {
       //this.estados = lista;
-      this.estado = 'VERIFICADO';
+      this.estado = 0;
       //console.log(this.estados[10]);
     });
 
   }
 
   ionViewDidEnter() {
-    this.listarAspirantes({ detail: { value: 2 } })
+    this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 
     /*setTimeout(() => {
@@ -51,9 +51,9 @@ export class PrincipalPsicologiaPage implements OnInit {
 
     this.listaTareas = []
     const id = event.detail.value
-    //this.estado = this.estados[id]
-    //console.log(event, id, parseInt(id))
-    this.dataService.listadoPorDepartamento('psico').subscribe(res => {
+    this.estado = id
+    console.log( id, parseInt(id))
+    this.dataService.listadoPorDepartamento('psico',id).subscribe(res => {
       this.listaTareas = res['aspirantes']
       //console.log(res)
 
@@ -120,6 +120,13 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   }
 
+  setEstado(evento){
+    // console.log(evento)
+    //this.estado = evento.detail.value
+    this.listarAspirantes(evento)
+  }
+
+
   async abrirFormpsico(aspirante) {
 
     const objAspirante = JSON.parse(JSON.stringify(aspirante))
@@ -129,7 +136,8 @@ export class PrincipalPsicologiaPage implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         aspirante: objAspirante,
-        rol: 'psico'
+        rol: 'psico',
+        objModal: this.modalController
       }
     });
     modal.present();
@@ -157,5 +165,22 @@ export class PrincipalPsicologiaPage implements OnInit {
 
     // }
   }
+
+
+  buscarAspirante(event) {
+
+    if (event.detail.value.length < 3) return
+
+    this.aspirantesBuscar = []
+
+    this.dataService.getListanuevos(event.detail.value).subscribe(res => {
+      //console.log(res['result'])
+      if (res['result'] && res['result'].length > 0) {
+        this.aspirantesBuscar = res['result']
+      }
+    })
+
+  }
+
 
 }

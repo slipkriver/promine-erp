@@ -73,7 +73,7 @@
     <ion-row class="ion-align-self-end">
       <ion-col size="7">
 
-        <ion-item>
+        <ion-item [disabled]="aspirante.amv_verificado">
 
           <ion-label color="primary" class="text-small">Fecha de emision: <br>
             {{aspirante.amv_femision}}</ion-label>
@@ -101,11 +101,11 @@
 
         <ion-label position="floating" style="margin-top: 0px;" > Evaluacion medica:</ion-label>
 
-        <ion-item >
+        <ion-item [disabled]="aspirante.amv_verificado">
           <!-- <ion-list> -->
 
           <ion-select mode="ios" placeholder="Evaluacion medica" interface="popover"
-            [(ngModel)]="aspirante.amv_evaluacion" name="evaluacionAspirante" [selectedText]="aspirante.evaluacion" >
+            [(ngModel)]="aspirante.amv_evaluacion" name="evaluacionAspirante" [selectedText]="aspirante.amv_evaluacion" >
             <ion-select-option *ngFor="let item of evaluacion">{{item.asp_nombre}}</ion-select-option>
           </ion-select>
         <!-- </ion-list> -->
@@ -123,10 +123,10 @@
       <b>APTITUD MÉDICA LABORAL </b>
     </ion-card-title>
     <p>Después de la valoración médica ocupacional se certifica que la persona en mención, es calificada como:</p>
-    <ion-item>
+    <ion-item [disabled]="aspirante.amv_verificado">
       <ion-label position="floating" color="primary">Valoracion medica</ion-label>
       <ion-select mode="ios" placeholder="Seleccione una" interface="popover" [(ngModel)]="aspirante.amv_valoracion"
-        name="valoracionAspirante" [selectedText]="aspirante.valoracion" >
+        name="valoracionAspirante" [selectedText]="aspirante.amv_valoracion" >
         <ion-select-option *ngFor="let item of valoracion">{{item.asp_nombre}}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -150,10 +150,10 @@
       <b>CONDICIONES DE SALUD AL MOMENTO DEL RETIRO </b>
     </ion-card-title>
     <p>Después de la valoración médica ocupacional se certifica las condiciones de salud al momento del retiro: </p>
-    <ion-item>
+    <ion-item [disabled]="aspirante.amv_verificado">
       <ion-label position="floating" color="primary">Condicion medica</ion-label>
       <ion-select mode="ios" placeholder="Seleccione una" interface="popover" [(ngModel)]="aspirante.amv_condicion"
-        name="condicionAspirante" [selectedText]="aspirante.condicion" >
+        name="condicionAspirante" [selectedText]="aspirante.amv_condicion" >
         <ion-select-option *ngFor="let item of condicion">{{item.asp_nombre}}</ion-select-option>
       </ion-select>
     </ion-item>

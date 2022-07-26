@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-form-validar-medi',
@@ -13,6 +13,7 @@ export class FormValidarMediComponent implements OnInit {
   @Input("aspirante") aspirante;
   @Input("rol") rol;
   @Input("objmodal") modal;
+
   validado = false
   valoracion = []
   evaluacion = []
@@ -25,7 +26,6 @@ export class FormValidarMediComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private alertController: AlertController,
-    private modalController: ModalController
 
   ) { }
 

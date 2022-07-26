@@ -8,11 +8,15 @@ import { PrincipalPsicologiaPageRoutingModule } from './principal-psicologia-rou
 
 import { PrincipalPsicologiaPage } from './principal-psicologia.page';
 
+import { ComponentsModule } from '../../componentes/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     PrincipalPsicologiaPageRoutingModule
   ],
   declarations: [PrincipalPsicologiaPage]

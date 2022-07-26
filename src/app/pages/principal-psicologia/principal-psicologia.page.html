@@ -34,6 +34,38 @@
 
       <ion-col size="8">
 
+        <ion-toolbar>
+          <!-- <ion-item  color="medium">
+            <ion-label>Estado de solicitud</ion-label>
+            <ion-select value="0" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
+              <ion-select-option value="0">EN ESPERA</ion-select-option>
+              <ion-select-option value="4">APROBADOS</ion-select-option>
+              <ion-select-option value="3">NO APROBADOS</ion-select-option>
+            </ion-select>
+          </ion-item> -->
+
+          <ion-radio-group [(ngModel)]="estado" [value]="estado"
+          (ionChange)="setEstado($event)" style="width: 100%; display:inline-flex;">
+    
+          <ion-item  >
+            <ion-label color="primary">EN ESPERA</ion-label>
+            <ion-radio slot="start" value="0"></ion-radio>
+          </ion-item>
+    
+          <ion-item  >
+            <ion-label color="primary">APROBADOS</ion-label>
+            <ion-radio value="4" slot="start"></ion-radio>
+          </ion-item>
+    
+          <ion-item  >
+            <ion-label color="danger">NO APROBADOS</ion-label>
+            <ion-radio value="3" slot="start"></ion-radio>
+          </ion-item>
+    
+        </ion-radio-group>
+
+        </ion-toolbar>
+
         <ion-list>
 
           <ion-card *ngFor="let item of listaTareas" button="true" (click)="opcionesTarea(item)" 
