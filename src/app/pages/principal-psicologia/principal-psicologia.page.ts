@@ -163,6 +163,10 @@ export class PrincipalPsicologiaPage implements OnInit {
           this.dataService.cerrarLoading()
         })
 
+      }else{
+        
+        this.dataService.cerrarLoading()
+
       }
 
       console.log(res)
