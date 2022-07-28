@@ -44,6 +44,11 @@ export class PrincipalThPage implements OnInit {
   }
 
   ionViewDidEnter() {
+
+    if(this.dataService.isloading){
+      this.dataService.cerrarLoading()
+    }
+    
     this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 

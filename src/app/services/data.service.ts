@@ -282,12 +282,12 @@ export class DataService {
 
   async cerrarLoading() {
 
-    setTimeout(() => {
+    // setTimeout(() => {
 
       this.loadingCtrl.dismiss();
       this.isloading = false
 
-    }, 1000);
+    // }, 1000);
 
   }
 

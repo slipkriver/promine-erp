@@ -34,15 +34,12 @@ export class PrincipalPsicologiaPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.listarAspirantes({ detail: { value: 0 } })
-    //console.log(this.aspirantesNuevo)
 
-    /*setTimeout(() => {
-      this.opcionesTarea(this.listaTareas[0])
-      setTimeout(() => {
-        this.abrirFormpsico(this.dataService.aspirante)
-      }, 1000);
-    }, 3000);*/
+    if(this.dataService.isloading){
+      this.dataService.cerrarLoading()
+    }
+
+    this.listarAspirantes({ detail: { value: 0 } })
 
     //this.validado = this.aspirante.atv_verificado
   }
@@ -63,20 +60,50 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   }
 
+
   async opcionesTarea(aspirante) {
 
     //this.dataService.mostrarLoading()
 
-    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+    const asp_estado = aspirante.asp_estado
 
+    if (asp_estado == 'VERIFICADO' || asp_estado == 'PSICOSOMETRIA' || asp_estado == 'NO APTO') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+
+        this.opcionesPsico1(aspirante)
+
+      })
+
+    } else if (asp_estado == 'APROBADO' || asp_estado == 'PSICOLOGIA' ) {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+
+        this.opcionesPsico2(aspirante)
+        
+      })
+      
+    } else if (asp_estado == 'OTRO ESTADO') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+
+        //this.opcionesPsico3(aspirante)
+
+      })
+    }
+
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+      
       this.dataService.aspirante = res['aspirante']
       //console.log(res)
       aspirante = res['aspirante']
       //this.dataService.cerrarLoading()
 
     })
-
+    
     //var strTitulo = aspirante.asp_cedula + '::' 
+
+  }
+  
+  async opcionesPsico1(aspirante){
+    
     var strTitulo = aspirante.asp_nombre
     const opciones = await this.actionSheetCtr.create({
       header: strTitulo,
@@ -122,8 +149,58 @@ export class PrincipalPsicologiaPage implements OnInit {
 
     const { role } = await opciones.onDidDismiss();
     //console.log('onDidDismiss resolved with role', role);
-
   }
+  
+
+  async opcionesPsico2(aspirante){
+
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Ingresar fichas psicosometricas',
+          icon: 'checkmark-circle',
+          handler: async () => {
+            setTimeout(() => {
+
+              //this.abrirFormpsico(aspirante)
+
+            }, 1000);
+            //console.log(aspirante);
+          },
+        },
+        {
+          text: 'Ver informacion del apirante ',
+          icon: 'information-circle-outline',
+          handler: () => {
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              //console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
+    //console.log('onDidDismiss resolved with role', role);
+  }
+
 
   setEstado(evento){
     // console.log(evento)
@@ -164,7 +241,7 @@ export class PrincipalPsicologiaPage implements OnInit {
         })
 
       }else{
-        
+
         this.dataService.cerrarLoading()
 
       }
