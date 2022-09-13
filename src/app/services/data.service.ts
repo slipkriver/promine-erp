@@ -189,6 +189,29 @@ export class DataService {
 
   }
 
+  verifySeguridad(aspirante) {
+    var body
+
+    var objTalento = {}
+
+    Object.entries(aspirante).forEach(([key, value], index) => {
+      // 👇️ name Tom 0, country Chile 1
+      if (key.substring(0, 4) == "asv_") {
+        objTalento[key] = value.toString()
+      }
+    });
+
+    objTalento['asp_estado'] = aspirante['asp_estado']
+    body = { ...objTalento, task: 'seguridad1' };
+
+    //console.log(body)
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   autorizarExocupacion(aspirante) {
 
     return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(aspirante))
@@ -223,7 +246,7 @@ export class DataService {
     body = { task: 'aspiranterol', asp_estado: estado, estado: id };
     //body['asp_edad'] = body['asp_edad'].toString()
 
-    //console.log(JSON.stringify(body))  
+    //console.log(estado, id)  
     return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
     // .subscribe( res => {
     //   console.log(res, body)  

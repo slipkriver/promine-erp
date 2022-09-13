@@ -49,20 +49,20 @@
         "descripcion": "Historia Clínica"
     },  
     {
-        "nombre": "Trabajador Social",
-        "icono": "calendar-clear",
-        "ruta": "principal-social",
-        "activo": false,
-        "padre": "aspirante",
-        "descripcion": "Departamento de Trabajo Social"
-    },
-    {
         "nombre": "Seguridad Ocupacional",
         "icono": "calendar-clear",
         "ruta": "principal-seguridad",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Seguimiento de aspirantes"
+    },
+    {
+        "nombre": "Trabajador Social",
+        "icono": "calendar-clear",
+        "ruta": "principal-social",
+        "activo": false,
+        "padre": "aspirante",
+        "descripcion": "Departamento de Trabajo Social"
     }
 
 ]

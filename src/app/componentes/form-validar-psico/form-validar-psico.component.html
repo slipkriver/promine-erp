@@ -126,7 +126,7 @@
 
   <ion-item [hidden]="aspirante.apv_verificado == 'false' || rol != 'psico'" >
 
-    <ion-button color="primary" expand="full" [href]="(aspirante.apv_urlficha)?aspirante.apv_urlficha.replace('..','https://getssoma.com'):''" >
+    <ion-button color="primary" expand="full" [href]="(aspirante.apv_urlficha)?aspirante.apv_urlficha.replace('..','https://getssoma.com'):'' " >
       <ion-icon name="download-outline" slot="end"></ion-icon>
       Descargar ficha psicologica</ion-button>
   </ion-item>

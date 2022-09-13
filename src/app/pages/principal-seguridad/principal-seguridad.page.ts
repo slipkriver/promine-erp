@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, ActionSheetController } from '@ionic/angular';
+import { DataService } from 'src/app/services/data.service';
+import { FormValidarSeguComponent } from '../../componentes/form-validar-segu/form-validar-segu.component';
+
 
 @Component({
   selector: 'app-principal-seguridad',
@@ -7,9 +11,162 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrincipalSeguridadPage implements OnInit {
 
-  constructor() { }
+  aspirantesBuscar = []
+
+  estados = []
+  estado
+
+  listaTareas = []
+
+  constructor(
+    private actionSheetCtr: ActionSheetController,
+    private modalController: ModalController,
+    private dataService: DataService,
+  ) { }
 
   ngOnInit() {
   }
+
+
+  ionViewDidEnter() {
+
+    if (this.dataService.isloading) {
+      this.dataService.cerrarLoading()
+    }
+
+    this.listarAspirantes({ detail: { value: 0 } })
+  }
+
+
+  listarAspirantes(event) {
+
+    this.dataService.mostrarLoading()
+
+    this.listaTareas = []
+    const id = event.detail.value
+    this.estado = this.estados[id]
+    //console.log(event, id, parseInt(id))
+    this.dataService.listadoPorDepartamento('segu',id).subscribe(res => {
+      //console.log(res)
+      res['aspirantes'].forEach(element => {
+        if (element.asp_estado == 'NO ADMITIDO') {
+          element.asp_colorestado = "danger"
+        } else if (element.asp_estado == 'EXAMENES') {
+          element.asp_colorestado = "success"
+        } else {
+          element.asp_colorestado = "primary"
+        }
+      });
+      this.listaTareas = res['aspirantes']
+
+      this.dataService.cerrarLoading()
+    })
+
+  }
+
+
+  async opcionesTarea(aspirante) {
+
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+
+      this.dataService.aspirante = res['aspirante']
+      //console.log(res)
+      aspirante = res['aspirante']
+
+    })
+
+    //var strTitulo = aspirante.asp_cedula + '::' 
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Ficha de induccion',
+          icon: 'checkmark-circle',
+          handler: async () => {
+            setTimeout(() => {
+
+              this.abrirFormsegu(aspirante)
+
+            }, 1000);
+            //console.log(aspirante);
+          },
+        },
+        {
+          text: 'Ver informacion del apirante ',
+          icon: 'information-circle-outline',
+          handler: () => {
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
+              //console.log(res)
+              this.dataService.aspirante = res['result'][0];
+              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
+    //console.log('onDidDismiss resolved with role', role);
+
+  }
+
+
+  async abrirFormsegu(aspirante) {
+
+    const objAspirante = JSON.parse(JSON.stringify(aspirante))
+
+    const modal = await this.modalController.create({
+      component: FormValidarSeguComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        aspirante: objAspirante,
+        rol: 'medi',
+        objModal: this.modalController
+      }
+    });
+
+    await modal.present();
+
+    //const { data } = await modal.onDidDismiss();
+    const { data } = await modal.onWillDismiss();
+    //console.log(data)
+
+    if (!data || data == undefined || data.role == "cancelar") {
+      return;
+    }
+
+    //data.aspirante.asp_estado = "APROBADO"
+
+    //console.log(data.aspirante)
+
+    this.dataService.verifySeguridad(data.aspirante).subscribe(res => {
+
+      if (res['success'] == true && data.ficha != null) {
+        /*this.servicioFtp.uploadFile(data.ficha).subscribe(res2 => {
+          res = res2
+        })*/
+
+      }
+
+      console.log(res)
+
+    })
+
+  }
+
 
 }

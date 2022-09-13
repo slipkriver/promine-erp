@@ -95,6 +95,17 @@ if ($postjson['task'] == 'aspiranterol') {
 		}
 
 	}
+	if ($postjson['asp_estado'] == 'segu') {
+
+		if ($postjson['estado'] == 0) {
+			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
+			WHERE asp_estado = 'REVISION' ");
+		}else if ($postjson['estado'] == 1){
+			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
+			WHERE asp_estado = 'APROBADO' ");
+		}
+
+	}
 
 	while ($row = mysqli_fetch_array($query)) {
 
@@ -257,11 +268,12 @@ if ($postjson['task'] == 'medicina1') {
 			asp_estado	= '$postjson[asp_estado]'
 		WHERE asp_cedula LIKE '$postjson[amv_aspirante]'");
 
-	/*if ($postjson['atv_aprobado'] == 'SI') {
-		$strObjetoValth = 	"apv_aspirante = '$postjson[atv_aspirante]', 
-							 apv_fverificado = '$postjson[atv_fverificado]' ";
-		$query3 = mysqli_query($mysqli, "INSERT INTO asp_psico_validar SET " . $strObjetoValth);
-	}*/
+
+	if( $postjson['asp_estado']=="REVISION" ){
+		$queryAdd = mysqli_query($mysqli, "INSERT into asp_segu_validar SET 
+			asv_aspirante	= '$postjson[amv_aspirante]',
+			asv_fingresado	= '$postjson[amv_fexamenes]' " );
+	}
 
 
 	$mysqli->close();

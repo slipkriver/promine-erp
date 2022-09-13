@@ -24,7 +24,7 @@ export class PrincipalMedicinaPage implements OnInit {
     private dataService: DataService,
     private actionSheetCtr: ActionSheetController,
     private modalController: ModalController,
-        private servicioFtp: FtpfilesService
+    private servicioFtp: FtpfilesService
   ) { }
 
 
@@ -41,10 +41,10 @@ export class PrincipalMedicinaPage implements OnInit {
 
   ionViewDidEnter() {
 
-    if(this.dataService.isloading){
+    if (this.dataService.isloading) {
       this.dataService.cerrarLoading()
     }
-    
+
     this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 
@@ -60,12 +60,12 @@ export class PrincipalMedicinaPage implements OnInit {
     }, 2000);
   }
 
-  setEstado(evento){
+  setEstado(evento) {
     // console.log(evento)
     //this.estado = evento.detail.value
     this.listarAspirantes(evento)
   }
-  
+
   listarAspirantes(event) {
 
     this.dataService.mostrarLoading()
@@ -74,7 +74,7 @@ export class PrincipalMedicinaPage implements OnInit {
     const id = event.detail.value
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listadoPorDepartamento('medi',id).subscribe(res => {
+    this.dataService.listadoPorDepartamento('medi', id).subscribe(res => {
       //console.log(res)
       res['aspirantes'].forEach(element => {
         if (element.asp_estado == 'NO ADMITIDO') {
@@ -97,7 +97,7 @@ export class PrincipalMedicinaPage implements OnInit {
     this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
 
       this.dataService.aspirante = res['aspirante']
-      console.log(res)
+      //console.log(res)
       aspirante = res['aspirante']
 
     })
@@ -176,14 +176,14 @@ export class PrincipalMedicinaPage implements OnInit {
       return;
     }
 
-    data.aspirante.asp_estado = "APROBADO"
+    //data.aspirante.asp_estado = "APROBADO"
 
-    console.log(data.aspirante)
+    //console.log(data.aspirante)
 
     this.dataService.verifyMedicina(data.aspirante).subscribe(res => {
 
       if (res['success'] == true && data.ficha != null) {
-        this.servicioFtp.uploadFile(data.ficha).subscribe( res2 => {
+        this.servicioFtp.uploadFile(data.ficha).subscribe(res2 => {
           res = res2
         })
 
@@ -196,7 +196,7 @@ export class PrincipalMedicinaPage implements OnInit {
   }
 
 
-  
+
   buscarAspirante(event) {
 
     if (event.detail.value.length < 3) return

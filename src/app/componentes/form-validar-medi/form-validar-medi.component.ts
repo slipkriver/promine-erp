@@ -159,9 +159,9 @@ export class FormValidarMediComponent implements OnInit {
 
     this.aspirante.amv_verificado = "true"
     this.aspirante.amv_femision = femision
-    this.aspirante.asp_estado = "APROBADO"
+    this.aspirante.asp_estado = (this.aspirante.amv_valoracion=='NO APTO')?"NO ADMITIDO":"REVISION"
 
-    //console.log(this.aspirante)
+    // console.log(this.aspirante)
     // return
 
     this.modal.dismiss({
