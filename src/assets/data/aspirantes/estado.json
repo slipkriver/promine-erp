@@ -57,36 +57,13 @@
     "est_id": "9",
     "est_nombre": "APROBADO",
     "est_entidad": "ASPIRANTE",
-    "est_descripcion": "Ingreso de fichas y documentos derpantamento de psicología"
-  },
-  {
-    "est_id": "10",
-    "est_nombre": "PSICOLOGIA",
-    "est_entidad": "ASPIRANTE",
-    "est_descripcion": "Ingreso de fichas y documentos derpantamento de medicina"
-  },
-  {
-    "est_id": "11",
-    "est_nombre": "MEDICINA",
-    "est_entidad": "ASPIRANTE",
     "est_descripcion": "En proceso de inducción y capacitaciones"
   },
   {
-    "est_id": "12",
-    "est_nombre": "INDUCCION",
-    "est_entidad": "ASPIRANTE",
-    "est_descripcion": "Procesando documentos de contratación"
-  },
-  {
-    "est_id": "13",
-    "est_nombre": "FINALIZANDO",
-    "est_entidad": "ASPIRANTE",
-    "est_descripcion": "Contratación finalizada"
-  },
-  {
-    "est_id": "14",
+    "est_id": "10",
     "est_nombre": "CONTRATADO",
     "est_entidad": "ASPIRANTE",
-    "est_descripcion": ""
+    "est_descripcion": "Contratación finalizada"
   }
+
 ]

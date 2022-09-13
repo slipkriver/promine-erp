@@ -127,11 +127,13 @@ export class PrincipalThPage implements OnInit {
 
     const asp_estado = aspirante.asp_estado
 
-    if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO') {
+    if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO' ) {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
 
         this.dataService.aspirante = this.cambiarBool(res['aspirante'])
         aspirante = this.cambiarBool(res['aspirante'])
+
+        //const botones:ActionSheetButton<[]> 
         this.opcionesTthh1(aspirante)
       })
 
@@ -142,12 +144,19 @@ export class PrincipalThPage implements OnInit {
         aspirante = this.cambiarBool(res['aspirante'])
         this.opcionesTthh2(aspirante)
       })
-    } else if (asp_estado == 'APROBADO') {
-      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+    } else if (asp_estado == 'REVISION') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
 
         this.dataService.aspirante = this.cambiarBool(res['aspirante'])
         aspirante = this.cambiarBool(res['aspirante'])
-        this.opcionesTthh3(aspirante)
+        this.opcionesTthh4(aspirante)
+      })
+    } else if (asp_estado == 'APROBADO') {
+      this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
+
+        this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+        aspirante = this.cambiarBool(res['aspirante'])
+        this.opcionesTthh5(aspirante)
       })
     }
     // this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
@@ -168,20 +177,6 @@ export class PrincipalThPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Ver ficha de ingreso ',
-          icon: 'create',
-          handler: () => {
-
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              // console.log(res)
-              this.dataService.aspirante = res['result'][1];
-              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-
-            })
-            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
-          },
-        },
-        {
           text: 'Verificar documentación legal',
           icon: 'checkmark-circle',
           handler: () => {
@@ -192,7 +187,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            //console.log('Play clicked');
+            this.selectDocumentos( aspirante['est_id'], aspirante )
           },
         },
         {
@@ -225,29 +220,6 @@ export class PrincipalThPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Ver ficha de ingreso ',
-          icon: 'create',
-          handler: () => {
-
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              // console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-
-            })
-            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
-          },
-        },
-        {
-          text: 'Ver ficha de aprobacion Psicologica',
-          icon: 'checkmark-circle',
-          handler: () => {
-
-            this.abrirFormpsico(aspirante)
-
-          },
-        },
-        {
           text: 'Autorizar examenes ocupacionales',
           icon: 'checkmark-circle',
           handler: () => {
@@ -260,7 +232,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            //console.log('Play clicked');
+            this.selectDocumentos( aspirante['est_id'], aspirante )
           },
         },
         {
@@ -286,29 +258,6 @@ export class PrincipalThPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Ver ficha de ingreso ',
-          icon: 'create',
-          handler: () => {
-
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              // console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
-
-            })
-            //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
-          },
-        },
-        {
-          text: 'Ver ficha de aprobacion Medica',
-          icon: 'checkmark-circle',
-          handler: () => {
-
-            this.abrirFormmedi(aspirante)
-
-          },
-        },
-        {
           text: 'Autorizar entrevista Psicologia',
           icon: 'checkmark-circle',
           handler: () => {
@@ -321,7 +270,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            //console.log('Play clicked');
+            this.selectDocumentos( aspirante['est_id'], aspirante )
           },
         },
         {
@@ -338,6 +287,177 @@ export class PrincipalThPage implements OnInit {
 
     const { role } = await opciones.onDidDismiss();
   }
+
+
+  async opcionesTthh4(aspirante) {
+
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Finalizar revision de documentos',
+          icon: 'checkmark-circle',
+          handler: () => {
+
+            this.mostrarAlerPsicologia(aspirante)
+
+          },
+        },
+        {
+          text: 'Detalles del proceso',
+          icon: 'information-circle',
+          handler: async () => {
+            this.selectDocumentos( aspirante['est_id'], aspirante )
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
+  }
+
+
+  
+  async opcionesTthh5(aspirante) {
+
+    var strTitulo = aspirante.asp_nombre
+    const opciones = await this.actionSheetCtr.create({
+      header: strTitulo,
+      cssClass: '',
+      buttons: [
+        {
+          text: 'Finalizar contratacion',
+          icon: 'ribbon',
+          handler: () => {
+
+            this.mostrarAlerPsicologia(aspirante)
+
+          },
+        },
+        {
+          text: 'Detalles del proceso',
+          icon: 'information-circle',
+          handler: async () => {
+            this.selectDocumentos( aspirante['est_id'], aspirante )
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          },
+        },
+      ],
+    });
+    await opciones.present();
+
+    const { role } = await opciones.onDidDismiss();
+  }
+
+  
+async selectDocumentos( id_estado, aspirante ) {
+  //console.log(id_estado)
+
+  const alert = await this.alertCtrl.create({
+    header: 'Aceptar',
+    message: '<strong>Seleccione un elemento para su revision.</strong>!!!',
+    inputs: [
+      {
+        label: 'Ver ficha de ingreso',
+        type: 'radio',
+        value: '1',
+      },
+      {
+        label: 'Ficha de validacion tthh',
+        type: 'radio',
+        value: '2',
+        disabled: (id_estado < 2)?true:false
+      },
+      {
+        label: 'Verificacion de psicologia',
+        type: 'radio',
+        value: '3',
+        disabled: (id_estado < 5)?true:false
+      },
+      {
+        label: 'Verificacion de medicina',
+        type: 'radio',
+        value: '4',
+        disabled: (id_estado < 7)?true:false
+      }
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          //console.log('Confirm Cancel: blah');
+        }
+      }, {
+        text: 'Aceptar',
+        handler: (res) => {
+          
+          if(res == '1' ){
+
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe( (data) => {
+              //console.log(aspirante, data)
+              this.dataService.aspirante = data['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+
+            })
+
+          }else if(res == '2' ){
+
+            this.abrirFormalidar( aspirante )
+
+          }else if(res == '3' ){
+
+            this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+
+              this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+              aspirante = this.cambiarBool(res['aspirante'])
+      
+              //const botones:ActionSheetButton<[]> 
+              this.abrirFormpsico( aspirante )
+              //this.opcionesTthh1(aspirante)
+            })
+
+
+          }else if(res == '4' ){
+
+            this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+
+              this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+              aspirante = this.cambiarBool(res['aspirante'])
+      
+              //const botones:ActionSheetButton<[]> 
+              this.abrirFormmedi( aspirante )
+              //this.opcionesTthh1(aspirante)
+            })
+
+
+          }
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
 
   borrarBusqueda() {
     this.textobusqueda = ""
@@ -387,7 +507,7 @@ export class PrincipalThPage implements OnInit {
   async abrirFormpsico(aspirante) {
 
     const objAspirante = JSON.parse(JSON.stringify(aspirante))
-
+    //console.log(aspirante, objAspirante)
     const modal = await this.modalController.create({
       component: FormValidarPsicoComponent,
       cssClass: 'my-custom-class',

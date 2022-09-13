@@ -24,6 +24,12 @@ if ($postjson['task'] == 'getaspiranterol') {
 		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi  
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
 	}
+	
+
+	if ($postjson['role'] == 'segu') {
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu  
+						WHERE asp_cedula LIKE '$postjson[cedula]'");
+	}
 
 	while ($row = mysqli_fetch_array($query)) {
 
@@ -53,7 +59,7 @@ if ($postjson['task'] == 'aspiranterol') {
 
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
-			WHERE asp_estado = 'INGRESADO' OR asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'APROBADO'");
+			WHERE asp_estado = 'INGRESADO' OR asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'APROBADO' OR asp_estado = 'REVISION' ");
 		}else {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
 			WHERE est_id = '$postjson[estado]'");
