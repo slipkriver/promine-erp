@@ -3,6 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { FtpfilesService } from 'src/app/services/ftpfiles.service';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/form-validar-psico.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal-psicologia',
@@ -11,31 +12,34 @@ import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/
 })
 export class PrincipalPsicologiaPage implements OnInit {
 
-  estado
+  estado = { est_id : 0 }
   listaTareas = []
   aspirantesBuscar = []
 
+  numNotificaciones = 0;
 
   constructor(
     private actionSheetCtr: ActionSheetController,
     private dataService: DataService,
     public modalController: ModalController,
-    private servicioFtp: FtpfilesService
+    private servicioFtp: FtpfilesService,
+    private router: Router,
+
   ) { }
 
   ngOnInit() {
 
-    this.dataService.getAspiranteLData("estado").subscribe(lista => {
+    // this.dataService.getAspiranteLData("estado").subscribe(lista => {
       //this.estados = lista;
-      this.estado = 0;
+      //this.estado = 0;
       //console.log(this.estados[10]);
-    });
+    // });
 
   }
 
   ionViewDidEnter() {
 
-    if(this.dataService.isloading){
+    if (this.dataService.isloading) {
       this.dataService.cerrarLoading()
     }
 
@@ -44,17 +48,22 @@ export class PrincipalPsicologiaPage implements OnInit {
     //this.validado = this.aspirante.atv_verificado
   }
 
-  listarAspirantes(event) {
+  listarAspirantes(event?) {
 
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = event.detail.value
+    const id = (event)?event.detail.value:0
+
     this.estado = id
-    console.log( id, parseInt(id))
-    this.dataService.listadoPorDepartamento('psico',id).subscribe(res => {
+    //console.log( id, parseInt(id))
+    this.dataService.listadoPorDepartamento('psico', id).subscribe(res => {
       this.listaTareas = res['aspirantes']
       //console.log(res)
+      if (id == 0) {
+        this.numNotificaciones = this.listaTareas.length
+      }
+
       this.dataService.cerrarLoading()
     })
 
@@ -74,13 +83,13 @@ export class PrincipalPsicologiaPage implements OnInit {
 
       })
 
-    } else if (asp_estado == 'APROBADO' || asp_estado == 'PSICOLOGIA' ) {
+    } else if (asp_estado == 'APROBADO' || asp_estado == 'PSICOLOGIA') {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
         this.opcionesPsico2(aspirante)
-        
+
       })
-      
+
     } else if (asp_estado == 'OTRO ESTADO') {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
@@ -90,20 +99,20 @@ export class PrincipalPsicologiaPage implements OnInit {
     }
 
     this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
-      
+
       this.dataService.aspirante = res['aspirante']
       //console.log(res)
       aspirante = res['aspirante']
       //this.dataService.cerrarLoading()
 
     })
-    
+
     //var strTitulo = aspirante.asp_cedula + '::' 
 
   }
-  
-  async opcionesPsico1(aspirante){
-    
+
+  async opcionesPsico1(aspirante) {
+
     var strTitulo = aspirante.asp_nombre
     const opciones = await this.actionSheetCtr.create({
       header: strTitulo,
@@ -126,10 +135,10 @@ export class PrincipalPsicologiaPage implements OnInit {
           icon: 'information-circle-outline',
           handler: () => {
 
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              //console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe((data) => {
+              //console.log(aspirante, data)
+              this.dataService.aspirante = data['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
             })
             //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
@@ -150,9 +159,9 @@ export class PrincipalPsicologiaPage implements OnInit {
     const { role } = await opciones.onDidDismiss();
     //console.log('onDidDismiss resolved with role', role);
   }
-  
 
-  async opcionesPsico2(aspirante){
+
+  async opcionesPsico2(aspirante) {
 
     var strTitulo = aspirante.asp_nombre
     const opciones = await this.actionSheetCtr.create({
@@ -202,7 +211,7 @@ export class PrincipalPsicologiaPage implements OnInit {
   }
 
 
-  setEstado(evento){
+  setEstado(evento) {
     // console.log(evento)
     //this.estado = evento.detail.value
     this.listarAspirantes(evento)
@@ -235,12 +244,13 @@ export class PrincipalPsicologiaPage implements OnInit {
     this.dataService.verifyPsicologia(data.aspirante).subscribe(res => {
 
       if (res['success'] == true && data.ficha != null) {
-        this.servicioFtp.uploadFile(data.ficha).subscribe( res2 => {
+        this.servicioFtp.uploadFile(data.ficha).subscribe(res2 => {
           res = res2
+          this.numNotificaciones--;
           this.dataService.cerrarLoading()
         })
 
-      }else{
+      } else {
 
         this.dataService.cerrarLoading()
 

@@ -285,3 +285,51 @@ if ($postjson['task'] == 'medicina1') {
 	}
 	echo $result;
 }
+
+if ($postjson['task'] == 'seguridad1') {
+
+	$strObjeto = "";
+
+	foreach ($postjson as $key => $value) {
+
+		$col_id = substr($key, 0, 4);
+
+		if ($col_id == "asv_") {
+			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
+		}
+	}
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE asp_segu_validar SET " . $strObjeto .
+		" WHERE asv_aspirante LIKE '$postjson[asv_aspirante]'");
+
+
+	$mysqli->close();
+
+	if ($query ) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}
+
+if ($postjson['task'] == 'talentoh2') {
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
+		  asp_estado = '$postjson[asp_estado]' " .
+		" WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
+
+
+	$mysqli->close();
+
+	if ($query ) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}

@@ -3,6 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { FormValidarMediComponent } from '../../componentes/form-validar-medi/form-validar-medi.component';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { FtpfilesService } from 'src/app/services/ftpfiles.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal-medicina',
@@ -16,15 +17,18 @@ export class PrincipalMedicinaPage implements OnInit {
   aspirantesBuscar = []
 
   estados = []
-  estado
+  estado = { est_id : 0 }
 
   listaTareas = []
+  numNotificaciones = 0;
 
   constructor(
     private dataService: DataService,
     private actionSheetCtr: ActionSheetController,
     private modalController: ModalController,
-    private servicioFtp: FtpfilesService
+    private servicioFtp: FtpfilesService,
+    private router: Router,
+
   ) { }
 
 
@@ -66,12 +70,13 @@ export class PrincipalMedicinaPage implements OnInit {
     this.listarAspirantes(evento)
   }
 
-  listarAspirantes(event) {
+  listarAspirantes(event?) {
 
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = event.detail.value
+    const id = (event)?event.detail.value:0
+
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
     this.dataService.listadoPorDepartamento('medi', id).subscribe(res => {
@@ -86,6 +91,10 @@ export class PrincipalMedicinaPage implements OnInit {
         }
       });
       this.listaTareas = res['aspirantes']
+
+      if (id == 0) {
+        this.numNotificaciones = this.listaTareas.length
+      }
 
       this.dataService.cerrarLoading()
     })
@@ -125,10 +134,10 @@ export class PrincipalMedicinaPage implements OnInit {
           icon: 'information-circle-outline',
           handler: () => {
 
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              //console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe((data) => {
+              //console.log(aspirante, data)
+              this.dataService.aspirante = data['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
             })
             //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
@@ -185,6 +194,8 @@ export class PrincipalMedicinaPage implements OnInit {
       if (res['success'] == true && data.ficha != null) {
         this.servicioFtp.uploadFile(data.ficha).subscribe(res2 => {
           res = res2
+          this.numNotificaciones--;
+
         })
 
       }

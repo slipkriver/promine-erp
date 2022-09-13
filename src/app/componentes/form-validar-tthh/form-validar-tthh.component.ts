@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { defaultMaxListeners } from 'events';
-import { AspiranteInfo } from '../../interfaces/aspirante';
 
 @Component({
   selector: 'app-form-validar-tthh',
@@ -144,4 +142,6 @@ export class FormValidarTthhComponent implements OnInit {
     console.log(role + " Clic!!")
     //this.roleMessage = `Dismissed with role: ${role}`;
   }
+
+  
 }

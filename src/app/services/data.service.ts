@@ -224,6 +224,12 @@ export class DataService {
 
   }
 
+  autorizarDocumentacion(aspirante) {
+
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(aspirante))
+
+  }
+
   listarPorEstado(id_estado) {
     var body
 
@@ -288,26 +294,26 @@ export class DataService {
     let message = (!!mensaje) ? mensaje : 'Espere por favor mientras se carga la informacion...'
     const loading = await this.loadingCtrl.create({
       message,
-      //duration: 3000,
+      duration: 3000,
       spinner: 'circles'
     });
 
     this.isloading = true
     loading.present();
 
-    setTimeout(() => {
+    /*setTimeout(() => {
 
       if(this.isloading == true)
         this.loadingCtrl.dismiss()
       
-    }, 10000);
+    }, 10000);*/
   }
 
   async cerrarLoading() {
 
     // setTimeout(() => {
 
-      this.loadingCtrl.dismiss();
+      //this.loadingCtrl.dismiss();
       this.isloading = false
 
     // }, 1000);

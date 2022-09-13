@@ -1,6 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Departamento de Talento Humano</ion-title>
+    <ion-title>
+      <ion-label> Departamento de Talento Humano </ion-label>
+      <ion-chip color="primary" mode="ios" outline="true" *ngIf="numNotificaciones" (click)="listarAspirantes()">
+        <!-- <ion-label>Default</ion-label> -->
+        <ion-icon  name="notifications"></ion-icon> 
+        <ion-badge color="danger" mode="ios">
+          {{numNotificaciones}}
+        </ion-badge>
+      </ion-chip>
+      
+      
+    </ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -38,7 +49,7 @@
         <ion-toolbar>
           <ion-item  color="medium">
             <ion-label>Estado de solicitud</ion-label>
-            <ion-select value="0" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
+            <ion-select [value]="estado.est_id" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
               <ion-select-option *ngFor="let item of estados"  [value]="item.est_id">{{item.est_nombre}}</ion-select-option>
               <!-- <ion-select-option value="2">VERIFICADOS</ion-select-option>
               <ion-select-option value="3">NO APROBADOS</ion-select-option> -->
@@ -52,7 +63,9 @@
                     color="light" style="color: #071f3b;">
             <ion-card-content style="display: flex;">
 
-              <div style="width: 90%;">
+              <div style="width: 2%; margin: 0px 5px 0px 0px;" [style.background]="item.est_color" ></div>
+              
+              <div style="width: 88%;">
 
                 <ion-label>
                   <ion-icon name="person-circle-outline"> </ion-icon>&nbsp;
@@ -60,12 +73,12 @@
                 </ion-label><br>
                 <ion-label>cargo postulado: <i>{{item.asp_cargo}}</i></ion-label><br>
                 <ion-label>
-                  <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referido}}
+                  <ion-icon name="call"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referencia}}
                 </ion-label><br>
                 <ion-label>observaciones: {{item.asp_observaciones}} </ion-label><br>
                 <ion-label color="primary" style="font-size: 0.8rem;" >ingresado el <b>{{item.asp_fch_ingreso}}</b> &nbsp;
                 </ion-label>
-                <ion-label  style="font-size: 0.8rem;" [style.color]="item.est_color"> 
+                <ion-label  style="font-size: 0.8rem;" color="success" > 
                   <ion-icon name="information-circle" style="font-size: 1.1rem; vertical-align: text-bottom;"></ion-icon>
                   <i>{{item.est_descripcion}}</i>
                 </ion-label>

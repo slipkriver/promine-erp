@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { FormValidarSeguComponent } from '../../componentes/form-validar-segu/form-validar-segu.component';
@@ -17,11 +18,14 @@ export class PrincipalSeguridadPage implements OnInit {
   estado
 
   listaTareas = []
+  numNotificaciones = 0;
+
 
   constructor(
     private actionSheetCtr: ActionSheetController,
     private modalController: ModalController,
     private dataService: DataService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -43,10 +47,11 @@ export class PrincipalSeguridadPage implements OnInit {
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = event.detail.value
+    const id = (event) ? event.detail.value : 0
+
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listadoPorDepartamento('segu',id).subscribe(res => {
+    this.dataService.listadoPorDepartamento('segu', id).subscribe(res => {
       //console.log(res)
       res['aspirantes'].forEach(element => {
         if (element.asp_estado == 'NO ADMITIDO') {
@@ -59,6 +64,10 @@ export class PrincipalSeguridadPage implements OnInit {
       });
       this.listaTareas = res['aspirantes']
 
+      if (id == 0) {
+        this.numNotificaciones = this.listaTareas.length
+      }
+
       this.dataService.cerrarLoading()
     })
 
@@ -67,7 +76,7 @@ export class PrincipalSeguridadPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+    this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'segu').subscribe(res => {
 
       this.dataService.aspirante = res['aspirante']
       //console.log(res)
@@ -98,10 +107,10 @@ export class PrincipalSeguridadPage implements OnInit {
           icon: 'information-circle-outline',
           handler: () => {
 
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe(res => {
-              //console.log(res)
-              this.dataService.aspirante = res['result'][0];
-              //this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe((data) => {
+              //console.log(aspirante, data)
+              this.dataService.aspirante = data['result'][0];
+              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
             })
             //console.log('/pages/aspirante-new/' + aspirante['asp_cedula']);
@@ -134,7 +143,7 @@ export class PrincipalSeguridadPage implements OnInit {
       cssClass: 'my-custom-class',
       componentProps: {
         aspirante: objAspirante,
-        rol: 'medi',
+        rol: 'segu',
         objModal: this.modalController
       }
     });
@@ -151,18 +160,20 @@ export class PrincipalSeguridadPage implements OnInit {
 
     //data.aspirante.asp_estado = "APROBADO"
 
-    //console.log(data.aspirante)
+    //console.log(data.aspirante);
+    //return;
 
     this.dataService.verifySeguridad(data.aspirante).subscribe(res => {
 
-      if (res['success'] == true && data.ficha != null) {
-        /*this.servicioFtp.uploadFile(data.ficha).subscribe(res2 => {
-          res = res2
-        })*/
+      //console.log(res)
 
-      }
-
-      console.log(res)
+      this.listaTareas.forEach((element, index) => {
+        if (element.asp_cedula == data.aspirante.asp_cedula) {
+          this.listaTareas.splice(index, 1)
+          //console.log(element,index,data.aspirante,this.listaTareas)
+        }
+      });
+      this.numNotificaciones--;
 
     })
 

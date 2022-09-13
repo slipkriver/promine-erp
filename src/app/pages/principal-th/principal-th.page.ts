@@ -15,12 +15,13 @@ export class PrincipalThPage implements OnInit {
 
   aspirantesNuevo = []
   estados = []
-  estado
+  estado = { est_id : 0 }
 
   listaTareas = []
   textobusqueda = ""
 
   listamenu = []
+  numNotificaciones = 0;
 
   constructor(
     private dataService: DataService,
@@ -45,10 +46,10 @@ export class PrincipalThPage implements OnInit {
 
   ionViewDidEnter() {
 
-    if(this.dataService.isloading){
+    if (this.dataService.isloading) {
       this.dataService.cerrarLoading()
     }
-    
+
     this.listarAspirantes({ detail: { value: 0 } })
     //console.log(this.aspirantesNuevo)
 
@@ -75,15 +76,15 @@ export class PrincipalThPage implements OnInit {
 
   }
 
-  listarAspirantes(event) {
+  listarAspirantes(event?) {
 
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = event.detail.value
+    const id = (event)?event.detail.value:0
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
-    this.dataService.listadoPorDepartamento('tthh',id).subscribe(res => {
+    this.dataService.listadoPorDepartamento('tthh', id).subscribe(res => {
       res['aspirantes'].forEach(element => {
         if (element.asp_estado == 'NO APROBADO') {
           element.asp_colorestado = "danger"
@@ -94,6 +95,11 @@ export class PrincipalThPage implements OnInit {
         }
       });
       this.listaTareas = res['aspirantes']
+
+      if (id == 0) {
+        this.numNotificaciones = this.listaTareas.length
+      }
+
       this.dataService.cerrarLoading()
       //console.log(res['aspirante'])
 
@@ -125,9 +131,11 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
+    console.log(aspirante)
+    
     const asp_estado = aspirante.asp_estado
 
-    if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO' ) {
+    if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO') {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'tthh').subscribe(res => {
 
         this.dataService.aspirante = this.cambiarBool(res['aspirante'])
@@ -187,7 +195,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            this.selectDocumentos( aspirante['est_id'], aspirante )
+            this.selectDocumentos(aspirante['est_id'], aspirante)
           },
         },
         {
@@ -232,7 +240,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            this.selectDocumentos( aspirante['est_id'], aspirante )
+            this.selectDocumentos(aspirante['est_id'], aspirante)
           },
         },
         {
@@ -270,7 +278,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            this.selectDocumentos( aspirante['est_id'], aspirante )
+            this.selectDocumentos(aspirante['est_id'], aspirante)
           },
         },
         {
@@ -301,7 +309,7 @@ export class PrincipalThPage implements OnInit {
           icon: 'checkmark-circle',
           handler: () => {
 
-            this.mostrarAlerPsicologia(aspirante)
+            this.mostrarAlerTthh(aspirante)
 
           },
         },
@@ -309,7 +317,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            this.selectDocumentos( aspirante['est_id'], aspirante )
+            this.selectDocumentos(aspirante['est_id'], aspirante)
           },
         },
         {
@@ -328,7 +336,7 @@ export class PrincipalThPage implements OnInit {
   }
 
 
-  
+
   async opcionesTthh5(aspirante) {
 
     var strTitulo = aspirante.asp_nombre
@@ -341,7 +349,7 @@ export class PrincipalThPage implements OnInit {
           icon: 'ribbon',
           handler: () => {
 
-            this.mostrarAlerPsicologia(aspirante)
+            this.mostrarAlerTthh(aspirante)
 
           },
         },
@@ -349,7 +357,7 @@ export class PrincipalThPage implements OnInit {
           text: 'Detalles del proceso',
           icon: 'information-circle',
           handler: async () => {
-            this.selectDocumentos( aspirante['est_id'], aspirante )
+            this.selectDocumentos(aspirante['est_id'], aspirante)
           },
         },
         {
@@ -367,97 +375,97 @@ export class PrincipalThPage implements OnInit {
     const { role } = await opciones.onDidDismiss();
   }
 
-  
-async selectDocumentos( id_estado, aspirante ) {
-  //console.log(id_estado)
 
-  const alert = await this.alertCtrl.create({
-    header: 'Aceptar',
-    message: '<strong>Seleccione un elemento para su revision.</strong>!!!',
-    inputs: [
-      {
-        label: 'Ver ficha de ingreso',
-        type: 'radio',
-        value: '1',
-      },
-      {
-        label: 'Ficha de validacion tthh',
-        type: 'radio',
-        value: '2',
-        disabled: (id_estado < 2)?true:false
-      },
-      {
-        label: 'Verificacion de psicologia',
-        type: 'radio',
-        value: '3',
-        disabled: (id_estado < 5)?true:false
-      },
-      {
-        label: 'Verificacion de medicina',
-        type: 'radio',
-        value: '4',
-        disabled: (id_estado < 7)?true:false
-      }
-    ],
-    buttons: [
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-          //console.log('Confirm Cancel: blah');
+  async selectDocumentos(id_estado, aspirante) {
+    //console.log(id_estado)
+
+    const alert = await this.alertCtrl.create({
+      header: 'Aceptar',
+      message: '<strong>Seleccione un elemento para su revision.</strong>!!!',
+      inputs: [
+        {
+          label: 'Ver ficha de ingreso',
+          type: 'radio',
+          value: '1',
+        },
+        {
+          label: 'Ficha de validacion tthh',
+          type: 'radio',
+          value: '2',
+          disabled: (id_estado < 2) ? true : false
+        },
+        {
+          label: 'Verificacion de psicologia',
+          type: 'radio',
+          value: '3',
+          disabled: (id_estado < 5) ? true : false
+        },
+        {
+          label: 'Verificacion de medicina',
+          type: 'radio',
+          value: '4',
+          disabled: (id_estado < 7) ? true : false
         }
-      }, {
-        text: 'Aceptar',
-        handler: (res) => {
-          
-          if(res == '1' ){
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            //console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: (res) => {
 
-            this.dataService.getAspirante(aspirante['asp_cedula']).subscribe( (data) => {
-              //console.log(aspirante, data)
-              this.dataService.aspirante = data['result'][0];
-              this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
+            if (res == '1') {
 
-            })
+              this.dataService.getAspirante(aspirante['asp_cedula']).subscribe((data) => {
+                //console.log(aspirante, data)
+                this.dataService.aspirante = data['result'][0];
+                this.router.navigate(['/inicio/tab-aspirante/aspirante-new/' + aspirante['asp_cedula']])
 
-          }else if(res == '2' ){
+              })
 
-            this.abrirFormalidar( aspirante )
+            } else if (res == '2') {
 
-          }else if(res == '3' ){
+              this.abrirFormalidar(aspirante)
 
-            this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
+            } else if (res == '3') {
 
-              this.dataService.aspirante = this.cambiarBool(res['aspirante'])
-              aspirante = this.cambiarBool(res['aspirante'])
-      
-              //const botones:ActionSheetButton<[]> 
-              this.abrirFormpsico( aspirante )
-              //this.opcionesTthh1(aspirante)
-            })
+              this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
+                this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+                aspirante = this.cambiarBool(res['aspirante'])
 
-          }else if(res == '4' ){
-
-            this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
-
-              this.dataService.aspirante = this.cambiarBool(res['aspirante'])
-              aspirante = this.cambiarBool(res['aspirante'])
-      
-              //const botones:ActionSheetButton<[]> 
-              this.abrirFormmedi( aspirante )
-              //this.opcionesTthh1(aspirante)
-            })
+                //const botones:ActionSheetButton<[]> 
+                this.abrirFormpsico(aspirante)
+                //this.opcionesTthh1(aspirante)
+              })
 
 
+            } else if (res == '4') {
+
+              this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'medi').subscribe(res => {
+
+                this.dataService.aspirante = this.cambiarBool(res['aspirante'])
+                aspirante = this.cambiarBool(res['aspirante'])
+
+                //const botones:ActionSheetButton<[]> 
+                this.abrirFormmedi(aspirante)
+                //this.opcionesTthh1(aspirante)
+              })
+
+
+            }
           }
         }
-      }
-    ]
-  });
+      ]
+    });
 
-  await alert.present();
-}
+    await alert.present();
+  }
 
   borrarBusqueda() {
     this.textobusqueda = ""
@@ -490,15 +498,15 @@ async selectDocumentos( id_estado, aspirante ) {
     data.aspirante.task = "actualizar"
     data.aspirante.asp_estado = "VERIFICADO"
 
-    this.dataService.verifyTalento(data.aspirante).subscribe(res => {
+    this.dataService.verifyTalento(data.aspirante).subscribe(() => {
       this.listaTareas.forEach((element, index) => {
-        if(element.asp_cedula == data.aspirante.asp_cedula){
-          this.listaTareas.splice(index,1)
+        if (element.asp_cedula == data.aspirante.asp_cedula) {
+          this.listaTareas.splice(index, 1)
           //console.log(element,index,data.aspirante,this.listaTareas)
         }
       });
-
-      this.dataService.cerrarLoading()
+      this.numNotificaciones--;
+      //this.dataService.cerrarLoading()
     })
     // }
   }
@@ -577,16 +585,16 @@ async selectDocumentos( id_estado, aspirante ) {
       message: "<p>¿Estas seguro de autorizar al aspirante para que proceda a realizar los examenes ocupacionales?</p>" +
         "<ion-item > <ion-icon name='help-circle'  >" +
         "</ion-icon> <ion-label >Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
-        "</ion-label></ion-item>" ,
+        "</ion-label></ion-item>",
       cssClass: 'alertExamenes',
       buttons: [
         {
           text: 'Cancelar',
-          role:'calcel',
+          role: 'calcel',
         },
         {
           text: 'Autorizar',
-          role:'ok',
+          role: 'ok',
           cssClass: 'btnAlerAceptar',
           handler: () => {
             //console.log('Alert GUARDAR');
@@ -606,16 +614,16 @@ async selectDocumentos( id_estado, aspirante ) {
       message: "<p>¿El aspirante cumple con todos los requisitos y puede procedera la consulta con el psicologo?</p>" +
         "<ion-item > <ion-icon name='help-circle'  >" +
         "</ion-icon> <ion-label >Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
-        "</ion-label></ion-item>" ,
+        "</ion-label></ion-item>",
       cssClass: 'alertExamenes',
       buttons: [
         {
           text: 'Cancelar',
-          role:'calcel',
+          role: 'calcel',
         },
         {
           text: 'Autorizar',
-          role:'ok',
+          role: 'ok',
           cssClass: 'btnAlerAceptar',
           handler: () => {
             //console.log('Alert GUARDAR');
@@ -627,62 +635,114 @@ async selectDocumentos( id_estado, aspirante ) {
     await alert.present()
   }
 
-  autorizarExamenes(aspirante){
+  autorizarExamenes(aspirante) {
     //aspirante.task = "actualizar"
 
     const fecha: Date = new Date()
-    const fexamenes  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
+    const fexamenes = fecha.toISOString().substring(0, 11).replace('T', ' ') + fecha.toTimeString().substring(0, 8)
     const aspMedico = {
-      amv_aspirante : aspirante.asp_cedula,
-      amv_fexamenes : fexamenes,
-      asp_estado : "EXAMENES",
-      task :  "autorizarex"
+      amv_aspirante: aspirante.asp_cedula,
+      amv_fexamenes: fexamenes,
+      asp_estado: "EXAMENES",
+      task: "autorizarex"
     }
 
     console.log(aspMedico)
-    
+
     this.dataService.autorizarExocupacion(aspMedico).subscribe(res => {
 
       this.listaTareas.forEach((element, index) => {
-        if(element.asp_cedula == aspMedico.amv_aspirante){
-          this.listaTareas.splice(index,1)
+        if (element.asp_cedula == aspMedico.amv_aspirante) {
+          this.listaTareas.splice(index, 1)
           //console.log(element,index,data.aspirante,this.listaTareas)
         }
       });
 
+      this.numNotificaciones --;
       console.log(res)
 
     })
-    
+
   }
 
-  autorizarPsicologo(aspirante){
+  autorizarPsicologo(aspirante) {
     //aspirante.task = "actualizar"
 
     const fecha: Date = new Date()
-    const fexamenes  = fecha.toISOString().substring(0,11).replace('T',' ')+fecha.toTimeString().substring(0,8)
+    const fexamenes = fecha.toISOString().substring(0, 11).replace('T', ' ') + fecha.toTimeString().substring(0, 8)
     const aspPsico = {
-      amv_aspirante : aspirante.asp_cedula,
-      amv_fexamenes : fexamenes,
-      asp_estado : "PSICOLOGIA",
-      task :  "psicologia2"
+      amv_aspirante: aspirante.asp_cedula,
+      amv_fexamenes: fexamenes,
+      asp_estado: "PSICOLOGIA",
+      task: "psicologia2"
     }
 
     console.log(aspPsico)
-    
+
     this.dataService.autorizarPsicologia(aspPsico).subscribe(res => {
 
       this.listaTareas.forEach((element, index) => {
-        if(element.asp_cedula == aspPsico.amv_aspirante){
-          this.listaTareas.splice(index,1)
+        if (element.asp_cedula == aspPsico.amv_aspirante) {
+          this.listaTareas.splice(index, 1)
           //console.log(element,index,data.aspirante,this.listaTareas)
         }
       });
-
-      console.log(res)
+      
+      this.numNotificaciones --;
+      //console.log(res)
 
     })
-    
+
+  }
+
+  
+  async mostrarAlerTthh(aspirante) {
+    //console.log(aspirante)
+    const alert = await this.alertCtrl.create({
+      header: 'Autorizacion de examenes ocupacionales',
+
+      //subHeader: 'El aspirante ya se escuentra ingresado en el sistema',
+      message: "<p>¿El aspirante posee toda la documentacion necesaria en regla para proceder con la contratacion?</p>" +
+        "<ion-item > <ion-icon name='help-circle'  >" +
+        "</ion-icon> <ion-label >Cedula: <b>" + aspirante["asp_cedula"] + "<br>" + aspirante["asp_nombre"] + "</b>" +
+        "</ion-label></ion-item>",
+      cssClass: 'alertExamenes',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'calcel',
+        },
+        {
+          text: 'Confirmar',
+          role: 'ok',
+          cssClass: 'btnAlerAceptar',
+          handler: () => {
+            //console.log('Alert GUARDAR', aspirante);
+            this.autorizarDocuemntos(aspirante)
+          }
+        }
+      ]
+    });
+    await alert.present()
+  }
+
+
+  autorizarDocuemntos(aspirante) {
+    //aspirante.task = "actualizar"
+    const aspTthh = {
+      asp_cedula: aspirante.asp_cedula,
+      asp_estado: "APROBADO",
+      task: "talentoh2"
+    }
+
+    //console.log(aspirante)
+
+    this.dataService.autorizarDocumentacion(aspTthh).subscribe(() => {
+
+      this.listarAspirantes()
+
+    })
+
   }
 
 }

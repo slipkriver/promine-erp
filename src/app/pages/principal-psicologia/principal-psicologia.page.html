@@ -1,6 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Departamento de Psicología</ion-title>
+    <ion-title>
+      
+      <ion-label> Departamento de Psicologia </ion-label>
+      <ion-chip color="primary" mode="ios" outline="true" *ngIf="numNotificaciones" (click)="listarAspirantes()" >
+        <!-- <ion-label>Default</ion-label> -->
+        <ion-icon  name="notifications"></ion-icon> 
+        <ion-badge color="danger" mode="ios">
+          {{numNotificaciones}}
+        </ion-badge>
+      </ion-chip>
+
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -35,14 +46,6 @@
       <ion-col size="8">
 
         <ion-toolbar>
-          <!-- <ion-item  color="medium">
-            <ion-label>Estado de solicitud</ion-label>
-            <ion-select value="0" multiple="false" placeholder="Seleccionar estado" style="width: 70%;" (ionChange)="listarAspirantes($event)">
-              <ion-select-option value="0">EN ESPERA</ion-select-option>
-              <ion-select-option value="4">APROBADOS</ion-select-option>
-              <ion-select-option value="3">NO APROBADOS</ion-select-option>
-            </ion-select>
-          </ion-item> -->
 
           <ion-radio-group [(ngModel)]="estado" [value]="estado"
           (ionChange)="setEstado($event)" style="width: 100%; display:inline-flex;">
@@ -80,7 +83,7 @@
                 </ion-label><br>
                 <ion-label>cargo postulado: <i>{{item.asp_cargo}}</i></ion-label><br>
                 <ion-label>
-                  <ion-icon name="call-outline"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referido}}
+                  <ion-icon name="call"></ion-icon> {{item.asp_telefono}} - Recomendado por {{item.asp_referencia}} 
                 </ion-label><br>
                 <ion-label>observaciones: {{item.asp_observaciones}} </ion-label><br>
                 <ion-label color="primary" style="font-size: 0.8rem;" >ingresado el <b>{{item.asp_fch_ingreso}}</b> &nbsp;
