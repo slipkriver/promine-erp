@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormValidarTthhComponent } from '../../componentes/form-validar-tthh/form-validar-tthh.component';
 import { FormValidarPsicoComponent } from '../../componentes/form-validar-psico/form-validar-psico.component';
 import { FormValidarMediComponent } from '../../componentes/form-validar-medi/form-validar-medi.component';
+import { ServPdfService } from 'src/app/services/serv-pdf.service';
 
 @Component({
   selector: 'app-principal-th',
@@ -28,7 +29,8 @@ export class PrincipalThPage implements OnInit {
     private actionSheetCtr: ActionSheetController,
     private router: Router,
     public modalController: ModalController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private pdfService: ServPdfService,
   ) { }
 
   ngOnInit() {
@@ -131,8 +133,11 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
+    this.pdfService.getPdfFichaingreso()
+
     console.log(aspirante)
-    
+
+
     const asp_estado = aspirante.asp_estado
 
     if (asp_estado == 'INGRESADO' || asp_estado == 'VERIFICADO' || asp_estado == 'NO APROBADO') {
