@@ -64,29 +64,29 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Nacionalidad\n', style: 'titulocol' },
-                  { text: 'ECUATORIANA', style:'textonormal' }
-                  //{ text: aspirante.asp_nacionalidad, bold:true }
+                  // { text: 'ECUATORIANA', style:'textonormal' }
+                  { text: aspirante.asp_pais, style:'textonormal' }
                 ]
               },
               {
                 text: [
                   { text: 'Sexo\n', style: 'titulocol' },
-                  { text: 'HOMBRE', style:'textonormal' }
-                  //{ text: aspirante.asp_sexo, bold:true }
+                  // { text: 'HOMBRE', style:'textonormal' }
+                  { text: aspirante.asp_sexo, style:'textonormal' }
                 ]
               },
               {
                 text: [
                   { text: 'Edad\n', style: 'titulocol' },
-                  { text: '42 AÑOS', style:'textonormal' }
-                  //{ text: aspirante.asp_edad, bold:true }
+                  // { text: '42 AÑOS', style:'textonormal' }
+                  { text: this.getEdad(aspirante.asp_fecha_nacimiento) + ' AÑOS', style:'textonormal' }
                 ]
               },
               {
                 text: [
                   { text: 'Estado civil\n', style: 'titulocol' },
-                  { text: 'SOLTERO', style:'textonormal' }
-                  //{ text: aspirante.asp_civil, bold:true }
+                  // { text: 'SOLTERO', style:'textonormal' }
+                  { text: aspirante.asp_ecivil, style:'textonormal' }
                 ]
               }
             ],
@@ -97,8 +97,8 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Aspirante al cargo\n', style: 'titulocol' },
-                  { text: 'OPR MINAS/LOCOMOTORA', style:'textonormal' }
-                  //{ text: aspirante.asp_cargo },
+                  // { text: 'OPR MINAS/LOCOMOTORA', style:'textonormal' }
+                  { text: aspirante.asp_cargo, style:'textonormal' }
                 ],
                 colSpan: 2
               },
@@ -113,8 +113,8 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Sueldo\n', style: 'titulocol' },
-                  { text: '$500.00', style:'textonormal' }
-                  //{ text: aspirante.asp_instruccion }
+                  // { text: '$500.00', style:'textonormal' }
+                  { text: '$' + aspirante.asp_sueldo, style:'textonormal' }
                 ],
               }
             ],
@@ -125,15 +125,14 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Experiencia\n', style: 'titulocol' },
-                  { text: 'SI', alignment: 'center', style:'textonormal' }
-                  //{ text: vproductores[i].prod_tel1 },
+                  // { text: 'SI', alignment: 'center', style:'textonormal' }
+                  { text: (aspirante.asp_experiencia=='SI')?'SI':'NO', style:'textonormal' },
                 ]
               },
               {
                 text: [
                   //{ text: '\n', style: 'titulocol' },
-                  { text: 'OPERADOR DE MAQUINARIA EN EL MINISTERIO DE OBRAS PUBLICAS', italics: true, fontSize:11 }
-                  //{ text: vproductores[i].prod_correo, fontSize: 10 }
+                  { text: aspirante.asp_nmb_experiencia, italics: true, fontSize:11 },
                 ],
                 colSpan: 3
               },
@@ -145,22 +144,22 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Fecha entrevista\n', style: 'titulocol' },
-                  { text: '20-06-2022, 14:45', style:'textonormal' }
+                  { text: '', style:'textonormal' }
                   //{ text: vproductores[i].prod_discapacidad }
                 ]
               },
               {
                 text: [
                   { text: 'Fecha ingreso\n', style: 'titulocol' },
-                  { text: '23-06-2022', style:'textonormal' }
+                  { text: aspirante.asp_fch_ingreso.substring(0, 10), style:'textonormal' }
                   //{ text: vproductores[i].prod_ndiscapacidad }
                 ],
               },
               {
                 text: [
                   { text: 'Referencia personal\n', style: 'titulocol' },
-                  { text: 'ING. NANCY PASTOR', style:'textonormal' }
-                  //{ text: vproductores[i].prod_pdiscapacidad }
+                  // { text: 'ING. NANCY PASTOR', style:'textonormal' }
+                  { text: aspirante.asp_referencia }
                 ],
                 colSpan: 2
               },
@@ -168,7 +167,7 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'GRUPO\n', style: 'titulocol' },
-                  { text: 'ADMIN', style:'textonormal' }
+                  { text: '', style:'textonormal' }
                 ],
               },
             ],
@@ -178,15 +177,15 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'CONADIS\n', style: 'titulocol' },
-                  { text: '1122334455', style:'textonormal' }
-                  //{ text: vproductores[i].prod_discapacidad }
+                  // { text: '1122334455', style:'textonormal' }
+                  { text: (aspirante.asp_conadis)?aspirante.asp_conadis:'NO', style:'textonormal' }
                 ],
               },
               {
                 text: [
                   { text: 'Nombre discapacidad\n', style: 'titulocol' },
-                  { text: 'ANDA MEDIO CIEGO', style:'textonormal' }
-                  //{ text: vproductores[i].prod_ndiscapacidad }
+                  // { text: 'ANDA MEDIO CIEGO', style:'textonormal' }
+                  { text: aspirante.asp_discapacidad, style:'textonormal' }
                 ],
                 colSpan: 3
               },
@@ -194,8 +193,8 @@ export class ServPdfService {
               {
                 text: [
                   { text: '(%)Discapacidad\n', style: 'titulocol' },
-                  { text: '64%', style:'textonormal' }
-                  //{ text: vproductores[i].prod_pdiscapacidad }
+                  // { text: '64%', style:'textonormal' }
+                  { text: aspirante.asp_porcentaje, style:'textonormal' }
                 ],
               },
             ],
@@ -205,13 +204,15 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Tipo sangre\n', style: 'titulocol' },
-                  { text: 'O+', alignment: 'center', style:'textonormal' }
+                  // { text: 'O+', alignment: 'center', style:'textonormal' }
+                  { text: aspirante.asp_gpo_sanguineo, style:'textonormal' }
                 ],
               },
               {
                 text: [
                   { text: 'Direccion de domicilio\n', style: 'titulocol' },
-                  { text: 'BELLAVISTA - EL GUABO', italics: true, fontSize: 11 }
+                  // { text: 'BELLAVISTA - EL GUABO', italics: true, fontSize: 11 }
+                  { text: aspirante.asp_direccion, italics: true, fontSize:11 }
                 ],
                 colSpan: 3,
                 rowSpan: 2,
@@ -220,7 +221,8 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Aprobado\n', style: 'titulocol' },
-                  { text: 'SI', alignment: 'center', style:'textonormal' }
+                  // { text: 'SI', alignment: 'center', style:'textonormal' }
+                  { text: (aspirante.asp_estado == 'APROBADO')?'SI':'EN PROCESO', alignment: 'center', style:'textonormal' }
                 ],
               },
             ],
@@ -230,7 +232,8 @@ export class ServPdfService {
               {
                 text: [
                   { text: 'Telefono\n', style: 'titulocol' },
-                  { text: '0994557871', style:'textonormal' }
+                  // { text: '0994557871', style:'textonormal' }
+                  { text: aspirante.asp_telefono, style:'textonormal' }
                 ],
               },
               {},
@@ -312,6 +315,14 @@ export class ServPdfService {
       };
       img.src = url;
     });
+  }
+
+  getEdad(fecha) {
+    //convert date again to type Date
+    const bdate = new Date(fecha);
+    const timeDiff = Math.abs(Date.now() - bdate.getTime() );
+    return Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
+    //console.log(this.asp_edad)
   }
 
 

@@ -19,16 +19,22 @@ if ($postjson['task'] == 'getaspiranterol') {
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
 	}
 
-	
+
 	if ($postjson['role'] == 'medi') {
 		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi  
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
 	}
-	
+
 
 	if ($postjson['role'] == 'segu') {
 		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu  
 						WHERE asp_cedula LIKE '$postjson[cedula]'");
+	}
+
+	if ($postjson['role'] == 'pdfficha') {
+
+		$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_ingreso 
+			WHERE asp_cedula = '$postjson[cedula]'");
 	}
 
 	while ($row = mysqli_fetch_array($query)) {
@@ -60,11 +66,10 @@ if ($postjson['task'] == 'aspiranterol') {
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
 			WHERE asp_estado = 'INGRESADO' OR asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'APROBADO' OR asp_estado = 'REVISION' ");
-		}else {
+		} else {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
 			WHERE est_id = '$postjson[estado]'");
 		}
-
 	}
 
 	if ($postjson['asp_estado'] == 'psico') {
@@ -72,39 +77,36 @@ if ($postjson['task'] == 'aspiranterol') {
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE asp_estado = 'VERIFICADO' OR asp_estado = 'PSICOLOGIA'");
-		}else if ($postjson['estado'] == 1){
+		} else if ($postjson['estado'] == 1) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE apv_verificado = 'true' AND asp_estado<>'NO APTO' ");
-		}else if ($postjson['estado'] == 2){
+		} else if ($postjson['estado'] == 2) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
 			WHERE asp_estado = 'NO APTO'");
 		}
-
 	}
 	if ($postjson['asp_estado'] == 'medi') {
 
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
 			WHERE asp_estado = 'EXAMENES' OR asp_estado = 'MEDICINA'");
-		}else if ($postjson['estado'] == 1){
+		} else if ($postjson['estado'] == 1) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
 			WHERE asp_estado = 'APROBADO' OR asp_estado = 'INDUCCION'");
-		}else if ($postjson['estado'] == 2){
+		} else if ($postjson['estado'] == 2) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
 			WHERE asp_estado = 'NO ADMITIDO'");
 		}
-
 	}
 	if ($postjson['asp_estado'] == 'segu') {
 
 		if ($postjson['estado'] == 0) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
 			WHERE asp_estado = 'REVISION' ");
-		}else if ($postjson['estado'] == 1){
+		} else if ($postjson['estado'] == 1) {
 			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
 			WHERE asp_estado = 'APROBADO' ");
 		}
-
 	}
 
 	while ($row = mysqli_fetch_array($query)) {
@@ -269,10 +271,10 @@ if ($postjson['task'] == 'medicina1') {
 		WHERE asp_cedula LIKE '$postjson[amv_aspirante]'");
 
 
-	if( $postjson['asp_estado']=="REVISION" ){
+	if ($postjson['asp_estado'] == "REVISION") {
 		$queryAdd = mysqli_query($mysqli, "INSERT into asp_segu_validar SET 
 			asv_aspirante	= '$postjson[amv_aspirante]',
-			asv_fingresado	= '$postjson[amv_fexamenes]' " );
+			asv_fingresado	= '$postjson[amv_fexamenes]' ");
 	}
 
 
@@ -307,7 +309,7 @@ if ($postjson['task'] == 'seguridad1') {
 
 	$mysqli->close();
 
-	if ($query ) {
+	if ($query) {
 		$result = json_encode(array('success' => true));
 	} else {
 		$result = json_encode(array('success' => false));
@@ -326,7 +328,7 @@ if ($postjson['task'] == 'talentoh2') {
 
 	$mysqli->close();
 
-	if ($query ) {
+	if ($query) {
 		$result = json_encode(array('success' => true));
 	} else {
 		$result = json_encode(array('success' => false));

@@ -16,7 +16,7 @@ export class PrincipalThPage implements OnInit {
 
   aspirantesNuevo = []
   estados = []
-  estado = { est_id : 0 }
+  estado = { est_id: 0 }
 
   listaTareas = []
   textobusqueda = ""
@@ -83,7 +83,7 @@ export class PrincipalThPage implements OnInit {
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = (event)?event.detail.value:0
+    const id = (event) ? event.detail.value : 0
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
     this.dataService.listadoPorDepartamento('tthh', id).subscribe(res => {
@@ -133,11 +133,7 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    
-    console.log(aspirante)
-
-    //this.pdfService.getPdfFichaingreso(aspirante)
-
+    // console.log(aspirante)
 
     const asp_estado = aspirante.asp_estado
 
@@ -202,13 +198,6 @@ export class PrincipalThPage implements OnInit {
           icon: 'information-circle',
           handler: async () => {
             this.selectDocumentos(aspirante['est_id'], aspirante)
-          },
-        },
-        {
-          text: 'Descargar ficha en PDF',
-          icon: 'cloud-download',
-          handler: () => {
-            console.log('Favorite clicked');
           },
         },
         {
@@ -364,6 +353,20 @@ export class PrincipalThPage implements OnInit {
           icon: 'information-circle',
           handler: async () => {
             this.selectDocumentos(aspirante['est_id'], aspirante)
+          },
+        },
+        {
+          text: 'Descargar ficha en PDF',
+          icon: 'cloud-download-outline',
+          handler: () => {
+
+            this.dataService.getAspiranteRole(aspirante.asp_cedula, 'pdfficha').subscribe(res => {
+              
+              //console.log(aspirante,res)
+              this.pdfService.getPdfFichaingreso(res['aspirante'])
+
+            })
+
           },
         },
         {
@@ -664,7 +667,7 @@ export class PrincipalThPage implements OnInit {
         }
       });
 
-      this.numNotificaciones --;
+      this.numNotificaciones--;
       console.log(res)
 
     })
@@ -693,15 +696,15 @@ export class PrincipalThPage implements OnInit {
           //console.log(element,index,data.aspirante,this.listaTareas)
         }
       });
-      
-      this.numNotificaciones --;
+
+      this.numNotificaciones--;
       //console.log(res)
 
     })
 
   }
 
-  
+
   async mostrarAlerTthh(aspirante) {
     //console.log(aspirante)
     const alert = await this.alertCtrl.create({
