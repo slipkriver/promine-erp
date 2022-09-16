@@ -1,7 +1,11 @@
 [
     {
       "asp_id": "1",
-      "asp_nombre": "OPR MINAS/CANTERAS"
+      "asp_codigo": "0430000000036",
+      "asp_nombre": "OPR MINAS/CANTERAS",
+      "asp_sueldo": "$500",
+      "asp_grupo": "MINA"
+
     },
     {
       "asp_id": "2",

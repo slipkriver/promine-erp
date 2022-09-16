@@ -133,9 +133,10 @@ export class PrincipalThPage implements OnInit {
 
   async opcionesTarea(aspirante) {
 
-    this.pdfService.getPdfFichaingreso()
-
+    
     console.log(aspirante)
+
+    //this.pdfService.getPdfFichaingreso(aspirante)
 
 
     const asp_estado = aspirante.asp_estado
