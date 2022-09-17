@@ -360,8 +360,9 @@ export class PrincipalThPage implements OnInit {
           icon: 'cloud-download-outline',
           handler: () => {
 
+            this.dataService.mostrarLoading();
+            
             this.dataService.getAspiranteRole(aspirante.asp_cedula, 'pdfficha').subscribe(res => {
-              
               //console.log(aspirante,res)
               this.pdfService.getPdfFichaingreso(res['aspirante'])
 

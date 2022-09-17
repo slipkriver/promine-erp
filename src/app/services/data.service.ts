@@ -290,6 +290,20 @@ export class DataService {
 
   }
 
+  getResponsables() {
+
+    //aspirante['asp_estado']
+    const body = { task: 'listarresponsables'};
+    //body['asp_edad'] = body['asp_edad'].toString()
+
+    //console.log(JSON.stringify(body))  
+    return this.http.post(this.serverweb + "/sistema.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   async mostrarLoading(mensaje?) {
     let message = (!!mensaje) ? mensaje : 'Espere por favor mientras se carga la informacion...'
     const loading = await this.loadingCtrl.create({
