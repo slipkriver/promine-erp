@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class PrincipalPsicologiaPage implements OnInit {
 
-  estado = { est_id : 0 }
+  estado = { est_id: 0 }
   listaTareas = []
   aspirantesBuscar = []
 
@@ -30,9 +30,9 @@ export class PrincipalPsicologiaPage implements OnInit {
   ngOnInit() {
 
     // this.dataService.getAspiranteLData("estado").subscribe(lista => {
-      //this.estados = lista;
-      //this.estado = 0;
-      //console.log(this.estados[10]);
+    //this.estados = lista;
+    //this.estado = 0;
+    //console.log(this.estados[10]);
     // });
 
   }
@@ -53,7 +53,7 @@ export class PrincipalPsicologiaPage implements OnInit {
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = (event)?event.detail.value:0
+    const id = (event) ? event.detail.value : 0
 
     this.estado = id
     //console.log( id, parseInt(id))
@@ -250,13 +250,16 @@ export class PrincipalPsicologiaPage implements OnInit {
           this.dataService.cerrarLoading()
         })
 
+        this.listaTareas.forEach((element, index) => {
+          if (element.asp_cedula == aspirante.apv_aspirante) {
+            this.listaTareas.splice(index, 1)
+            this.dataService.presentAlert("VALIDACION COMPLETA", "La información del aspirante has sido ingresada exitosamente.")
+          }
+        });
+        
       } else {
-
         this.dataService.cerrarLoading()
-
       }
-
-      console.log(res)
 
     })
 

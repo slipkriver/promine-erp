@@ -68,7 +68,7 @@ export class FormValidarMediComponent implements OnInit {
     this.fechaEmision = fechaTest
     this.aspirante.amv_femision = fechaTest.toUTCString().substring(0, 22)
     //this[variable] = false
-    console.log(evento.detail.value, this.aspirante.amv_femision);
+    //console.log(evento.detail.value, this.aspirante.amv_femision);
 
     //this.fechaEntrevista = new Date(evento.detail.value.toLocaleString());
 

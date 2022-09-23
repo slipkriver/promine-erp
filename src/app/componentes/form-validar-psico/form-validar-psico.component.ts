@@ -96,12 +96,12 @@ export class FormValidarPsicoComponent implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    console.log(role + " Clic!!")
+    //console.log(role + " Clic!!")
     //this.roleMessage = `Dismissed with role: ${role}`;
   }
   
   onChange(event) {
-    console.log(event.target)
+    //console.log(event.target)
     this.file = event.target.files[0];
   }
 

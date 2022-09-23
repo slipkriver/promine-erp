@@ -79,7 +79,7 @@ export class FormValidarSeguComponent implements OnInit {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    console.log(role + " Clic!!")
+    //console.log(role + " Clic!!")
     //this.roleMessage = `Dismissed with role: ${role}`;
   }
 

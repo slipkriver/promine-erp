@@ -166,17 +166,30 @@ export class PrincipalSeguridadPage implements OnInit {
     this.dataService.verifySeguridad(data.aspirante).subscribe(res => {
 
       //console.log(res)
+      if (res['success']) {
 
-      this.listaTareas.forEach((element, index) => {
-        if (element.asp_cedula == data.aspirante.asp_cedula) {
-          this.listaTareas.splice(index, 1)
-          //console.log(element,index,data.aspirante,this.listaTareas)
-        }
-      });
-      this.numNotificaciones--;
+        this.listaTareas.forEach((element, index) => {
+          if (element.asp_cedula == aspirante.asv_aspirante) {
+            this.listaTareas.splice(index, 1)
+            //console.log(element,index,data.aspirante,this.listaTareas)
+          }
+        });
 
-    })
+        this.dataService.presentAlert("VALIDACION COMPLETA", "La información del aspirante has sido ingresada exitosamente.")
+        
+        this.numNotificaciones--;
 
+      }
+
+    });
+
+    
+  }
+
+  setEstado(evento) {
+    // console.log(evento)
+    //this.estado = evento.detail.value
+    this.listarAspirantes(evento)
   }
 
 

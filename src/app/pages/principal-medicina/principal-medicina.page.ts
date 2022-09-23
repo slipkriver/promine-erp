@@ -17,7 +17,7 @@ export class PrincipalMedicinaPage implements OnInit {
   aspirantesBuscar = []
 
   estados = []
-  estado = { est_id : 0 }
+  estado = { est_id: 0 }
 
   listaTareas = []
   numNotificaciones = 0;
@@ -57,11 +57,6 @@ export class PrincipalMedicinaPage implements OnInit {
       { text: '<i class="icon ion-cube"></i> Cancelar' }
     ];*/
 
-    setTimeout(() => {
-
-      //this.opcionesTarea(this.listaTareas[0])
-
-    }, 2000);
   }
 
   setEstado(evento) {
@@ -75,7 +70,7 @@ export class PrincipalMedicinaPage implements OnInit {
     this.dataService.mostrarLoading()
 
     this.listaTareas = []
-    const id = (event)?event.detail.value:0
+    const id = (event) ? event.detail.value : 0
 
     this.estado = this.estados[id]
     //console.log(event, id, parseInt(id))
@@ -118,7 +113,7 @@ export class PrincipalMedicinaPage implements OnInit {
       cssClass: '',
       buttons: [
         {
-          text: 'Certificado de Aptitud',
+          text: 'Certificado de Aptitud medica',
           icon: 'checkmark-circle',
           handler: async () => {
             setTimeout(() => {
@@ -148,7 +143,7 @@ export class PrincipalMedicinaPage implements OnInit {
           icon: 'close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            //console.log('Cancel clicked');
           },
         },
       ],
@@ -198,9 +193,17 @@ export class PrincipalMedicinaPage implements OnInit {
 
         })
 
+        this.listaTareas.forEach((element, index) => {
+          if (element.asp_cedula == aspirante.amv_aspirante) {
+            this.listaTareas.splice(index, 1)
+          }
+        });
+        
+        this.dataService.presentAlert("VALIDACION COMPLETA", "La información del aspirante has sido ingresada exitosamente.")
+
       }
 
-      console.log(res)
+
 
     })
 

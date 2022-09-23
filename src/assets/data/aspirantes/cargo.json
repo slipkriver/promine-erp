@@ -49,14 +49,10 @@
     },
     {
       "asp_id": "12",
-      "asp_nombre": "BOG MINAS/RECEPCIONISTA"
-    },
-    {
-      "asp_id": "13",
       "asp_nombre": "JEFE DE MINAS"
     },
     {
-      "asp_id": "14",
+      "asp_id": "13",
       "asp_nombre": "FLOTACION"
     }
   ]

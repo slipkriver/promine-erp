@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 //import 'rxjs-compat/add/operator/map';
 import { Observable } from 'rxjs';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,8 @@ export class DataService {
 
   constructor(
     private http: HttpClient,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
 
   ) { }
 
@@ -246,7 +247,7 @@ export class DataService {
   }
 
   listadoPorDepartamento(estado, id) {
-    var body
+    let body
 
     //aspirante['asp_estado']
     body = { task: 'aspiranterol', asp_estado: estado, estado: id };
@@ -314,24 +315,24 @@ export class DataService {
 
     this.isloading = true
     loading.present();
-
-    /*setTimeout(() => {
-
-      if(this.isloading == true)
-        this.loadingCtrl.dismiss()
-      
-    }, 10000);*/
   }
 
   async cerrarLoading() {
-
-    // setTimeout(() => {
-
-      //this.loadingCtrl.dismiss();
       this.isloading = false
+  }
 
-    // }, 1000);
 
+  async presentAlert(titulo, mensaje) {
+    const alert = await this.alertCtrl.create({
+      header: titulo,
+      //subHeader: 'Subtitle',
+      cssClass: ['alertExamenes','alertMensaje'],
+      message: mensaje,
+      translucent: false,
+      buttons: ['Cerrar']
+    });
+  
+    await alert.present();
   }
 
   newObjAspirante(aspirante) {
@@ -368,7 +369,7 @@ export class DataService {
     aspirante.asp_academico = ""
     aspirante.asp_fecha_nacimiento = ""
     aspirante.asp_militar = ""
-    aspirante.asp_aprobacion = ""
+    aspirante.asp_aprobacion = "false"
     aspirante.asp_evaluacion = ""
     aspirante.asp_condicion = ""
     aspirante.asp_lugar_nacimiento = ""

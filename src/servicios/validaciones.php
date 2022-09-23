@@ -64,10 +64,11 @@ if ($postjson['task'] == 'aspiranterol') {
 	if ($postjson['asp_estado'] == 'tthh') {
 
 		if ($postjson['estado'] == 0) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
-			WHERE asp_estado = 'INGRESADO' OR asp_estado = 'PSICOSOMETRIA' OR asp_estado = 'APROBADO' OR asp_estado = 'REVISION' ");
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_tthh 
+			WHERE asp_estado='INGRESADO' OR asp_estado='PSICOSOMETRIA' OR asp_estado='APROBADO' 
+				OR (asp_estado='REVISION' AND asp_aprobacion='false' ); ");
 		} else {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_tthh 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_tthh 
 			WHERE est_id = '$postjson[estado]'");
 		}
 	}
@@ -75,36 +76,36 @@ if ($postjson['task'] == 'aspiranterol') {
 	if ($postjson['asp_estado'] == 'psico') {
 
 		if ($postjson['estado'] == 0) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_psico 
 			WHERE asp_estado = 'VERIFICADO' OR asp_estado = 'PSICOLOGIA'");
 		} else if ($postjson['estado'] == 1) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_psico 
 			WHERE apv_verificado = 'true' AND asp_estado<>'NO APTO' ");
 		} else if ($postjson['estado'] == 2) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_psico 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_psico 
 			WHERE asp_estado = 'NO APTO'");
 		}
 	}
 	if ($postjson['asp_estado'] == 'medi') {
 
 		if ($postjson['estado'] == 0) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_medi 
 			WHERE asp_estado = 'EXAMENES' OR asp_estado = 'MEDICINA'");
 		} else if ($postjson['estado'] == 1) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
-			WHERE asp_estado = 'APROBADO' OR asp_estado = 'INDUCCION'");
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_medi 
+			WHERE asp_estado = 'APROBADO' OR asp_estado = 'REVISION'");
 		} else if ($postjson['estado'] == 2) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_medi 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_medi 
 			WHERE asp_estado = 'NO ADMITIDO'");
 		}
 	}
 	if ($postjson['asp_estado'] == 'segu') {
 
 		if ($postjson['estado'] == 0) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_segu 
 			WHERE asp_estado = 'REVISION' ");
 		} else if ($postjson['estado'] == 1) {
-			$query = mysqli_query($mysqli, "SELECT DISTINCT * FROM vista_asp_segu 
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_segu 
 			WHERE asp_estado = 'APROBADO' ");
 		}
 	}
@@ -306,6 +307,9 @@ if ($postjson['task'] == 'seguridad1') {
 	$query = mysqli_query($mysqli, "UPDATE asp_segu_validar SET " . $strObjeto .
 		" WHERE asv_aspirante LIKE '$postjson[asv_aspirante]'");
 
+	$query2 = mysqli_query($mysqli, "UPDATE aspirante SET 
+			asp_estado	= 'APROBADO'
+			WHERE asp_cedula LIKE '$postjson[asv_aspirante]'");
 
 	$mysqli->close();
 
@@ -322,9 +326,24 @@ if ($postjson['task'] == 'talentoh2') {
 	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
 
 	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
-		  asp_estado = '$postjson[asp_estado]' " .
-		" WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
+		  asp_aprobacion = 'true' " . " WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
 
+	$mysqli->close();
+
+	if ($query) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}
+
+if ($postjson['task'] == 'talentoh3') {
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
+		  asp_estado = 'CONTRATADO' " . " WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
 
 	$mysqli->close();
 

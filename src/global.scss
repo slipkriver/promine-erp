@@ -191,26 +191,12 @@ ion-alert.alertExamenes {
         color: var(--ion-color-primary);
         font-size: 0.9rem;
         ion-icon {
-          color: var(--ion-color-warning);
+          color: var(--ion-color-primary);
           font-size: 2rem;
           padding: 0px;
           margin: 0px 10px 0px 0px; //arriba derecha abajo izquierda
         }
       }
-      // div {
-      //   //--background: #4286f4 !important;
-      //   display: flex;
-      //   align-items: center;
-      //   ion-icon {
-      //     color: var(--ion-color-primary);
-      //     font-size: 1.3rem;
-      //   }
-      //   ion-label {
-      //     color: var(--ion-color-primary);
-      //     margin-left: 5px;
-      //     font-size: 0.8rem;
-      //   }
-      // }
     }
 
     div.alert-button-group {
@@ -236,4 +222,6 @@ ion-alert.alertExamenes {
   //width: 400px;
 }
 
-
+ion-alert.alertMensaje ion-backdrop.sc-ion-alert-md.md.hydrated {
+    opacity: 0 !important;
+}
