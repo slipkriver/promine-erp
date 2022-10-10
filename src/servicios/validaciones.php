@@ -109,6 +109,16 @@ if ($postjson['task'] == 'aspiranterol') {
 			WHERE asp_estado = 'APROBADO' ");
 		}
 	}
+	if ($postjson['asp_estado'] == 'soci') {
+
+		if ($postjson['estado'] == 0) {
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_soci 
+			WHERE asp_estado = 'CONTRATADO' ");
+		} else if ($postjson['estado'] == 1) {
+			$query = mysqli_query($mysqli, "SELECT * FROM vista_asp_soci  
+			WHERE asp_estado = 'CONTRATADO' ");
+		}
+	}
 
 	while ($row = mysqli_fetch_array($query)) {
 
@@ -323,8 +333,6 @@ if ($postjson['task'] == 'seguridad1') {
 
 if ($postjson['task'] == 'talentoh2') {
 
-	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
-
 	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
 		  asp_aprobacion = 'true' " . " WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
 
@@ -340,10 +348,37 @@ if ($postjson['task'] == 'talentoh2') {
 
 if ($postjson['task'] == 'talentoh3') {
 
-	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
-
 	$query = mysqli_query($mysqli, "UPDATE aspirante SET 
 		  asp_estado = 'CONTRATADO' " . " WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
+
+	$mysqli->close();
+
+	if ($query) {
+		$result = json_encode(array('success' => true));
+	} else {
+		$result = json_encode(array('success' => false));
+	}
+	echo $result;
+}
+
+
+if ($postjson['task'] == 'social1') {
+
+	$strObjeto = "";
+
+	foreach ($postjson as $key => $value) {
+
+		$col_id = substr($key, 0, 4);
+
+		if ($col_id == "asp_" && $key != "asp_cedula") {
+			$strObjeto = $strObjeto . $key . " = '" . (string)$value . "',\n";
+		}
+	}
+
+	$strObjeto = substr($strObjeto, 0, strlen($strObjeto) - 2);
+
+	$query = mysqli_query($mysqli, "UPDATE aspirante SET " . $strObjeto .
+		" WHERE asp_cedula LIKE '$postjson[asp_cedula]'");
 
 	$mysqli->close();
 

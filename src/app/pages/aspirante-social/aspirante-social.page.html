@@ -53,7 +53,7 @@
                 <ion-item>
                   <ion-label position="floating" color="primary">Apellidos</ion-label><b>
                     <ion-input color="dark" type="text" name="apellidoAspirante" 
-                      [(ngModel)]="aspirante.asp_apellidos"  style="text-transform:uppercase;"
+                      [value]="aspirante.asp_apellidop + ' ' + aspirante.asp_apellidom"  style="text-transform:uppercase;"
                       required placeholder="ORLANDO ARMIJOS"></ion-input>
                   </b>
                 </ion-item>
@@ -63,7 +63,7 @@
                 <ion-item>
                   <ion-label position="floating" color="primary">Nombres</ion-label><b>
                     <ion-input color="dark" type="text" name="nombreAspirante" 
-                      [(ngModel)]="aspirante.asp_nombres" style="text-transform:uppercase;"
+                      [value]="aspirante.asp_nombres" style="text-transform:uppercase;"
                       required placeholder="ANA LISSETH"></ion-input>
                   </b>
                 </ion-item>
@@ -138,8 +138,8 @@
                 <ion-item>
                   <ion-label position="floating" color="primary">Estado civil</ion-label>
                   <ion-select mode="ios" placeholder="Seleccione uno" interface="popover"
-                              [(ngModel)]="aspirante.asp_civil" name="civilAspirante"
-                              [selectedText]="aspirante.asp_civil" required>
+                              [(ngModel)]="aspirante.asp_ecivil" name="civilAspirante"
+                              [selectedText]="aspirante.asp_ecivil" required>
                     <ion-select-option class="my-custom-interface" *ngFor="let aspirante of civil"> {{ aspirante.asp_nombre }} </ion-select-option>          
                   </ion-select>
                 </ion-item>
@@ -594,7 +594,8 @@
                   <ion-label position="floating" color="primary">Encargado</ion-label>
                   <ion-input color="dark" type="text" name="encargadoSolicitud"
                              style="text-transform:uppercase;"
-                             [(ngModel)]="empleado.emp_nombres" placeholder="Ec. Diana Flores" required></ion-input>
+                             [(ngModel)]="aspirante.asp_nombres" 
+                             placeholder="Ec. Diana Flores" required></ion-input>
                 </ion-item>
               </ion-col>
 

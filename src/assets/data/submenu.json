@@ -25,7 +25,7 @@
         "descripcion": "Seguimiento de aspirantes"
     },
     {
-        "nombre": "TTHH",
+        "nombre": "Talento Humano",
         "icono": "person-add",
         "ruta": "principal-th",
         "activo": false,
@@ -41,7 +41,7 @@
         "descripcion": "Departamento de Psicologia"
     },
     {
-        "nombre": "Medicina",
+        "nombre": "Area Medica",
         "icono": "medkit",
         "ruta": "principal-medicina",
         "activo": false,
@@ -57,7 +57,7 @@
         "descripcion": "Seguimiento de aspirantes"
     },
     {
-        "nombre": "Trabajador Social",
+        "nombre": "Trabajado Social",
         "icono": "calendar-clear",
         "ruta": "principal-social",
         "activo": false,

@@ -57,6 +57,10 @@ const routes: Routes = [
         loadChildren: () => import('../../pages/aspirante-social/aspirante-social.module').then( m => m.AspiranteSocialPageModule)
       },
       {
+        path: 'aspirante-social/:asp_cedula',
+        loadChildren: () => import('../../pages/aspirante-social/aspirante-social.module').then( m => m.AspiranteSocialPageModule)
+      },
+      {
         path: 'aspirante-seguridad',
         loadChildren: () => import('../../pages/aspirante-seguridad/aspirante-seguridad.module').then( m => m.AspiranteSeguridadPageModule)
       },

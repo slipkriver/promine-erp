@@ -213,6 +213,21 @@ export class DataService {
 
   }
 
+  verifySocial(aspirante) {
+    var body
+
+    var objSocial = {}
+
+    body = { ...aspirante, task: 'social1' };
+
+    //console.log(body)
+    return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(body))
+    // .subscribe( res => {
+    //   console.log(res, body)  
+    // });
+
+  }
+
   autorizarExocupacion(aspirante) {
 
     return this.http.post(this.serverweb + "/validaciones.php", JSON.stringify(aspirante))
