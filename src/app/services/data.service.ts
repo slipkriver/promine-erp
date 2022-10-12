@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 //import 'rxjs-compat/add/operator/map';
@@ -16,6 +16,9 @@ export class DataService {
   aspirante
 
   isloading = false
+  submenu$ = new EventEmitter<any[]>()
+  cambioMenu$ = new EventEmitter<String>()
+  submenu = []
 
   constructor(
     private http: HttpClient,
@@ -29,10 +32,9 @@ export class DataService {
     return this.http.get("/assets/data/menu.json")
   }
 
-
   getSubMenu(nombre) {
 
-    var listafill = []
+    this.submenu = []
 
     this.http.get("/assets/data/submenu.json").subscribe((res: any[]) => {
 
@@ -40,17 +42,24 @@ export class DataService {
 
         if (element['padre'] === nombre) {
           //console.log(element)
-          listafill.push(element)
+          this.submenu.push(element)
         }
 
       });
 
     })
 
-    return listafill
+    this.submenu$.emit(this.submenu)
+
+    return this.submenu
 
   }
 
+  setSubmenu(item){
+
+        this.cambioMenu$.emit(item)
+
+  }
 
   getAspiranteLData(lista: string) {
     return <any>this.http.get("/assets/data/aspirantes/" + lista + ".json")

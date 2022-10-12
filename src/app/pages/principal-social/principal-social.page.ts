@@ -32,6 +32,10 @@ export class PrincipalSocialPage implements OnInit {
 
   ionViewDidEnter() {
 
+    setTimeout(() => {
+      this.dataService.setSubmenu('Trabajado Social');
+    }, 500);
+
     if (this.dataService.isloading) {
       this.dataService.cerrarLoading()
     }

@@ -5,14 +5,14 @@
         "icono": "home",
         "ruta": "tab-inicio",
         "name": "inicio",
-        "activo": true
+        "activo": false
     },
     {
         "nombre": "Aspirantes",
         "icono": "people",
         "ruta": "tab-aspirante",
         "name": "aspirante",
-        "activo": false
+        "activo": true
     },
     {
         "nombre": "Nomina",

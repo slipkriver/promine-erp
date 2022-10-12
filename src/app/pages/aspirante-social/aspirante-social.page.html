@@ -51,10 +51,9 @@
 
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3" size-xl="3">
                 <ion-item>
-                  <ion-label position="floating" color="primary">Apellidos</ion-label><b>
-                    <ion-input color="dark" type="text" name="apellidoAspirante" 
-                      [value]="aspirante.asp_apellidop + ' ' + aspirante.asp_apellidom"  style="text-transform:uppercase;"
-                      required placeholder="ORLANDO ARMIJOS"></ion-input>
+                  <ion-label color="primary">Apellidos</ion-label><b>
+                    <ion-label color="dark" type="text" name="apellidoAspirante" 
+                      style="text-transform:uppercase;" > {{aspirante.asp_apellidop + ' ' + aspirante.asp_apellidom}} </ion-label>
                   </b>
                 </ion-item>
               </ion-col>

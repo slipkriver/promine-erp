@@ -29,15 +29,14 @@ export class PrincipalPsicologiaPage implements OnInit {
 
   ngOnInit() {
 
-    // this.dataService.getAspiranteLData("estado").subscribe(lista => {
-    //this.estados = lista;
-    //this.estado = 0;
-    //console.log(this.estados[10]);
-    // });
 
   }
 
   ionViewDidEnter() {
+
+    setTimeout(() => {
+      this.dataService.setSubmenu('Psicologia');
+    }, 500);
 
     if (this.dataService.isloading) {
       this.dataService.cerrarLoading()

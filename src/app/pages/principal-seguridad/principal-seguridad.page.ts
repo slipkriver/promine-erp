@@ -34,6 +34,10 @@ export class PrincipalSeguridadPage implements OnInit {
 
   ionViewDidEnter() {
 
+    setTimeout(() => {
+      this.dataService.setSubmenu('Seguridad Ocupacional');
+    }, 500);
+
     if (this.dataService.isloading) {
       this.dataService.cerrarLoading()
     }

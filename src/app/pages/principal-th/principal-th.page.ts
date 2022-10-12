@@ -41,12 +41,14 @@ export class PrincipalThPage implements OnInit {
       //console.log(this.estados[10]);
     });
 
-    // setTimeout(() => {
-    // }, 2000);
 
   }
 
   ionViewDidEnter() {
+
+    setTimeout(() => {
+      this.dataService.setSubmenu('Talento Humano');
+    }, 500);
 
     if (this.dataService.isloading) {
       this.dataService.cerrarLoading()

@@ -34,16 +34,15 @@ export class PrincipalMedicinaPage implements OnInit {
 
   ngOnInit() {
 
-    // this.dataService.getAspiranteLData("estado").subscribe(lista => {
-    //   this.estados = lista;
-    //   this.estado = lista[6];
-    //   console.log(this.estado);
-    // });
 
   }
 
 
   ionViewDidEnter() {
+    
+    setTimeout(() => {
+      this.dataService.setSubmenu('Area Medica');
+    }, 1000);
 
     if (this.dataService.isloading) {
       this.dataService.cerrarLoading()

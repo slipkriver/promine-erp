@@ -18,12 +18,22 @@ export class TabAspirantePage implements OnInit {
 
   ngOnInit() {
 
-    //this.selectSubItem('aspirante')
+    //this.selectSubItem('inicio')
+
+    this.servicioData.submenu$.subscribe(res => {
+      //console.log(res);
+      this.submenu = res;
+    })
+
+    this.servicioData.cambioMenu$.subscribe(res => {
+      //console.log(res);
+      this.selectOpcion2(res);
+    })
 
   }
 
   selectSubItem(item) {
-    this.submenu = this.servicioData.getSubMenu(item)
+    this.servicioData.getSubMenu(item)
     //console.log( this.submenu)
 
   }
@@ -37,6 +47,20 @@ export class TabAspirantePage implements OnInit {
 
     this.descripcion = item.descripcion
     item.activo = true
+  }
+
+  selectOpcion2(nombre) {
+    //console.log(nombre, this.submenu);
+    this.submenu.forEach(element => {
+      element.activo = false
+
+      if (element.nombre == nombre) {
+        element.activo = true
+        this.descripcion = element.descripcion
+        //console.log(element)
+      }
+    });
+
   }
 
 
