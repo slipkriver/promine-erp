@@ -87,7 +87,7 @@ export class PrincipalSocialPage implements OnInit {
     })*/
 
     //var strTitulo = aspirante.asp_cedula + '::' 
-    var strTitulo = aspirante.asp_nombre
+    var strTitulo = `${aspirante.asp_apellidop} ${aspirante.asp_apellidom} ${aspirante.asp_nombres}`
     const opciones = await this.actionSheetCtr.create({
       header: strTitulo,
       cssClass: '',

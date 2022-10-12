@@ -58,7 +58,7 @@
     },
     {
         "nombre": "Trabajado Social",
-        "icono": "calendar-clear",
+        "icono": "fitness",
         "ruta": "principal-social",
         "activo": false,
         "padre": "aspirante",

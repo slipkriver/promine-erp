@@ -82,17 +82,17 @@ export class PrincipalPsicologiaPage implements OnInit {
 
       })
 
-    } else if (asp_estado == 'APROBADO' || asp_estado == 'PSICOLOGIA') {
+    /*} else if (asp_estado == 'APROBADO' || asp_estado == 'PSICOLOGIA') {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
         this.opcionesPsico2(aspirante)
 
-      })
+      })*/
 
-    } else if (asp_estado == 'OTRO ESTADO') {
+    } else {
       this.dataService.getAspiranteRole(aspirante['asp_cedula'], 'psico').subscribe(res => {
 
-        //this.opcionesPsico3(aspirante)
+        this.opcionesPsico1(aspirante)
 
       })
     }

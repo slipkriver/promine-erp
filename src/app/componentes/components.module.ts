@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FormValidarMediComponent } from './form-validar-medi/form-validar-medi.component';
 import { FormValidarPsicoComponent } from './form-validar-psico/form-validar-psico.component';
+import { HeaderSubmenuComponent } from './header-submenu/header-submenu.component';
 
 
 
@@ -12,8 +13,8 @@ import { FormValidarPsicoComponent } from './form-validar-psico/form-validar-psi
 @NgModule({
   declarations: [
     FormValidarMediComponent,
-    FormValidarPsicoComponent
-
+    FormValidarPsicoComponent,
+    HeaderSubmenuComponent
   ],
   imports: [
     CommonModule,
@@ -24,12 +25,14 @@ import { FormValidarPsicoComponent } from './form-validar-psico/form-validar-psi
   ],
   entryComponents: [
     FormValidarMediComponent,
-    FormValidarPsicoComponent
+    FormValidarPsicoComponent,
+    HeaderSubmenuComponent
   ],
 
   exports: [
     FormValidarMediComponent,
-    FormValidarPsicoComponent
+    FormValidarPsicoComponent,
+    HeaderSubmenuComponent
   ]
 })
 export class ComponentsModule { }

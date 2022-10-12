@@ -34,24 +34,26 @@ export class DataService {
 
   getSubMenu(nombre) {
 
-    this.submenu = []
-
+    const lista = []
+    
     this.http.get("/assets/data/submenu.json").subscribe((res: any[]) => {
+      
 
       res.forEach(element => {
 
         if (element['padre'] === nombre) {
           //console.log(element)
-          this.submenu.push(element)
+          lista.push(element)
         }
 
       });
 
+      this.submenu = lista;
     })
 
-    this.submenu$.emit(this.submenu)
+    this.submenu$.emit(lista);
 
-    return this.submenu
+    return lista
 
   }
 

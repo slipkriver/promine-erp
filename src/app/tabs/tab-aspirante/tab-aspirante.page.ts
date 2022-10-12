@@ -8,7 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class TabAspirantePage implements OnInit {
 
-  submenu: any[] = []
+  submenu: any[];
   descripcionConst = "Seguimiento de aspirantes"
   descripcion = ""
 
@@ -18,10 +18,11 @@ export class TabAspirantePage implements OnInit {
 
   ngOnInit() {
 
-    //this.selectSubItem('inicio')
+    this.selectSubItem('inicio')
 
     this.servicioData.submenu$.subscribe(res => {
       //console.log(res);
+      this.submenu = [];
       this.submenu = res;
     })
 
