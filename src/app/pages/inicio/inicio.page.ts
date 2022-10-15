@@ -50,12 +50,12 @@ export class InicioPage implements OnInit {
 
   ngAfterContentInit(){
     //this.selectSubItem('inicio')
-    //console.log('START!!', this.submenu)
-    this.servicioData.getDatos().subscribe( (res: any[]) => {
+
+    //this.servicioData.getDatos().subscribe( (res: any[]) => {
       
       //console.log(res['result'])
       
-    })
+    //})
   }
 
   cambiarTab(event) {

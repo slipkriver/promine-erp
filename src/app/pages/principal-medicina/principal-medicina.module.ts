@@ -8,13 +8,18 @@ import { PrincipalMedicinaPageRoutingModule } from './principal-medicina-routing
 
 import { PrincipalMedicinaPage } from './principal-medicina.page';
 
+import { ComponentsModule } from '../../componentes/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PrincipalMedicinaPageRoutingModule
+    PrincipalMedicinaPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [PrincipalMedicinaPage]
+  declarations: [PrincipalMedicinaPage],
+  entryComponents: [],
 })
 export class PrincipalMedicinaPageModule {}

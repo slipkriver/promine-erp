@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ComponentsModule } from './componentes/components.module';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,6 +25,7 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    ComponentsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

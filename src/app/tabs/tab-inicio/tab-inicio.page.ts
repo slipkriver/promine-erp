@@ -19,11 +19,18 @@ export class TabInicioPage implements OnInit {
   ngOnInit() {
 
     //console.log('@INICIO')
+    this.selectSubItem('inicio')
+
+    this.servicioData.submenu$.subscribe( res => {
+      //console.log(res);
+      this.submenu = res;
+    })
 
   }
 
+
   selectSubItem(item){
-    this.submenu = this.servicioData.getSubMenu(item)
+    this.servicioData.getSubMenu(item)
   }
   
 
@@ -39,7 +46,6 @@ export class TabInicioPage implements OnInit {
   
 
   ionViewWillEnter  (){
-    this.selectSubItem('inicio')
     this.descripcion = this.descripcionConst
     //console.log( this.descripcion )
   }

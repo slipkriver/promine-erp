@@ -41,6 +41,10 @@ const routes: Routes = [
         loadChildren: () => import('../../pages/aspirante-new/aspirante-new.module').then( m => m.AspiranteNewPageModule )
       },
       {
+        path:'aspirante-new/:asp_cedula',
+        loadChildren: () => import('../../pages/aspirante-new/aspirante-new.module').then( m => m.AspiranteNewPageModule )
+      },
+      {
         path:'aspirante-psicologia',
         loadChildren: () => import('../../pages/aspirante-psicologia/aspirante-psicologia.module').then( m => m.AspirantePsicologiaPageModule )
       },
@@ -50,6 +54,10 @@ const routes: Routes = [
       },
       {
         path: 'aspirante-social',
+        loadChildren: () => import('../../pages/aspirante-social/aspirante-social.module').then( m => m.AspiranteSocialPageModule)
+      },
+      {
+        path: 'aspirante-social/:asp_cedula',
         loadChildren: () => import('../../pages/aspirante-social/aspirante-social.module').then( m => m.AspiranteSocialPageModule)
       },
       {

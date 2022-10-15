@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
 import { AspiranteInfo } from '../../interfaces/aspirante';
-import { EmpleadoInfo } from '../../interfaces/empleado';
+import { AspiranteSoci  } from '../../interfaces/aspirante-soci';
+
 import { LoadingController, NavController } from '@ionic/angular';
+import { EmpleadoInfo } from 'src/app/interfaces/empleado';
 
 @Component({
   selector: 'app-aspirante-social',
@@ -28,10 +30,10 @@ export class AspiranteSocialPage implements OnInit {
   tipo_sangre: any[] = [];
   cargo: any[] = [];
   referencia: any[] = [];
-  academico: any[] = []; 
-  etnia: any[] = []; 
-  vivienda: any[] = []; 
-  construccion: any[] = []; 
+  academico: any[] = [];
+  etnia: any[] = [];
+  vivienda: any[] = [];
+  construccion: any[] = [];
 
   infogeneral: boolean = true;
   infoubicacion: boolean = true;
@@ -66,6 +68,15 @@ export class AspiranteSocialPage implements OnInit {
     });
 
   }
+
+  ionViewWillEnter() {
+
+    if(!!this.dataService.aspirante)
+      this.aspirante = this.dataService.aspirante
+    //console.log(this.dataService.aspirante)
+
+  }
+
 
   mostrarContenido(contenido) {
 
@@ -133,7 +144,18 @@ export class AspiranteSocialPage implements OnInit {
     });
     loading.present()
 
-    console.log('INGRESO')
+    let objAspirante = new AspiranteSoci()
+    //type objAspirante = typeof AspiranteSoci;
+    Object.keys(objAspirante).map(key => {
+      //console.log(key)  
+      objAspirante[key] = this.aspirante[key];
+      //return { text: key, value: key }
+    });
+    
+    this.dataService.verifySocial(objAspirante).subscribe( res => {
+      console.log(res)
+    })
+    //console.log('INGRESO', objAspirante)
 
   }
 

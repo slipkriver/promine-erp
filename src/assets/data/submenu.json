@@ -25,7 +25,7 @@
         "descripcion": "Seguimiento de aspirantes"
     },
     {
-        "nombre": "TTHH",
+        "nombre": "Talento Humano",
         "icono": "person-add",
         "ruta": "principal-th",
         "activo": false,
@@ -41,7 +41,7 @@
         "descripcion": "Departamento de Psicologia"
     },
     {
-        "nombre": "Medicina",
+        "nombre": "Area Medica",
         "icono": "medkit",
         "ruta": "principal-medicina",
         "activo": false,
@@ -49,20 +49,20 @@
         "descripcion": "Historia Clínica"
     },  
     {
-        "nombre": "Trabajador Social",
-        "icono": "calendar-clear",
-        "ruta": "principal-social",
-        "activo": false,
-        "padre": "aspirante",
-        "descripcion": "Departamento de Trabajo Social"
-    },
-    {
         "nombre": "Seguridad Ocupacional",
         "icono": "calendar-clear",
         "ruta": "principal-seguridad",
         "activo": false,
         "padre": "aspirante",
         "descripcion": "Seguimiento de aspirantes"
+    },
+    {
+        "nombre": "Trabajado Social",
+        "icono": "fitness",
+        "ruta": "principal-social",
+        "activo": false,
+        "padre": "aspirante",
+        "descripcion": "Departamento de Trabajo Social"
     }
 
 ]

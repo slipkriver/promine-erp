@@ -1,7 +1,11 @@
 [
     {
       "asp_id": "1",
-      "asp_nombre": "OPR MINAS/CANTERAS"
+      "asp_codigo": "0430000000036",
+      "asp_nombre": "OPR MINAS/CANTERAS",
+      "asp_sueldo": "$500",
+      "asp_grupo": "MINA"
+
     },
     {
       "asp_id": "2",
@@ -45,14 +49,10 @@
     },
     {
       "asp_id": "12",
-      "asp_nombre": "BOG MINAS/RECEPCIONISTA"
-    },
-    {
-      "asp_id": "13",
       "asp_nombre": "JEFE DE MINAS"
     },
     {
-      "asp_id": "14",
+      "asp_id": "13",
       "asp_nombre": "FLOTACION"
     }
   ]
